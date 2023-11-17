@@ -1,0 +1,61 @@
+@use "./scss/abstracts/" as *;
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+// Editor override to add side scrollbar if
+// table is too wide
+.edit-post-visual-editor {
+	overflow: unset;
+}
+
+// Other block overrides
+.wp-block-create-block-meetings-table-block {
+	padding-bottom: 1.6rem;
+
+	.hide {
+		display: none;
+	}
+
+	.editing-locked-msg {
+		border: 2px solid $red;
+
+		h2 {
+			color: $red;
+		}
+	}
+
+	table {
+		table-layout: fixed;
+		width: 1100px;
+		position: relative;
+
+		tbody {
+			&.copied-data {
+				position: relative;
+
+				&::before {
+					content: "";
+					display: block;
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					background-color: transparent;
+					z-index: 10;
+				}
+			}
+		}
+
+		tr {
+			width: 100%;
+			display: table;
+
+			th,
+			td {
+				width: calc(100% / 6);
+			}
+		}
+	}
+}

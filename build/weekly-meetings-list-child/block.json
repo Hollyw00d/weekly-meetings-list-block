@@ -1,0 +1,101 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/meetings-table-row-block",
+  "version": "0.1.0",
+  "title": "Weekly Meeting Table Row Block",
+  "category": "widgets",
+  "icon": "editor-table",
+  "parent": [
+    "create-block/meetings-table-block"
+  ],
+  "attributes": {
+    "day": {
+      "type": "string",
+      "default": ""
+    },
+    "mtgStartTime": {
+      "type": "string",
+      "default": ""
+    },
+    "mtgEndTime": {
+      "type": "string",
+      "default": ""
+    },
+    "city": {
+      "type": "string",
+      "default": ""
+    },
+    "locationGroupType": {
+      "type": "string",
+      "default": ""
+    },
+    "accessGroupType": {
+      "type": "string",
+      "default": ""
+    },
+    "genderGroupType": {
+      "type": "string",
+      "default": ""
+    },
+    "additionalGroupType": {
+      "type": "string",
+      "default": ""
+    },
+    "meetingName": {
+      "type": "string",
+      "default": ""
+    },
+    "remoteMtgInfo": {
+      "type": "string",
+      "source": "html",
+      "selector": ".remote-mtg-info",
+      "default": ""
+    },
+    "inPersonMtgInfo": {
+      "type": "string",
+      "source": "html",
+      "selector": ".in-person-mtg-info",
+      "default": ""
+    },
+    "contactInfo": {
+      "type": "string",
+      "source": "html",
+      "selector": ".contact-info",
+      "default": ""
+    },
+    "moreDetails": {
+      "type": "string",
+      "source": "html",
+      "selector": ".more-details",
+      "default": ""
+    },
+    "remoteMtgInfoClass": {
+      "type": "string",
+      "default": "hide"
+    },
+    "inPersonMtgInfoClass": {
+      "type": "string",
+      "default": "hide"
+    },
+    "moreDetailsClass": {
+      "type": "string",
+      "default": "hide"
+    },
+    "showDetailsToggle": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "description": "Add table rows to list classes or meetings.",
+  "example": {},
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "multiple": true
+  },
+  "textdomain": "meetings-table-row-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

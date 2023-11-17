@@ -1,0 +1,24 @@
+@mixin row-bottom-line(
+	$posOrNeg,
+	$widthPx,
+	$leftPx,
+	$bottomPx,
+	$zIndex,
+	$bgColor
+) {
+	&::after {
+		content: "";
+		position: absolute;
+
+		@if $posOrNeg == "pos" {
+			width: calc(100% + #{$widthPx});
+		} @else if $posOrNeg == "neg" {
+			width: calc(100% - #{$widthPx});
+		}
+		height: 1px;
+		left: $leftPx;
+		bottom: $bottomPx;
+		z-index: $zIndex;
+		background-color: $bgColor;
+	}
+}
