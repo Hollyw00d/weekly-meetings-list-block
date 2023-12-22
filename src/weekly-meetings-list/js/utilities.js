@@ -4,6 +4,12 @@ export default class Utilities {
 	filterEvents(parentElemsSelector, isEditor = true) {
 		const parentElems = document.querySelectorAll(parentElemsSelector);
 
+		console.log("parentElemsSelector");
+		console.log(parentElemsSelector);
+
+		console.log("parentElems");
+		console.log(parentElems);
+
 		if (parentElems.length === 0) {
 			return;
 		}
