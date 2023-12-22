@@ -26,9 +26,9 @@ The Weekly Meetings Block blocks include:
 2. In your terminal:
    - Go into the **weekly-meetings-list-block** folder (like `cd weekly-meetings-list-block`) and install npm packages by doing:  
      `npm i`
-   - Build the plugin by running:
+   - Build the plugin by running:  
      `npm run build`
-   - Output the zipped plugin inside the **weekly-meetings-list-block** folder by running:
+   - Output the zipped plugin inside the **weekly-meetings-list-block** folder by running:  
      `npm run plugin-zip`
 3. Now you will see a zipped file named **weekly-meetings-list-block.zip**
 4. Log into the WP Admin for your WordPress website and install the **weekly-meetings-list-block.zip** plugin manually ([see manual plugin install steps here](https://quadlayers.com/install-wordpress-plugin-manually/))
