@@ -22,7 +22,7 @@ The Weekly Meetings Block blocks include:
 
 ### Installation
 
-1. Fork or downwload the code from this GitHub repo
+1. Fork or download the code from this GitHub repo
 2. In your terminal:
    - Go into the **weekly-meetings-list-block** folder (like `cd weekly-meetings-list-block`) and install npm packages by doing:  
      `npm i`
