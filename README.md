@@ -9,7 +9,7 @@
 - See block on live page (see **Seattle Area Support Groups** heading inside table which is a part of the block):
   [https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/](https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/)
 
-## Longer Instroduction
+## Longer Introduction
 
 The Weekly Meetings Block blocks include:
 
