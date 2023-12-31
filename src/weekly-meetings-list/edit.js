@@ -10,8 +10,9 @@ import { PanelBody, TextControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
+import domify from "domify";
 
-import Utilities from "./js/utilities";
+// import Utilities from "./js/utilities";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
 import "./editor.scss";
@@ -86,8 +87,19 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
-			const utilities = new Utilities();
-			utilities.filterEvents(".wp-block-create-block-meetings-table-block");
+			childBlocks.map((item) => {
+				const htmlStr = item.originalContent;
+				const htmlDom = domify(htmlStr);
+				htmlDom.setAttribute("data-blah", "blah");
+
+				console.log("htmlDom");
+				console.log(htmlDom);
+				// const htmlDom = new DOMParser().parseFromString(htmlStr, "text/html");
+				// // console.log(htmlDom.body);
+				// console.log(htmlStr);
+				// // console.log("htmlStr");
+				// // console.log(htmlStr);
+			});
 		}
 	}, [childBlocks]);
 

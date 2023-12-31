@@ -1,1 +1,673 @@
-!function(){"use strict";const e=e=>e.desc?e=>-1*e:e=>e,t=(e,t)=>(t.nullable&&(e=e||""),t.lowercase&&(e=e.toLowerCase()),e),l=(l={desc:!1,nullable:!1,lowercase:!1})=>{const r=e(l);return(e,s)=>r(t(e,l).localeCompare(t(s,l)))};function r(e,t){return"function"==typeof e?(l,r)=>{const s=e(l),i=e(r);return t(s,i)}:(l,r)=>{const s=l[e],i=r[e];return t(s,i)}}const s=new class{filterEvents(e,t=!0){const l=document.querySelectorAll(e);0!==l.length&&l.forEach(((l,r)=>{var s,i;const o=l.querySelector("table"),c=l.querySelector("tbody"),a=l.querySelectorAll("tbody tr"),n=l.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper"),d=null!==(s=n.querySelector(".editing-locked-msg"))&&void 0!==s?s:null,u=null!==(i=l.querySelector(".block-editor-inner-blocks"))&&void 0!==i?i:null,g="day-of-week-filter",h="city-filter",b="group-type-filter",p="start-time-filter";!t&&d&&d.remove();let m=this.getSelectTagFilters(l,g,h,b,p);this.resetFilters(l,m,c,u),document.body.addEventListener("change",(t=>{var r,s;const i=t.target.className;let d=!1,u=t.target;switch(i){case p:d=!0,null!==(r=o.querySelector("tbody.copied-data"))&&void 0!==r&&r||this.setupFilterHandler(o,c,a);let t=this.getSelectTagFilters(l,g,h,b,p);return this.showHideFilter(e,l,g,h,b,p,c,n,u,d),void this.filterNotification(l,t);case g:case h:case b:d=!1,null!==(s=o.querySelector("tbody.copied-data"))&&void 0!==s&&s||this.setupFilterHandler(o,c,a);let i=this.getSelectTagFilters(l,g,h,b,p);return this.showHideFilter(e,l,g,h,b,p,c,n,u,d),void this.filterNotification(l,i)}}))}))}setupFilterHandler(e,t,l){var r;t.classList.contains("hide")||t.classList.add("hide");const s=null!==(r=e.querySelector("tbody.copied-data"))&&void 0!==r?r:null;s&&s.remove();const i=document.createElement("tbody");i.classList.add("copied-data"),i.classList.contains("hide")&&i.classList.remove("hide"),this.isElemEmpty(i)&&(l.forEach((e=>{const t=e.cloneNode(!0);i.appendChild(t)})),e.appendChild(i)),i.querySelectorAll("tr").forEach(((e,t)=>{const l=t+1;e.setAttribute("data-original-order",l)}))}showHideFilter(e,t,l,r,s,i,o,c,a,n){const d=t.querySelector("tbody.copied-data"),u=d.querySelectorAll("tr");let g=this.getSelectTagFilters(t,l,r,s,i),{filtersArr:h}=this.filtersArr(g),{optionsTagValues:b}=this.filtersArr(g);if(n)return 1===h.length&&""===h[0]?(this.filterResetHandler(d,o),void this.toggleEditingLockedMsg(c,!1)):void this.sortTimeFilter(e,a,c);if(1===h.length&&""===h[0])return this.filterResetHandler(d,o),void this.toggleEditingLockedMsg(c,!1);{u.forEach((e=>{let t=JSON.stringify(b),l=e.getAttribute("data-filter-day"),r=e.getAttribute("data-filter-city"),s=null;switch(!0){case-1!==t.indexOf("location~"):s=e.getAttribute("data-location-group-type");break;case-1!==t.indexOf("access~"):s=e.getAttribute("data-access-group-type");break;case-1!==t.indexOf("gender~"):s=e.getAttribute("data-gender-group-type");break;default:s=e.getAttribute("data-additional-group-type")}let i=[],o=[];[l,r,s].forEach(((e,t)=>{""!==b[t]&&(i.push(e),o.push(b[t]))})),JSON.stringify(i)===JSON.stringify(o)?e.classList.remove("hide"):e.classList.add("hide")}));const e=t.querySelector("tbody.copied-data");this.alternateRowColor(e),this.toggleEditingLockedMsg(c,!0)}}sortTimeFilter(t,s,i){var o;const c=s.closest(t),a=null!==(o=c.querySelector("tbody.copied-data"))&&void 0!==o?o:null;if(!a)return;const n=a.querySelectorAll("tr"),d=s.value,u=Array.from(n);if("asc~"===d){let e=u.sort(r((e=>e.getAttribute("data-start-time")),l()));this.emptyElem(a),a.append(...e)}else if("desc~"===d){let e=u.sort(r((e=>e.getAttribute("data-start-time")),l({desc:!0})));this.emptyElem(a),a.append(...e)}else{let t=u.sort(r((e=>Number(e.getAttribute("data-original-order"))),((t={desc:!1,nullable:!1})=>{const l=e(t);return(e,r)=>t.nullable?l((e||0)-(r||0)||0):l(e-r||0)})()));this.emptyElem(a),a.append(...t)}const g=c.querySelector("tbody.copied-data");this.alternateRowColor(g),this.toggleEditingLockedMsg(i,!0)}filtersArr(e){let t=[],l=[];e.forEach((e=>{let r=e.options[e.selectedIndex].value,s=e.options[e.selectedIndex].text;t.push(r),l.push(s)}));const r=[...new Set(t)],s=[...new Set(l)];return l=s.filter(Boolean),{filtersArr:r,optionsTagValues:t,optionsTagText:l}}filterResetHandler(e,t){e.remove(),t.classList.remove("hide")}alternateRowColor(e){e.querySelectorAll("tr:not(.hide)").forEach(((e,t)=>{e.classList.remove("bg-light-gray"),e.classList.remove("bg-white"),t%2!=0?e.classList.add("bg-white"):e.classList.add("bg-light-gray")}))}toggleEditingLockedMsg(e,t){const l=e.querySelector(".editing-locked-msg");e&&l&&(t?l.classList.contains("hide")&&l.classList.remove("hide"):l.classList.add("hide"))}getSelectTagFilters(e,t,l,r,s){return[e.querySelector(`select.${t}`),e.querySelector(`select.${l}`),e.querySelector(`select.${r}`),e.querySelector(`select.${s}`)]}filterNotification(e,t){var l;const r=e.querySelectorAll("tbody.original-data tr"),s=e.querySelectorAll("tbody.copied-data tr:not(.hide)"),i=null!==(l=e.querySelector(".notification"))&&void 0!==l?l:null,{filtersArr:o}=this.filtersArr(t),{optionsTagValues:c}=this.filtersArr(t),{optionsTagText:a}=this.filtersArr(t),n=[];let d=null;switch(!0){case 1===o.length&&""===o[0]:return void(i&&(i.textContent=`Showing All ${r.length} Meeting(s)`));case 0===s.length:return d=this.selectedFilterArr(c,a,n),void(i&&(i.innerHTML=`Showing ${s.length} Meeting(s) when filter(s) selected:<br />${d}`));default:d=this.selectedFilterArr(c,a,n),i&&(i.innerHTML=`Showing ${s.length} Meetings when filter(s) selected:<br />${d}`)}}resetFilters(e,t,l,r){e.querySelector(".wp-block-create-block-meetings-table-block_reset-btn").addEventListener("click",(r=>{var s,i;const o=r.target.closest(".wp-block-create-block-meetings-table-block"),c=e.querySelectorAll("tbody.original-data tr"),a=null!==(s=o.querySelector("table tbody.copied-data"))&&void 0!==s?s:null,n=o.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");if(!a)return;this.toggleEditingLockedMsg(n,!1),t.forEach((e=>{e.value=""}));const d=null!==(i=e.querySelector(".notification"))&&void 0!==i?i:null;d&&(d.textContent=`Showing All ${c.length} Meeting(s)`),a.remove(),l.classList.remove("hide")}))}isElemEmpty(e){return 0===e.childNodes.length}emptyElem(e){e.textContent=""}selectedFilterArr(e,t,l){return e.map(((e,r)=>{""!==e&&l.push(t[r])})),l.join(", ")}onPrintEvents(e,t,l){e.forEach((e=>{e.addEventListener("click",(e=>{const r=document.querySelectorAll("*");this.hideAllElemsOnPrint(r);const s=e.target,i=s.closest("table");s.classList.remove("wp-block-create-block-meetings-table-block_show-print"),s.classList.add("wp-block-create-block-meetings-table-block_hide-print"),this.updateParentElemClasses(s,t,l),this.getAllDescendants(i).forEach((e=>{e.classList&&(e.classList.remove("wp-block-create-block-meetings-table-block_hide-print"),e.classList.add("wp-block-create-block-meetings-table-block_show-print"))})),window.print()}))}))}hideAllElemsOnPrint(e){e.forEach((e=>{"HTML"!==e.nodeName.toUpperCase()&&(e.classList.remove("wp-block-create-block-meetings-table-block_show-print"),e.classList.add("wp-block-create-block-meetings-table-block_hide-print"))}))}updateParentElemClasses(e,t,l){let r=e.parentNode;r.classList.add(t),r.classList.remove(l);let s=r.nodeName.toUpperCase();for(;s&&"BODY"!==s&&s;)r=r.parentNode,r.classList.add(t),r.classList.remove(l),s=r?.nodeName.toUpperCase()}exitPrintEvents(e,t){window.matchMedia("print").addListener((function(l){l.matches||[...Array.from(document.getElementsByClassName(e)),...Array.from(document.getElementsByClassName(t))].forEach((l=>{l.classList.remove(e),l.classList.remove(t)}))}))}getAllDescendants(e){let t=[];return function e(l){for(var r=0;r<l.childNodes.length;r++){let s=l.childNodes[r];e(s),t.push(s)}}(e),t}};s.filterEvents(".wp-block-create-block-meetings-table-block",!1);const i=document.querySelectorAll(".wp-block-create-block-meetings-table-block button.print");s.onPrintEvents(i,"show-print","wp-block-create-block-meetings-table-block_hide-print"),s.exitPrintEvents("show-print","wp-block-create-block-meetings-table-block_hide-print")}();
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/weekly-meetings-list/js/utilities.js":
+/*!**************************************************!*\
+  !*** ./src/weekly-meetings-list/js/utilities.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Utilities; }
+/* harmony export */ });
+/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
+
+class Utilities {
+  filterEvents(parentElemsSelector, isEditor = true) {
+    const parentElems = document.querySelectorAll(parentElemsSelector);
+    if (parentElems.length === 0) {
+      return;
+    }
+    parentElems.forEach((parentElem, i) => {
+      var _filtersWrapper$query, _parentElem$querySele;
+      const table = parentElem.querySelector("table");
+      const currentTbody = parentElem.querySelector("tbody");
+      const currentTableRows = parentElem.querySelectorAll("tbody tr");
+      const filtersWrapper = parentElem.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
+      const editingLockedMsg = (_filtersWrapper$query = filtersWrapper.querySelector(".editing-locked-msg")) !== null && _filtersWrapper$query !== void 0 ? _filtersWrapper$query : null;
+      const innerBlockEditElem = (_parentElem$querySele = parentElem.querySelector(".block-editor-inner-blocks")) !== null && _parentElem$querySele !== void 0 ? _parentElem$querySele : null;
+      const dayOfWeekClassName = "day-of-week-filter";
+      const cityClassName = "city-filter";
+      const groupTypeClassName = "group-type-filter";
+      const startTimeClassName = "start-time-filter";
+      if (!isEditor && editingLockedMsg) {
+        editingLockedMsg.remove();
+      }
+      let selectTagFilters = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+      this.resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem);
+      document.body.addEventListener("change", e => {
+        var _table$querySelector, _table$querySelector2;
+        const filterClassName = e.target.className;
+        let onStartTimeFilter = false;
+        let selectedElem = e.target;
+        switch (filterClassName) {
+          case startTimeClassName:
+            onStartTimeFilter = true;
+            let getNewTbody = (_table$querySelector = table.querySelector("tbody.copied-data")) !== null && _table$querySelector !== void 0 ? _table$querySelector : null;
+            if (!getNewTbody) {
+              this.setupFilterHandler(table, currentTbody, currentTableRows);
+            }
+            let selectTagFilters2 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+            this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+            this.filterNotification(parentElem, selectTagFilters2);
+            return;
+          case dayOfWeekClassName:
+          case cityClassName:
+          case groupTypeClassName:
+            onStartTimeFilter = false;
+            const getNewTbody2 = (_table$querySelector2 = table.querySelector("tbody.copied-data")) !== null && _table$querySelector2 !== void 0 ? _table$querySelector2 : null;
+            if (!getNewTbody2) {
+              this.setupFilterHandler(table, currentTbody, currentTableRows);
+            }
+            let selectTagFilters3 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+            this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+            this.filterNotification(parentElem, selectTagFilters3);
+            return;
+        }
+      });
+    });
+  }
+  setupFilterHandler(table, currentTbody, currentTableRows) {
+    var _table$querySelector3;
+    if (!currentTbody.classList.contains("hide")) {
+      currentTbody.classList.add("hide");
+    }
+    const newTbodyCheck = (_table$querySelector3 = table.querySelector("tbody.copied-data")) !== null && _table$querySelector3 !== void 0 ? _table$querySelector3 : null;
+    if (newTbodyCheck) {
+      newTbodyCheck.remove();
+    }
+    const newTbody = document.createElement("tbody");
+    newTbody.classList.add("copied-data");
+    if (newTbody.classList.contains("hide")) {
+      newTbody.classList.remove("hide");
+    }
+    if (this.isElemEmpty(newTbody)) {
+      currentTableRows.forEach(tr => {
+        const newTr = tr.cloneNode(true);
+        newTbody.appendChild(newTr);
+      });
+      table.appendChild(newTbody);
+    }
+    const newTbodyRows = newTbody.querySelectorAll("tr");
+    newTbodyRows.forEach((tr, i) => {
+      const origOrder = i + 1;
+      tr.setAttribute("data-original-order", origOrder);
+    });
+  }
+  showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter) {
+    const getNewTbody = parentElem.querySelector("tbody.copied-data");
+    const newTbodyRows = getNewTbody.querySelectorAll("tr");
+    let selectTagFilters = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+    let {
+      filtersArr
+    } = this.filtersArr(selectTagFilters);
+    let {
+      optionsTagValues
+    } = this.filtersArr(selectTagFilters);
+
+    // Show ONLY `select.start-time-filter` filter
+    if (onStartTimeFilter) {
+      if (filtersArr.length === 1 && filtersArr[0] === "") {
+        this.filterResetHandler(getNewTbody, currentTbody);
+        this.toggleEditingLockedMsg(filtersWrapper, false);
+        return;
+      } else {
+        this.sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper);
+      }
+      return;
+    }
+    // No filter active, or show ALL meetings
+    else if (filtersArr.length === 1 && filtersArr[0] === "") {
+      this.filterResetHandler(getNewTbody, currentTbody);
+      this.toggleEditingLockedMsg(filtersWrapper, false);
+      return;
+    }
+    // Show meetings with filters EXCLUDING `select.start-time-filter` filter
+    else {
+      newTbodyRows.forEach(tr => {
+        let selectTagFilterStr = JSON.stringify(optionsTagValues);
+        let dayVal = tr.getAttribute("data-filter-day");
+        let cityVal = tr.getAttribute("data-filter-city");
+        let groupTypeVal = null;
+        switch (true) {
+          case selectTagFilterStr.indexOf("location~") !== -1:
+            groupTypeVal = tr.getAttribute("data-location-group-type");
+            break;
+          case selectTagFilterStr.indexOf("access~") !== -1:
+            groupTypeVal = tr.getAttribute("data-access-group-type");
+            break;
+          case selectTagFilterStr.indexOf("gender~") !== -1:
+            groupTypeVal = tr.getAttribute("data-gender-group-type");
+            break;
+          default:
+            groupTypeVal = tr.getAttribute("data-additional-group-type");
+            break;
+        }
+        let dataSetArr = [dayVal, cityVal, groupTypeVal];
+        let dataSetArrMatched = [];
+        let optionsTagValuesMatched = [];
+        dataSetArr.forEach((val, i) => {
+          if (optionsTagValues[i] !== "") {
+            dataSetArrMatched.push(val);
+            optionsTagValuesMatched.push(optionsTagValues[i]);
+          }
+        });
+        const dataSetArrJson = JSON.stringify(dataSetArrMatched);
+        const optionsTagValuesJson = JSON.stringify(optionsTagValuesMatched);
+        if (dataSetArrJson === optionsTagValuesJson) {
+          tr.classList.remove("hide");
+        } else {
+          tr.classList.add("hide");
+        }
+      });
+      const getNewTbody2 = parentElem.querySelector("tbody.copied-data");
+      this.alternateRowColor(getNewTbody2);
+      this.toggleEditingLockedMsg(filtersWrapper, true);
+    }
+  }
+  sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper) {
+    var _getParentElem$queryS;
+    const getParentElem = selectedElem.closest(parentElemsSelector);
+    const getNewTbody = (_getParentElem$queryS = getParentElem.querySelector("tbody.copied-data")) !== null && _getParentElem$queryS !== void 0 ? _getParentElem$queryS : null;
+    if (!getNewTbody) {
+      return;
+    }
+    const newTbodyRows = getNewTbody.querySelectorAll("tr");
+    const selectVal = selectedElem.value;
+    const rowsArr = Array.from(newTbodyRows);
+    if (selectVal === "asc~") {
+      let sortedTimeAscArr = rowsArr.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byValue)(i => i.getAttribute("data-start-time"), (0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byString)()));
+      this.emptyElem(getNewTbody);
+      getNewTbody.append(...sortedTimeAscArr);
+    } else if (selectVal === "desc~") {
+      let sortedTimeDescArr = rowsArr.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byValue)(i => i.getAttribute("data-start-time"), (0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byString)({
+        desc: true
+      })));
+      this.emptyElem(getNewTbody);
+      getNewTbody.append(...sortedTimeDescArr);
+    } else {
+      let originalSortedTime = rowsArr.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byValue)(i => Number(i.getAttribute("data-original-order")), (0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byNumber)()));
+      this.emptyElem(getNewTbody);
+      getNewTbody.append(...originalSortedTime);
+    }
+    const getNewTbody3 = getParentElem.querySelector("tbody.copied-data");
+    this.alternateRowColor(getNewTbody3);
+    this.toggleEditingLockedMsg(filtersWrapper, true);
+  }
+  filtersArr(selectTagFilters) {
+    let optionsTagValues = [];
+    let optionsTagText = [];
+    selectTagFilters.forEach(elem => {
+      let val = elem.options[elem.selectedIndex].value;
+      let text = elem.options[elem.selectedIndex].text;
+      optionsTagValues.push(val);
+      optionsTagText.push(text);
+    });
+    const filtersToSet = new Set(optionsTagValues);
+    const filtersArr = [...filtersToSet];
+    const optionsTagTextSet = new Set(optionsTagText);
+    const optionsTagTextNewArr = [...optionsTagTextSet];
+    optionsTagText = optionsTagTextNewArr.filter(Boolean);
+    return {
+      filtersArr,
+      optionsTagValues,
+      optionsTagText
+    };
+  }
+  filterResetHandler(getNewTbody, currentTbody) {
+    getNewTbody.remove();
+    currentTbody.classList.remove("hide");
+  }
+  alternateRowColor(getNewTbody) {
+    const newTbodyRows = getNewTbody.querySelectorAll("tr:not(.hide)");
+    newTbodyRows.forEach((tr, i) => {
+      tr.classList.remove("bg-light-gray");
+      tr.classList.remove("bg-white");
+      if (i % 2 === 0) {
+        tr.classList.add("bg-light-gray");
+        return;
+      }
+      tr.classList.add("bg-white");
+    });
+  }
+  toggleEditingLockedMsg(filtersWrapper, bool) {
+    const editingLockedMsg = filtersWrapper.querySelector(".editing-locked-msg");
+    if (!filtersWrapper || !editingLockedMsg) {
+      return;
+    }
+    if (bool) {
+      if (editingLockedMsg.classList.contains("hide")) {
+        editingLockedMsg.classList.remove("hide");
+      }
+      return;
+    }
+    editingLockedMsg.classList.add("hide");
+  }
+  getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName) {
+    const getSelectTagFilters = [parentElem.querySelector(`select.${dayOfWeekClassName}`), parentElem.querySelector(`select.${cityClassName}`), parentElem.querySelector(`select.${groupTypeClassName}`), parentElem.querySelector(`select.${startTimeClassName}`)];
+    return getSelectTagFilters;
+  }
+  filterNotification(parentElem, selectTagFilters) {
+    var _parentElem$querySele2;
+    const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
+    const tbodyRowsShown = parentElem.querySelectorAll("tbody.copied-data tr:not(.hide)");
+    const notification = (_parentElem$querySele2 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele2 !== void 0 ? _parentElem$querySele2 : null;
+    const {
+      filtersArr
+    } = this.filtersArr(selectTagFilters);
+    const {
+      optionsTagValues
+    } = this.filtersArr(selectTagFilters);
+    const {
+      optionsTagText
+    } = this.filtersArr(selectTagFilters);
+    const optionsTagTextSelected = [];
+    let filtersStr = null;
+    switch (true) {
+      case filtersArr.length === 1 && filtersArr[0] === "":
+        if (notification) {
+          notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
+        }
+        return;
+      case tbodyRowsShown.length === 0:
+        filtersStr = this.selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected);
+        if (notification) {
+          notification.innerHTML = `Showing ${tbodyRowsShown.length} Meeting(s) when filter(s) selected:<br />${filtersStr}`;
+        }
+        return;
+      default:
+        filtersStr = this.selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected);
+        if (notification) {
+          notification.innerHTML = `Showing ${tbodyRowsShown.length} Meetings when filter(s) selected:<br />${filtersStr}`;
+        }
+    }
+  }
+  resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem) {
+    const resetBtn = parentElem.querySelector(".wp-block-create-block-meetings-table-block_reset-btn");
+    resetBtn.addEventListener("click", e => {
+      var _btnParent$querySelec, _parentElem$querySele3;
+      const btnClicked = e.target;
+      const btnParent = btnClicked.closest(".wp-block-create-block-meetings-table-block");
+      const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
+      const newTbody = (_btnParent$querySelec = btnParent.querySelector("table tbody.copied-data")) !== null && _btnParent$querySelec !== void 0 ? _btnParent$querySelec : null;
+      const filtersWrapper = btnParent.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
+      if (!newTbody) {
+        return;
+      }
+      this.toggleEditingLockedMsg(filtersWrapper, false);
+      selectTagFilters.forEach(elem => {
+        elem.value = "";
+      });
+      const notification = (_parentElem$querySele3 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele3 !== void 0 ? _parentElem$querySele3 : null;
+      if (notification) {
+        notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
+      }
+      newTbody.remove();
+      currentTbody.classList.remove("hide");
+    });
+  }
+  isElemEmpty(elem) {
+    if (elem.childNodes.length === 0) {
+      return true;
+    }
+    return false;
+  }
+  emptyElem(elem) {
+    elem.textContent = "";
+  }
+  selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected) {
+    optionsTagValues.map((val, i) => {
+      if (val !== "") {
+        optionsTagTextSelected.push(optionsTagText[i]);
+      }
+    });
+    const textJoined = optionsTagTextSelected.join(", ");
+    return textJoined;
+  }
+
+  // START: used in view.js ONLY
+  onPrintEvents(btns, showPrintClass, hidePrintClass) {
+    btns.forEach(btn => {
+      btn.addEventListener("click", e => {
+        const allElems = document.querySelectorAll("*");
+        this.hideAllElemsOnPrint(allElems);
+        const currentBtn = e.target;
+        const table = currentBtn.closest("table");
+        currentBtn.classList.remove("wp-block-create-block-meetings-table-block_show-print");
+        currentBtn.classList.add("wp-block-create-block-meetings-table-block_hide-print");
+        this.updateParentElemClasses(currentBtn, showPrintClass, hidePrintClass);
+        const tableChildElems = this.getAllDescendants(table);
+        tableChildElems.forEach(child => {
+          if (child.classList) {
+            child.classList.remove("wp-block-create-block-meetings-table-block_hide-print");
+            child.classList.add("wp-block-create-block-meetings-table-block_show-print");
+          }
+        });
+        window.print();
+      });
+    });
+  }
+  hideAllElemsOnPrint(allElems) {
+    allElems.forEach(elem => {
+      const nodeTag = elem.nodeName.toUpperCase();
+      if (nodeTag !== "HTML") {
+        elem.classList.remove("wp-block-create-block-meetings-table-block_show-print");
+        elem.classList.add("wp-block-create-block-meetings-table-block_hide-print");
+      }
+    });
+  }
+  updateParentElemClasses(elem, addClass, removeClass) {
+    let getParent = elem.parentNode;
+    getParent.classList.add(addClass);
+    getParent.classList.remove(removeClass);
+    let parentNodeName = getParent.nodeName.toUpperCase();
+    while (parentNodeName) {
+      if (parentNodeName === "BODY" || !parentNodeName) {
+        break;
+      }
+      getParent = getParent.parentNode;
+      getParent.classList.add(addClass);
+      getParent.classList.remove(removeClass);
+      parentNodeName = getParent?.nodeName.toUpperCase();
+    }
+  }
+  exitPrintEvents(showPrintClass, hidePrintClass) {
+    const afterPrint = function () {
+      const printableElemsArr = Array.from(document.getElementsByClassName(showPrintClass));
+      const notPrintableElemsArr = Array.from(document.getElementsByClassName(hidePrintClass));
+      const elems = [...printableElemsArr, ...notPrintableElemsArr];
+      elems.forEach(elem => {
+        elem.classList.remove(showPrintClass);
+        elem.classList.remove(hidePrintClass);
+      });
+    };
+    const mediaQueryList = window.matchMedia("print");
+    mediaQueryList.addListener(function (e) {
+      if (!e.matches) {
+        afterPrint();
+      }
+    });
+  }
+  getAllDescendants(node) {
+    let arr = [];
+    getDescendants(node);
+    function getDescendants(node) {
+      for (var i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+        getDescendants(child);
+        arr.push(child);
+      }
+    }
+    return arr;
+  }
+  // END: used in view.js ONLY
+}
+
+/***/ }),
+
+/***/ "./node_modules/sort-es/lib/index.esm.js":
+/*!***********************************************!*\
+  !*** ./node_modules/sort-es/lib/index.esm.js ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AsyncArray: function() { return /* binding */ AsyncArray; },
+/* harmony export */   byAny: function() { return /* binding */ byAny; },
+/* harmony export */   byBoolean: function() { return /* binding */ byBoolean; },
+/* harmony export */   byDate: function() { return /* binding */ byDate; },
+/* harmony export */   byNumber: function() { return /* binding */ byNumber; },
+/* harmony export */   byString: function() { return /* binding */ byString; },
+/* harmony export */   byValue: function() { return /* binding */ byValue; },
+/* harmony export */   byValues: function() { return /* binding */ byValues; },
+/* harmony export */   "default": function() { return /* binding */ index; },
+/* harmony export */   sortAsync: function() { return /* binding */ sortAsync; }
+/* harmony export */ });
+const getSorter = (options) => options.desc ? (result) => result * -1 : (result) => result;
+
+const parseDate = (date) => new Date(date);
+const parseNullableDate = (date) => new Date(date || 0);
+/**
+ * the sortable for the date values
+ * @param options sortable options for byDate
+ *
+ * {@link https://sort-es.netlify.app/by-date byDate docs}
+ * @version 1.0.0
+ */
+const byDate = (options = {
+    desc: false,
+    nullable: false,
+}) => {
+    const sorter = getSorter(options);
+    const parser = options.customParser || (options.nullable ? parseNullableDate : parseDate);
+    return (first, second) => sorter(parser(first).getTime() - parser(second).getTime());
+};
+
+/**
+ * the sortable to sort the **number primitive**
+ * @param options the options to sort the numbers correctly
+ *
+ * {@link https://sort-es.netlify.app/by-number byNumber docs}
+ * @version 1.0.0
+ */
+const byNumber = (options = { desc: false, nullable: false }) => {
+    const sorter = getSorter(options);
+    return (first, second) => options.nullable
+        ? sorter((first || 0) - (second || 0) || 0)
+        : sorter((first - second) || 0);
+};
+
+const fixString = (value, options) => {
+    if (options.nullable)
+        value = value || "";
+    if (options.lowercase)
+        value = value.toLowerCase();
+    return value;
+};
+/**
+ * the sortable to sort the **string primitive**
+ * @param options the options to sort the strings correctly
+ *
+ * {@link https://sort-es.netlify.app/by-string byString docs}
+ * @version 1.0.0
+ */
+const byString = (options = {
+    desc: false,
+    nullable: false,
+    lowercase: false,
+}) => {
+    const sorter = getSorter(options);
+    return (first, second) => sorter(fixString(first, options).localeCompare(fixString(second, options)));
+};
+
+function isNumber(v) {
+    return typeof v === "number";
+}
+function isString(v) {
+    return typeof v === "string";
+}
+function isDate(v) {
+    return v instanceof Date;
+}
+
+const byAny = (options = { desc: false }) => {
+    return (first, second) => {
+        if (isNumber(first) && isNumber(second))
+            return byNumber(options)(first, second);
+        if (isString(first) && isString(second))
+            return byString(options)(first, second);
+        if (isDate(first) && isDate(second))
+            return byDate(options)(first, second);
+        throw new Error("incorrect types of the 2 parameters");
+    };
+};
+
+function byValue(discriminator, sortFn) {
+    if (typeof discriminator === "function") {
+        return (first, second) => {
+            const firstItem = discriminator(first);
+            const secondItem = discriminator(second);
+            return sortFn(firstItem, secondItem);
+        };
+    }
+    return (first, second) => {
+        const firstItem = first[discriminator];
+        const secondItem = second[discriminator];
+        return sortFn(firstItem, secondItem);
+    };
+}
+
+/**
+ * the sortable that allow you to sort an array of **complex object** by multiple properties
+ * @param sorter the array to determine the strategy to sort the elements
+ *
+ * {@link https://sort-es.netlify.app/by-values byValues docs}
+ * @version 1.2.0
+ */
+function byValues(sorter) {
+    return (first, second) => {
+        for (const [prop, sortableFn] of sorter) {
+            if (!sortableFn)
+                continue;
+            let sortResult;
+            if (typeof prop === "function") {
+                sortResult = sortableFn(prop(first), prop(second));
+            }
+            else {
+                console.log(`you're running a deprecated option, checkout https://sort-es.netlify.app/breaking-changes/ `);
+                sortResult = sortableFn(first[prop], second[prop]);
+            }
+            if (sortResult !== 0)
+                return sortResult;
+        }
+        return 0;
+    };
+}
+
+/**
+ * the sortable for the boolean values
+ * @param options sortable options for byBoolean
+ *
+ * {@link https://sort-es.netlify.app/by-boolean byBoolean docs}
+ * @version 1.3.0
+ */
+const byBoolean = (options = { desc: false }) => {
+    const sorter = getSorter(options);
+    return (first, second) => sorter(Number(second || false) - Number(first || false));
+};
+
+/**
+ * the sortable for the async values
+ * @param asyncItems the async items
+ * @param sortFn the sortable to apply to the async items
+ *
+ * {@link https://sort-es.netlify.app/by-async sortAsync docs}
+ * @version 1.0.0
+ */
+const sortAsync = async (asyncItems, sortFn) => {
+    const items = await Promise.all(asyncItems);
+    return items.sort(sortFn);
+};
+class AsyncArray extends Array {
+    constructor(items) {
+        super(...items);
+    }
+    sortAsync(sortFn) {
+        return Promise.all(this).then((items) => items.sort(sortFn));
+    }
+}
+
+var index = {
+    byAny,
+    byDate,
+    byValue,
+    byValues,
+    byString,
+    byNumber,
+    sortAsync,
+    byBoolean,
+    AsyncArray,
+};
+
+
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+/*!******************************************!*\
+  !*** ./src/weekly-meetings-list/view.js ***!
+  \******************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _js_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/utilities */ "./src/weekly-meetings-list/js/utilities.js");
+
+const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_0__["default"]();
+utilities.filterEvents(".wp-block-create-block-meetings-table-block", false);
+const printBtns = document.querySelectorAll(".wp-block-create-block-meetings-table-block button.print");
+utilities.onPrintEvents(printBtns, "show-print", "wp-block-create-block-meetings-table-block_hide-print");
+utilities.exitPrintEvents("show-print", "wp-block-create-block-meetings-table-block_hide-print");
+}();
+/******/ })()
+;
+//# sourceMappingURL=view.js.map
