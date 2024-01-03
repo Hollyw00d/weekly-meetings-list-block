@@ -10,6 +10,7 @@ import { PanelBody, TextControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
+import domify from "domify";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
 import "./editor.scss";
@@ -38,7 +39,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	};
 
 	const isEditPage = true;
-	let trComponents = [];
 
 	useEffect(() => {
 		let isArray = Array.isArray(childBlocks);
@@ -84,10 +84,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			];
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
-
-			childBlocks.map((item) => {
-				trComponents.push(parse(item.originalContent));
-			});
 		}
 	}, [childBlocks]);
 
@@ -114,6 +110,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					return <>{tr}</>;
 				})}
 			</table>
+
+			{childBlocks.map((item, i) => {
+				let tr = domify(item.originalContent);
+				tr.setAttribute("data-blah", "blah");
+				console.log("tr");
+				console.log(tr);
+				return <p>{i}</p>;
+			})}
 
 			<table>
 				<caption className="table-title">
