@@ -38,8 +38,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	};
 
 	const isEditPage = true;
-	// let trComponents = [];
-	// let testArr = [1, 2, 3];
+	let trComponents = [];
 
 	useEffect(() => {
 		let isArray = Array.isArray(childBlocks);
@@ -85,6 +84,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			];
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
+
+			childBlocks.map((item) => {
+				trComponents.push(parse(item.originalContent));
+			});
 		}
 	}, [childBlocks]);
 

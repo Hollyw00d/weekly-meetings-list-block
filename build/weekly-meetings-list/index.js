@@ -219,9 +219,7 @@ function Edit({
     });
   };
   const isEditPage = true;
-  // let trComponents = [];
-  // let testArr = [1, 2, 3];
-
+  let trComponents = [];
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     let isArray = Array.isArray(childBlocks);
     let newCitiesArr = [];
@@ -257,6 +255,9 @@ function Edit({
       const finalGroupTypesClean = [...groupTypesArrClean, ...additionalGroupsClean];
       setAttributes({
         groupTypesArr: finalGroupTypesClean
+      });
+      childBlocks.map(item => {
+        trComponents.push((0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(item.originalContent));
       });
     }
   }, [childBlocks]);
