@@ -7,7 +7,7 @@ import {
 	store as blockStore,
 } from "@wordpress/block-editor";
 import { PanelBody, TextControl } from "@wordpress/components";
-import { useSelect, regis } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
 import domify from "domify";
