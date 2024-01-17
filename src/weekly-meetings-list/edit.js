@@ -7,7 +7,7 @@ import {
 	store as blockStore,
 } from "@wordpress/block-editor";
 import { PanelBody, TextControl } from "@wordpress/components";
-import { useSelect } from "@wordpress/data";
+import { useSelect, regis } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
 import domify from "domify";
@@ -103,21 +103,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
 			/>
-			{/* <table>
+			<table>
 				<caption>TEST</caption>
 				{childBlocks.map((item) => {
 					let tr = parse(item.originalContent);
 					return <>{tr}</>;
 				})}
-			</table> */}
+			</table>
 
-			{/* {childBlocks.map((item, i) => {
+			{childBlocks.map((item, i) => {
 				let tr = domify(item.originalContent);
 				tr.setAttribute("data-blah", "blah");
 				console.log("tr");
 				console.log(tr);
 				return <p>{i}</p>;
-			})} */}
+			})}
 
 			<table>
 				<caption className="table-title">
