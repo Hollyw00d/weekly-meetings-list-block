@@ -166,9 +166,6 @@ class Utilities {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ Edit; }
-/* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
@@ -179,13 +176,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
+/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
 /* harmony import */ var html_react_parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! html-react-parser */ "./node_modules/html-react-parser/esm/index.mjs");
-/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! domify */ "./node_modules/domify/index.js");
-/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! domify */ "./node_modules/domify/index.js");
+/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _js_components_filters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/components/filters */ "./src/weekly-meetings-list/js/components/filters.js");
 /* harmony import */ var _js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/components/filterNotifications */ "./src/weekly-meetings-list/js/components/filterNotifications.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
+/* harmony import */ var _js_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/store */ "./src/weekly-meetings-list/js/store/index.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
 
 
 
@@ -198,11 +196,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Edit({
-  attributes,
-  setAttributes,
-  clientId
-}) {
+
+
+// function Edit({ attributes, setAttributes, clientId }) {
+function Edit(props) {
   const {
     tableTitle,
     citiesArr,
@@ -213,11 +210,11 @@ function Edit({
     groupTypeHeading,
     meetingNameHeading,
     groupInfoHeading
-  } = attributes;
+  } = props.attributes;
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
-  const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
+  const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(props.clientId)[0].innerBlocks);
   const tableTitleChange = val => {
-    setAttributes({
+    props.setAttributes({
       tableTitle: val
     });
   };
@@ -243,23 +240,31 @@ function Edit({
       });
       const toSetCities = new Set(newCitiesArr);
       const newCitiesArrNoDupes = [...toSetCities];
-      const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_9__.byString)());
-      setAttributes({
+      const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_10__.byString)());
+      props.setAttributes({
         citiesArr: citiesArrSorted
       });
       const toSetAdditionalGroups = new Set(additionalGroupTypesArr);
       const additionalGroupsNoDupes = [...toSetAdditionalGroups];
-      const additionalGroupsSorted = additionalGroupsNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_9__.byString)());
+      const additionalGroupsSorted = additionalGroupsNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_10__.byString)());
       const additionalGroupsClean = additionalGroupsSorted.filter(Boolean);
       const toSetGroupTypes = new Set(newGroupTypesArr);
       const newGroupTypesNoDupes = [...toSetGroupTypes];
       const groupTypesArrClean = newGroupTypesNoDupes.filter(Boolean);
       const finalGroupTypesClean = [...groupTypesArrClean, ...additionalGroupsClean];
-      setAttributes({
+      props.setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
+
+      // console.log("props.outputFilters()", props.outputFilters());
+      // const state = useSelect((select) => select("filter-values").getState());
+
+      // console.log(state); // Log the state
     }
   }, [childBlocks]);
+
+  // console.log("Filters State:", state.filters);
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -276,7 +281,7 @@ function Edit({
     let tr = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(item.originalContent);
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, tr);
   })), childBlocks.map((item, i) => {
-    let tr = domify__WEBPACK_IMPORTED_MODULE_10___default()(item.originalContent);
+    let tr = domify__WEBPACK_IMPORTED_MODULE_11___default()(item.originalContent);
     tr.setAttribute("data-blah", "blah");
     console.log("tr");
     console.log(tr);
@@ -314,6 +319,12 @@ function Edit({
     class: "copied-data hide"
   }))));
 }
+/* harmony default export */ __webpack_exports__["default"] = ((0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.withDispatch)(dispatch => {
+  return {
+    outputFilters: () => dispatch("filter-values/OUTPUT_FILTERS"),
+    updateFilters: () => dispatch("filter-values/UPDATE_FILTERS")
+  };
+})(Edit));
 
 /***/ }),
 
@@ -331,34 +342,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/weekly-meetings-list/edit.js");
 /* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/weekly-meetings-list/save.js");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/weekly-meetings-list/block.json");
-/**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-
-
-/**
- * Internal dependencies
- */
 
 
 
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -482,6 +469,62 @@ function Filters({
     className: "wp-block-create-block-meetings-table-block_reset-btn"
   }, "Reset"))));
 }
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/store/index.js":
+/*!****************************************************!*\
+  !*** ./src/weekly-meetings-list/js/store/index.js ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+// Redux-like store using WP Data API
+
+const storeName = "filter-values";
+const updateFiltersType = "UPDATE_FILTERS";
+const outputFiltersType = "OUTPUT_FILTERS";
+const initialState = {
+  filters: ["", "", "", ""]
+};
+const actions = {
+  updateFilters: newItem => ({
+    type: updateFiltersType,
+    payload: newItem
+  }),
+  outputFilters: () => ({
+    type: outputFiltersType
+  })
+};
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case updateFiltersType:
+      const {
+        idx,
+        val
+      } = action.payload;
+      if (state.items.length > idx) {
+        return {
+          ...state,
+          items: [...state.items.slice(0, idx), val, ...state.items.slice(idx + 1)]
+        };
+      }
+      return state;
+    case outputFiltersType:
+      return state;
+    default:
+      return state;
+  }
+};
+const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)(storeName, {
+  reducer,
+  actions
+});
+(0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.register)(store);
+/* harmony default export */ __webpack_exports__["default"] = (store);
 
 /***/ }),
 

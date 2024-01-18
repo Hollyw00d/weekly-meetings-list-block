@@ -7,15 +7,17 @@ import {
 	store as blockStore,
 } from "@wordpress/block-editor";
 import { PanelBody, TextControl } from "@wordpress/components";
-import { useSelect } from "@wordpress/data";
+import { useSelect, withDispatch } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
 import domify from "domify";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
+import { store as filterStore } from "./js/store";
 import "./editor.scss";
 
-export default function Edit({ attributes, setAttributes, clientId }) {
+// function Edit({ attributes, setAttributes, clientId }) {
+function Edit(props) {
 	const {
 		tableTitle,
 		citiesArr,
@@ -26,16 +28,17 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		groupTypeHeading,
 		meetingNameHeading,
 		groupInfoHeading,
-	} = attributes;
+	} = props.attributes;
 
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
 
 	const childBlocks = useSelect(
-		(select) => select(blockStore).getBlocksByClientId(clientId)[0].innerBlocks
+		(select) =>
+			select(blockStore).getBlocksByClientId(props.clientId)[0].innerBlocks
 	);
 
 	const tableTitleChange = (val) => {
-		setAttributes({ tableTitle: val });
+		props.setAttributes({ tableTitle: val });
 	};
 
 	const isEditPage = true;
@@ -67,7 +70,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			const toSetCities = new Set(newCitiesArr);
 			const newCitiesArrNoDupes = [...toSetCities];
 			const citiesArrSorted = newCitiesArrNoDupes.sort(byString());
-			setAttributes({ citiesArr: citiesArrSorted });
+			props.setAttributes({ citiesArr: citiesArrSorted });
 
 			const toSetAdditionalGroups = new Set(additionalGroupTypesArr);
 			const additionalGroupsNoDupes = [...toSetAdditionalGroups];
@@ -83,9 +86,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				...additionalGroupsClean,
 			];
 
-			setAttributes({ groupTypesArr: finalGroupTypesClean });
+			props.setAttributes({ groupTypesArr: finalGroupTypesClean });
+
+			// console.log("props.outputFilters()", props.outputFilters());
+			// const state = useSelect((select) => select("filter-values").getState());
+
+			// console.log(state); // Log the state
 		}
 	}, [childBlocks]);
+
+	// console.log("Filters State:", state.filters);
 
 	return (
 		<div {...useBlockProps()}>
@@ -163,3 +173,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		</div>
 	);
 }
+
+export default withDispatch((dispatch) => {
+	return {
+		outputFilters: () => dispatch("filter-values/OUTPUT_FILTERS"),
+		updateFilters: () => dispatch("filter-values/UPDATE_FILTERS"),
+	};
+})(Edit);
