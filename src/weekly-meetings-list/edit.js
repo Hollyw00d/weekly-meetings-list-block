@@ -7,17 +7,17 @@ import {
 	store as blockStore,
 } from "@wordpress/block-editor";
 import { PanelBody, TextControl } from "@wordpress/components";
-import { useSelect, withDispatch } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
 import domify from "domify";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
-import { store as filterStore } from "./js/store";
+import "./js/filters-store";
 import "./editor.scss";
 
 // function Edit({ attributes, setAttributes, clientId }) {
-function Edit(props) {
+export default function Edit(props) {
 	const {
 		tableTitle,
 		citiesArr,
@@ -87,15 +87,22 @@ function Edit(props) {
 			];
 
 			props.setAttributes({ groupTypesArr: finalGroupTypesClean });
-
-			// console.log("props.outputFilters()", props.outputFilters());
-			// const state = useSelect((select) => select("filter-values").getState());
-
-			// console.log(state); // Log the state
 		}
 	}, [childBlocks]);
 
-	// console.log("Filters State:", state.filters);
+	const filtersData = useSelect((select) => {
+		const store = select("weekly-meetings-list/filters");
+		if (!store) {
+			return null;
+		}
+
+		return {
+			filters: store.getFilters(),
+		};
+	});
+
+	console.log("filtersData.filters");
+	console.log(filtersData.filters);
 
 	return (
 		<div {...useBlockProps()}>
@@ -173,10 +180,3 @@ function Edit(props) {
 		</div>
 	);
 }
-
-export default withDispatch((dispatch) => {
-	return {
-		outputFilters: () => dispatch("filter-values/OUTPUT_FILTERS"),
-		updateFilters: () => dispatch("filter-values/UPDATE_FILTERS"),
-	};
-})(Edit);

@@ -166,6 +166,9 @@ class Utilities {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Edit; }
+/* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
@@ -182,7 +185,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _js_components_filters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/components/filters */ "./src/weekly-meetings-list/js/components/filters.js");
 /* harmony import */ var _js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/components/filterNotifications */ "./src/weekly-meetings-list/js/components/filterNotifications.js");
-/* harmony import */ var _js_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/store */ "./src/weekly-meetings-list/js/store/index.js");
+/* harmony import */ var _js_filters_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/filters-store */ "./src/weekly-meetings-list/js/filters-store/index.js");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
 
 
@@ -255,16 +258,19 @@ function Edit(props) {
       props.setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-
-      // console.log("props.outputFilters()", props.outputFilters());
-      // const state = useSelect((select) => select("filter-values").getState());
-
-      // console.log(state); // Log the state
     }
   }, [childBlocks]);
-
-  // console.log("Filters State:", state.filters);
-
+  const filtersData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
+    const store = select("weekly-meetings-list/filters");
+    if (!store) {
+      return null;
+    }
+    return {
+      filters: store.getFilters()
+    };
+  });
+  console.log("filtersData.filters");
+  console.log(filtersData.filters);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -319,12 +325,6 @@ function Edit(props) {
     class: "copied-data hide"
   }))));
 }
-/* harmony default export */ __webpack_exports__["default"] = ((0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.withDispatch)(dispatch => {
-  return {
-    outputFilters: () => dispatch("filter-values/OUTPUT_FILTERS"),
-    updateFilters: () => dispatch("filter-values/UPDATE_FILTERS")
-  };
-})(Edit));
 
 /***/ }),
 
@@ -472,59 +472,134 @@ function Filters({
 
 /***/ }),
 
-/***/ "./src/weekly-meetings-list/js/store/index.js":
-/*!****************************************************!*\
-  !*** ./src/weekly-meetings-list/js/store/index.js ***!
-  \****************************************************/
+/***/ "./src/weekly-meetings-list/js/filters-store/actions.js":
+/*!**************************************************************!*\
+  !*** ./src/weekly-meetings-list/js/filters-store/actions.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   updateFilter: function() { return /* binding */ updateFilter; }
+/* harmony export */ });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
+
+const updateFilter = (filter, index) => {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER,
+    index,
+    filter
+  };
+};
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/filters-store/index.js":
+/*!************************************************************!*\
+  !*** ./src/weekly-meetings-list/js/filters-store/index.js ***!
+  \************************************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./src/weekly-meetings-list/js/filters-store/reducer.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./src/weekly-meetings-list/js/filters-store/selectors.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./src/weekly-meetings-list/js/filters-store/actions.js");
 // Redux-like store using WP Data API
 
-const storeName = "filter-values";
-const updateFiltersType = "UPDATE_FILTERS";
-const outputFiltersType = "OUTPUT_FILTERS";
-const initialState = {
-  filters: ["", "", "", ""]
+
+
+
+/*
+import * as resolvers from './resolvers';
+import controls from './controls';
+*/
+
+const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)("weekly-meetings-list/filters", {
+  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
+  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
+  /*
+  resolvers,
+  controls,
+  */
+});
+
+(0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.register)(store);
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/filters-store/reducer.js":
+/*!**************************************************************!*\
+  !*** ./src/weekly-meetings-list/js/filters-store/reducer.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
+
+const DEFAULT_STATE = {
+  items: ["", "", "", ""]
 };
-const actions = {
-  updateFilters: newItem => ({
-    type: updateFiltersType,
-    payload: newItem
-  }),
-  outputFilters: () => ({
-    type: outputFiltersType
-  })
-};
-const reducer = (state = initialState, action) => {
+const reducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case updateFiltersType:
+    case _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER:
       const {
-        idx,
+        index,
         val
       } = action.payload;
-      if (state.items.length > idx) {
+      if (state.items.length > index) {
         return {
           ...state,
-          items: [...state.items.slice(0, idx), val, ...state.items.slice(idx + 1)]
+          items: [...state.items.slice(0, index), val, ...state.items.slice(index + 1)]
         };
       }
       return state;
-    case outputFiltersType:
+    case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
       return state;
     default:
       return state;
   }
 };
-const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)(storeName, {
-  reducer,
-  actions
-});
-(0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.register)(store);
-/* harmony default export */ __webpack_exports__["default"] = (store);
+/* harmony default export */ __webpack_exports__["default"] = (reducer);
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/filters-store/selectors.js":
+/*!****************************************************************!*\
+  !*** ./src/weekly-meetings-list/js/filters-store/selectors.js ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getFilters: function() { return /* binding */ getFilters; }
+/* harmony export */ });
+const getFilters = state => {
+  return state.items;
+};
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/filters-store/types.js":
+/*!************************************************************!*\
+  !*** ./src/weekly-meetings-list/js/filters-store/types.js ***!
+  \************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OUTPUT_FILTERS: function() { return /* binding */ OUTPUT_FILTERS; },
+/* harmony export */   UPDATE_FILTER: function() { return /* binding */ UPDATE_FILTER; }
+/* harmony export */ });
+const UPDATE_FILTER = "UPDATE_FILTER";
+const OUTPUT_FILTERS = "OUTPUT_FILTERS";
 
 /***/ }),
 
