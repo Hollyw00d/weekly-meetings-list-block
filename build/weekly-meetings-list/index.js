@@ -513,21 +513,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/*
-import * as resolvers from './resolvers';
-import controls from './controls';
-*/
-
 const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)("weekly-meetings-list/filters", {
   reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
   actions: _actions__WEBPACK_IMPORTED_MODULE_3__
-  /*
-  resolvers,
-  controls,
-  */
 });
-
 (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.register)(store);
 
 /***/ }),
