@@ -43,6 +43,17 @@ export default function Edit(props) {
 
 	const isEditPage = true;
 
+	const filtersData = useSelect((select) => {
+		const store = select("weekly-meetings-list/filters");
+		if (!store) {
+			return null;
+		}
+
+		return {
+			filters: store.getFilters(),
+		};
+	});
+
 	useEffect(() => {
 		let isArray = Array.isArray(childBlocks);
 		let newCitiesArr = [];
@@ -87,22 +98,25 @@ export default function Edit(props) {
 			];
 
 			props.setAttributes({ groupTypesArr: finalGroupTypesClean });
+
+			console.log("filtersData.filters");
+			console.log(filtersData.filters);
 		}
-	}, [childBlocks]);
+	}, [childBlocks, filtersData.filters]);
 
-	const filtersData = useSelect((select) => {
-		const store = select("weekly-meetings-list/filters");
-		if (!store) {
-			return null;
-		}
+	// const filtersData = useSelect((select) => {
+	// 	const store = select("weekly-meetings-list/filters");
+	// 	if (!store) {
+	// 		return null;
+	// 	}
 
-		return {
-			filters: store.getFilters(),
-		};
-	});
+	// 	return {
+	// 		filters: store.getFilters(),
+	// 	};
+	// });
 
-	console.log("filtersData.filters");
-	console.log(filtersData.filters);
+	// console.log("filtersData.filters");
+	// console.log(filtersData.filters);
 
 	return (
 		<div {...useBlockProps()}>

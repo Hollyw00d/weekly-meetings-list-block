@@ -1,3 +1,4 @@
+import { dispatch } from "@wordpress/data";
 import Utilities from "../../../weekly-meetings-list-child/js/utilities";
 
 export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
@@ -43,6 +44,10 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 		);
 	}
 
+	const dayOfWeekEvent = (e) => {
+		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
+	};
+
 	return (
 		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
 			{editorMsg}
@@ -50,7 +55,11 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 				<label>
 					<div>Day of Week:</div>
 					<div>
-						<select className="day-of-week-filter" name="days of week">
+						<select
+							className="day-of-week-filter"
+							name="days of week"
+							onChange={dayOfWeekEvent}
+						>
 							{daysArr.map((item) => {
 								let val = item.value;
 								let label = item.label;

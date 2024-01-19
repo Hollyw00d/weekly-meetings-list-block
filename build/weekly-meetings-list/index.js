@@ -222,6 +222,15 @@ function Edit(props) {
     });
   };
   const isEditPage = true;
+  const filtersData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
+    const store = select("weekly-meetings-list/filters");
+    if (!store) {
+      return null;
+    }
+    return {
+      filters: store.getFilters()
+    };
+  });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     let isArray = Array.isArray(childBlocks);
     let newCitiesArr = [];
@@ -258,19 +267,25 @@ function Edit(props) {
       props.setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
+      console.log("filtersData.filters");
+      console.log(filtersData.filters);
     }
-  }, [childBlocks]);
-  const filtersData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
-    const store = select("weekly-meetings-list/filters");
-    if (!store) {
-      return null;
-    }
-    return {
-      filters: store.getFilters()
-    };
-  });
-  console.log("filtersData.filters");
-  console.log(filtersData.filters);
+  }, [childBlocks, filtersData.filters]);
+
+  // const filtersData = useSelect((select) => {
+  // 	const store = select("weekly-meetings-list/filters");
+  // 	if (!store) {
+  // 		return null;
+  // 	}
+
+  // 	return {
+  // 		filters: store.getFilters(),
+  // 	};
+  // });
+
+  // console.log("filtersData.filters");
+  // console.log(filtersData.filters);
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -391,7 +406,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../weekly-meetings-list-child/js/utilities */ "./src/weekly-meetings-list-child/js/utilities.js");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../weekly-meetings-list-child/js/utilities */ "./src/weekly-meetings-list-child/js/utilities.js");
+
 
 
 function Filters({
@@ -399,7 +417,7 @@ function Filters({
   groupTypesArr,
   isEditPage
 }) {
-  const utilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  const utilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__["default"]();
   const daysArr = utilities.generateDaysArr();
   let isCitiesArray = Array.isArray(citiesArr);
   let cities = null;
@@ -426,13 +444,17 @@ function Filters({
       class: "editing-locked-msg hide"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Meeting Edits are Locked while using Filters (Drop-Downs)!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "To edit meetings again change all drop-downs to the first options to show all all meetings, including:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Days of Week"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Cities"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "etc.")));
   }
+  const dayOfWeekEvent = e => {
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
+  };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
   }, editorMsg, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Day of Week:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "day-of-week-filter",
-    name: "days of week"
+    name: "days of week",
+    onChange: dayOfWeekEvent
   }, daysArr.map(item => {
     let val = item.value;
     let label = item.label;
@@ -481,11 +503,11 @@ function Filters({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   updateFilter: function() { return /* binding */ updateFilter; }
+/* harmony export */   replaceFilter: function() { return /* binding */ replaceFilter; }
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
 
-const updateFilter = (filter, index) => {
+const replaceFilter = (filter, index) => {
   return {
     type: _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER,
     index,
@@ -540,12 +562,12 @@ const reducer = (state = DEFAULT_STATE, action) => {
     case _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER:
       const {
         index,
-        val
-      } = action.payload;
+        filter
+      } = action;
       if (state.items.length > index) {
         return {
           ...state,
-          items: [...state.items.slice(0, index), val, ...state.items.slice(index + 1)]
+          items: [...state.items.slice(0, index), filter, ...state.items.slice(index + 1)]
         };
       }
       return state;
@@ -568,10 +590,23 @@ const reducer = (state = DEFAULT_STATE, action) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   getFilters: function() { return /* binding */ getFilters; }
+/* harmony export */   getFilters: function() { return /* binding */ getFilters; },
+/* harmony export */   replaceFilter: function() { return /* binding */ replaceFilter; }
 /* harmony export */ });
 const getFilters = state => {
   return state.items;
+};
+const replaceFilter = (state, {
+  index,
+  val
+}) => {
+  if (state.items.length > index) {
+    return {
+      ...state,
+      items: [...state.items.slice(0, index), val, ...state.items.slice(index + 1)]
+    };
+  }
+  return state;
 };
 
 /***/ }),
