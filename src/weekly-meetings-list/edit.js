@@ -43,6 +43,8 @@ export default function Edit(props) {
 
 	const isEditPage = true;
 
+	// Code to test in console:
+	// wp.data.select('weekly-meetings-list/filters').getFilters();
 	const filtersData = useSelect((select) => {
 		const store = select("weekly-meetings-list/filters");
 		if (!store) {

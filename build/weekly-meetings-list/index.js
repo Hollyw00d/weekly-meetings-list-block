@@ -222,6 +222,9 @@ function Edit(props) {
     });
   };
   const isEditPage = true;
+
+  // Code to test in console:
+  // wp.data.select('weekly-meetings-list/filters').getFilters();
   const filtersData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     const store = select("weekly-meetings-list/filters");
     if (!store) {
