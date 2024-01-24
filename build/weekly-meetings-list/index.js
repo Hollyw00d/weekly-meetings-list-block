@@ -181,8 +181,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
 /* harmony import */ var html_react_parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! html-react-parser */ "./node_modules/html-react-parser/esm/index.mjs");
-/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! domify */ "./node_modules/domify/index.js");
-/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _js_components_filters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/components/filters */ "./src/weekly-meetings-list/js/components/filters.js");
 /* harmony import */ var _js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/components/filterNotifications */ "./src/weekly-meetings-list/js/components/filterNotifications.js");
 /* harmony import */ var _js_filters_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/filters-store */ "./src/weekly-meetings-list/js/filters-store/index.js");
@@ -200,9 +198,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-// function Edit({ attributes, setAttributes, clientId }) {
-function Edit(props) {
+function Edit({
+  attributes,
+  setAttributes,
+  clientId
+}) {
   const {
     tableTitle,
     citiesArr,
@@ -213,11 +213,11 @@ function Edit(props) {
     groupTypeHeading,
     meetingNameHeading,
     groupInfoHeading
-  } = props.attributes;
+  } = attributes;
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
-  const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(props.clientId)[0].innerBlocks);
+  const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
   const tableTitleChange = val => {
-    props.setAttributes({
+    setAttributes({
       tableTitle: val
     });
   };
@@ -225,14 +225,12 @@ function Edit(props) {
 
   // Code to test in console:
   // wp.data.select('weekly-meetings-list/filters').getFilters();
-  const filtersData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
+  const filtersArr = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     const store = select("weekly-meetings-list/filters");
     if (!store) {
       return null;
     }
-    return {
-      filters: store.getFilters()
-    };
+    return store.getFilters();
   });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     let isArray = Array.isArray(childBlocks);
@@ -256,7 +254,7 @@ function Edit(props) {
       const toSetCities = new Set(newCitiesArr);
       const newCitiesArrNoDupes = [...toSetCities];
       const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_10__.byString)());
-      props.setAttributes({
+      setAttributes({
         citiesArr: citiesArrSorted
       });
       const toSetAdditionalGroups = new Set(additionalGroupTypesArr);
@@ -267,15 +265,15 @@ function Edit(props) {
       const newGroupTypesNoDupes = [...toSetGroupTypes];
       const groupTypesArrClean = newGroupTypesNoDupes.filter(Boolean);
       const finalGroupTypesClean = [...groupTypesArrClean, ...additionalGroupsClean];
-      props.setAttributes({
+      setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-      console.log("filtersData.filters");
-      console.log(filtersData.filters);
+      console.log("filtersArr");
+      console.log(filtersArr);
     }
-  }, [childBlocks, filtersData.filters]);
+  }, [childBlocks, filtersArr]);
 
-  // const filtersData = useSelect((select) => {
+  // const filtersArr = useSelect((select) => {
   // 	const store = select("weekly-meetings-list/filters");
   // 	if (!store) {
   // 		return null;
@@ -286,8 +284,8 @@ function Edit(props) {
   // 	};
   // });
 
-  // console.log("filtersData.filters");
-  // console.log(filtersData.filters);
+  // console.log("filtersArr.filters");
+  // console.log(filtersArr.filters);
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
@@ -301,15 +299,6 @@ function Edit(props) {
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", null, "TEST"), childBlocks.map(item => {
-    let tr = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(item.originalContent);
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, tr);
-  })), childBlocks.map((item, i) => {
-    let tr = domify__WEBPACK_IMPORTED_MODULE_11___default()(item.originalContent);
-    tr.setAttribute("data-blah", "blah");
-    console.log("tr");
-    console.log(tr);
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, i);
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_7__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -1433,96 +1422,6 @@ function cloneChildren(childs) {
     }
     return children;
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/domify/index.js":
-/*!**************************************!*\
-  !*** ./node_modules/domify/index.js ***!
-  \**************************************/
-/***/ (function(module) {
-
-const wrapMap = {
-	legend: [1, '<fieldset>', '</fieldset>'],
-	tr: [2, '<table><tbody>', '</tbody></table>'],
-	col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
-	_default: [0, '', ''],
-};
-
-wrapMap.td
-= wrapMap.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
-
-wrapMap.option
-= wrapMap.optgroup = [1, '<select multiple="multiple">', '</select>'];
-
-wrapMap.thead
-= wrapMap.tbody
-= wrapMap.colgroup
-= wrapMap.caption
-= wrapMap.tfoot = [1, '<table>', '</table>'];
-
-wrapMap.polyline
-= wrapMap.ellipse
-= wrapMap.polygon
-= wrapMap.circle
-= wrapMap.text
-= wrapMap.line
-= wrapMap.path
-= wrapMap.rect
-= wrapMap.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">', '</svg>'];
-
-function domify(htmlString, document = globalThis.document) {
-	if (typeof htmlString !== 'string') {
-		throw new TypeError('String expected');
-	}
-
-	// Handle comment nodes
-	const commentMatch = /^<!--(.*?)-->$/s.exec(htmlString);
-	if (commentMatch) {
-		return document.createComment(commentMatch[1]);
-	}
-
-	const tagName = /<([\w:]+)/.exec(htmlString)?.[1];
-
-	if (!tagName) {
-		return document.createTextNode(htmlString);
-	}
-
-	htmlString = htmlString.trim();
-
-	// Body support
-	if (tagName === 'body') {
-		const element = document.createElement('html');
-		element.innerHTML = htmlString;
-		const {lastChild} = element;
-		lastChild.remove();
-		return lastChild;
-	}
-
-	// Wrap map
-	let [depth, prefix, suffix] = Object.hasOwn(wrapMap, tagName) ? wrapMap[tagName] : wrapMap._default;
-	let element = document.createElement('div');
-	element.innerHTML = prefix + htmlString + suffix;
-	while (depth--) {
-		element = element.lastChild;
-	}
-
-	// One element
-	if (element.firstChild === element.lastChild) {
-		const {firstChild} = element;
-		firstChild.remove();
-		return firstChild;
-	}
-
-	// Several elements
-	const fragment = document.createDocumentFragment();
-	fragment.append(...element.childNodes);
-
-	return fragment;
-}
-
-module.exports = domify;
 
 
 /***/ }),

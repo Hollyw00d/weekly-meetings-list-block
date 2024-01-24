@@ -1,4 +1,4 @@
-import { useEffect } from "@wordpress/element";
+import { useMemo, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
@@ -16,8 +16,7 @@ import FilterNotifications from "./js/components/filterNotifications";
 import "./js/filters-store";
 import "./editor.scss";
 
-// function Edit({ attributes, setAttributes, clientId }) {
-export default function Edit(props) {
+export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		tableTitle,
 		citiesArr,
@@ -28,32 +27,29 @@ export default function Edit(props) {
 		groupTypeHeading,
 		meetingNameHeading,
 		groupInfoHeading,
-	} = props.attributes;
+	} = attributes;
 
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
 
 	const childBlocks = useSelect(
-		(select) =>
-			select(blockStore).getBlocksByClientId(props.clientId)[0].innerBlocks
+		(select) => select(blockStore).getBlocksByClientId(clientId)[0].innerBlocks
 	);
 
 	const tableTitleChange = (val) => {
-		props.setAttributes({ tableTitle: val });
+		setAttributes({ tableTitle: val });
 	};
 
 	const isEditPage = true;
 
 	// Code to test in console:
 	// wp.data.select('weekly-meetings-list/filters').getFilters();
-	const filtersData = useSelect((select) => {
+	const filtersArr = useSelect((select) => {
 		const store = select("weekly-meetings-list/filters");
 		if (!store) {
 			return null;
 		}
 
-		return {
-			filters: store.getFilters(),
-		};
+		return store.getFilters();
 	});
 
 	useEffect(() => {
@@ -83,7 +79,7 @@ export default function Edit(props) {
 			const toSetCities = new Set(newCitiesArr);
 			const newCitiesArrNoDupes = [...toSetCities];
 			const citiesArrSorted = newCitiesArrNoDupes.sort(byString());
-			props.setAttributes({ citiesArr: citiesArrSorted });
+			setAttributes({ citiesArr: citiesArrSorted });
 
 			const toSetAdditionalGroups = new Set(additionalGroupTypesArr);
 			const additionalGroupsNoDupes = [...toSetAdditionalGroups];
@@ -99,14 +95,14 @@ export default function Edit(props) {
 				...additionalGroupsClean,
 			];
 
-			props.setAttributes({ groupTypesArr: finalGroupTypesClean });
+			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
-			console.log("filtersData.filters");
-			console.log(filtersData.filters);
+			console.log("filtersArr");
+			console.log(filtersArr);
 		}
-	}, [childBlocks, filtersData.filters]);
+	}, [childBlocks, filtersArr]);
 
-	// const filtersData = useSelect((select) => {
+	// const filtersArr = useSelect((select) => {
 	// 	const store = select("weekly-meetings-list/filters");
 	// 	if (!store) {
 	// 		return null;
@@ -117,8 +113,8 @@ export default function Edit(props) {
 	// 	};
 	// });
 
-	// console.log("filtersData.filters");
-	// console.log(filtersData.filters);
+	// console.log("filtersArr.filters");
+	// console.log(filtersArr.filters);
 
 	return (
 		<div {...useBlockProps()}>
@@ -136,7 +132,7 @@ export default function Edit(props) {
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
 			/>
-			<table>
+			{/* <table>
 				<caption>TEST</caption>
 				{childBlocks.map((item) => {
 					let tr = parse(item.originalContent);
@@ -150,7 +146,7 @@ export default function Edit(props) {
 				console.log("tr");
 				console.log(tr);
 				return <p>{i}</p>;
-			})}
+			})} */}
 
 			<table>
 				<caption className="table-title">
