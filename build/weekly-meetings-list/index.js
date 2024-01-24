@@ -179,12 +179,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
+/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
 /* harmony import */ var html_react_parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! html-react-parser */ "./node_modules/html-react-parser/esm/index.mjs");
-/* harmony import */ var _js_components_filters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/components/filters */ "./src/weekly-meetings-list/js/components/filters.js");
-/* harmony import */ var _js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/components/filterNotifications */ "./src/weekly-meetings-list/js/components/filterNotifications.js");
-/* harmony import */ var _js_filters_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/filters-store */ "./src/weekly-meetings-list/js/filters-store/index.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
+/* harmony import */ var _js_utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/utilities */ "./src/weekly-meetings-list/js/utilities.js");
+/* harmony import */ var _js_components_filters__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/components/filters */ "./src/weekly-meetings-list/js/components/filters.js");
+/* harmony import */ var _js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/components/filterNotifications */ "./src/weekly-meetings-list/js/components/filterNotifications.js");
+/* harmony import */ var _js_filters_store__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/filters-store */ "./src/weekly-meetings-list/js/filters-store/index.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
+
 
 
 
@@ -203,6 +205,7 @@ function Edit({
   setAttributes,
   clientId
 }) {
+  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([""]);
   const {
     tableTitle,
     citiesArr,
@@ -214,6 +217,7 @@ function Edit({
     meetingNameHeading,
     groupInfoHeading
   } = attributes;
+  const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
   const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
   const tableTitleChange = val => {
@@ -222,9 +226,6 @@ function Edit({
     });
   };
   const isEditPage = true;
-
-  // Code to test in console:
-  // wp.data.select('weekly-meetings-list/filters').getFilters();
   const filtersArr = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     const store = select("weekly-meetings-list/filters");
     if (!store) {
@@ -253,13 +254,13 @@ function Edit({
       });
       const toSetCities = new Set(newCitiesArr);
       const newCitiesArrNoDupes = [...toSetCities];
-      const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_10__.byString)());
+      const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_11__.byString)());
       setAttributes({
         citiesArr: citiesArrSorted
       });
       const toSetAdditionalGroups = new Set(additionalGroupTypesArr);
       const additionalGroupsNoDupes = [...toSetAdditionalGroups];
-      const additionalGroupsSorted = additionalGroupsNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_10__.byString)());
+      const additionalGroupsSorted = additionalGroupsNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_11__.byString)());
       const additionalGroupsClean = additionalGroupsSorted.filter(Boolean);
       const toSetGroupTypes = new Set(newGroupTypesArr);
       const newGroupTypesNoDupes = [...toSetGroupTypes];
@@ -268,6 +269,7 @@ function Edit({
       setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
+      setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
       console.log("filtersArr");
       console.log(filtersArr);
     }
@@ -280,13 +282,13 @@ function Edit({
     label: "Example: 'Seattle Book Club'",
     value: tableTitle,
     onChange: tableTitleChange
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filters__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filters__WEBPACK_IMPORTED_MODULE_7__["default"], {
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_7__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "print"
   }, "Print Meeting Schedule", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "(ONLY WORKS ON LIVE PAGE)")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
     role: "row"
@@ -614,6 +616,417 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const UPDATE_FILTER = "UPDATE_FILTER";
 const OUTPUT_FILTERS = "OUTPUT_FILTERS";
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/utilities.js":
+/*!**************************************************!*\
+  !*** ./src/weekly-meetings-list/js/utilities.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Utilities; }
+/* harmony export */ });
+/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
+
+class Utilities {
+  filterEvents(parentElemsSelector, isEditor = true) {
+    const parentElems = document.querySelectorAll(parentElemsSelector);
+    if (parentElems.length === 0) {
+      return;
+    }
+    parentElems.forEach((parentElem, i) => {
+      var _filtersWrapper$query, _parentElem$querySele;
+      const table = parentElem.querySelector("table");
+      const currentTbody = parentElem.querySelector("tbody");
+      const currentTableRows = parentElem.querySelectorAll("tbody tr");
+      const filtersWrapper = parentElem.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
+      const editingLockedMsg = (_filtersWrapper$query = filtersWrapper.querySelector(".editing-locked-msg")) !== null && _filtersWrapper$query !== void 0 ? _filtersWrapper$query : null;
+      const innerBlockEditElem = (_parentElem$querySele = parentElem.querySelector(".block-editor-inner-blocks")) !== null && _parentElem$querySele !== void 0 ? _parentElem$querySele : null;
+      const dayOfWeekClassName = "day-of-week-filter";
+      const cityClassName = "city-filter";
+      const groupTypeClassName = "group-type-filter";
+      const startTimeClassName = "start-time-filter";
+      if (!isEditor && editingLockedMsg) {
+        editingLockedMsg.remove();
+      }
+      let selectTagFilters = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+      this.resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem);
+      document.body.addEventListener("change", e => {
+        var _table$querySelector, _table$querySelector2;
+        const filterClassName = e.target.className;
+        let onStartTimeFilter = false;
+        let selectedElem = e.target;
+        switch (filterClassName) {
+          case startTimeClassName:
+            onStartTimeFilter = true;
+            let getNewTbody = (_table$querySelector = table.querySelector("tbody.copied-data")) !== null && _table$querySelector !== void 0 ? _table$querySelector : null;
+            if (!getNewTbody) {
+              this.setupFilterHandler(table, currentTbody, currentTableRows);
+            }
+            let selectTagFilters2 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+            this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+            this.filterNotification(parentElem, selectTagFilters2);
+            return;
+          case dayOfWeekClassName:
+          case cityClassName:
+          case groupTypeClassName:
+            onStartTimeFilter = false;
+            const getNewTbody2 = (_table$querySelector2 = table.querySelector("tbody.copied-data")) !== null && _table$querySelector2 !== void 0 ? _table$querySelector2 : null;
+            if (!getNewTbody2) {
+              this.setupFilterHandler(table, currentTbody, currentTableRows);
+            }
+            let selectTagFilters3 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+            this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+            this.filterNotification(parentElem, selectTagFilters3);
+            return;
+        }
+      });
+    });
+  }
+  setupFilterHandler(table, currentTbody, currentTableRows) {
+    var _table$querySelector3;
+    if (!currentTbody.classList.contains("hide")) {
+      currentTbody.classList.add("hide");
+    }
+    const newTbodyCheck = (_table$querySelector3 = table.querySelector("tbody.copied-data")) !== null && _table$querySelector3 !== void 0 ? _table$querySelector3 : null;
+    if (newTbodyCheck) {
+      newTbodyCheck.remove();
+    }
+    const newTbody = document.createElement("tbody");
+    newTbody.classList.add("copied-data");
+    if (newTbody.classList.contains("hide")) {
+      newTbody.classList.remove("hide");
+    }
+    if (this.isElemEmpty(newTbody)) {
+      currentTableRows.forEach(tr => {
+        const newTr = tr.cloneNode(true);
+        newTbody.appendChild(newTr);
+      });
+      table.appendChild(newTbody);
+    }
+    const newTbodyRows = newTbody.querySelectorAll("tr");
+    newTbodyRows.forEach((tr, i) => {
+      const origOrder = i + 1;
+      tr.setAttribute("data-original-order", origOrder);
+    });
+  }
+  showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter) {
+    const getNewTbody = parentElem.querySelector("tbody.copied-data");
+    const newTbodyRows = getNewTbody.querySelectorAll("tr");
+    let selectTagFilters = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+    let {
+      filtersArr
+    } = this.filtersArr(selectTagFilters);
+    let {
+      optionsTagValues
+    } = this.filtersArr(selectTagFilters);
+
+    // Show ONLY `select.start-time-filter` filter
+    if (onStartTimeFilter) {
+      if (filtersArr.length === 1 && filtersArr[0] === "") {
+        this.filterResetHandler(getNewTbody, currentTbody);
+        this.toggleEditingLockedMsg(filtersWrapper, false);
+        return;
+      } else {
+        this.sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper);
+      }
+      return;
+    }
+    // No filter active, or show ALL meetings
+    else if (filtersArr.length === 1 && filtersArr[0] === "") {
+      this.filterResetHandler(getNewTbody, currentTbody);
+      this.toggleEditingLockedMsg(filtersWrapper, false);
+      return;
+    }
+    // Show meetings with filters EXCLUDING `select.start-time-filter` filter
+    else {
+      newTbodyRows.forEach(tr => {
+        let selectTagFilterStr = JSON.stringify(optionsTagValues);
+        let dayVal = tr.getAttribute("data-filter-day");
+        let cityVal = tr.getAttribute("data-filter-city");
+        let groupTypeVal = null;
+        switch (true) {
+          case selectTagFilterStr.indexOf("location~") !== -1:
+            groupTypeVal = tr.getAttribute("data-location-group-type");
+            break;
+          case selectTagFilterStr.indexOf("access~") !== -1:
+            groupTypeVal = tr.getAttribute("data-access-group-type");
+            break;
+          case selectTagFilterStr.indexOf("gender~") !== -1:
+            groupTypeVal = tr.getAttribute("data-gender-group-type");
+            break;
+          default:
+            groupTypeVal = tr.getAttribute("data-additional-group-type");
+            break;
+        }
+        let dataSetArr = [dayVal, cityVal, groupTypeVal];
+        let dataSetArrMatched = [];
+        let optionsTagValuesMatched = [];
+        dataSetArr.forEach((val, i) => {
+          if (optionsTagValues[i] !== "") {
+            dataSetArrMatched.push(val);
+            optionsTagValuesMatched.push(optionsTagValues[i]);
+          }
+        });
+        const dataSetArrJson = JSON.stringify(dataSetArrMatched);
+        const optionsTagValuesJson = JSON.stringify(optionsTagValuesMatched);
+        if (dataSetArrJson === optionsTagValuesJson) {
+          tr.classList.remove("hide");
+        } else {
+          tr.classList.add("hide");
+        }
+      });
+      const getNewTbody2 = parentElem.querySelector("tbody.copied-data");
+      this.alternateRowColor(getNewTbody2);
+      this.toggleEditingLockedMsg(filtersWrapper, true);
+    }
+  }
+  sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper) {
+    var _getParentElem$queryS;
+    const getParentElem = selectedElem.closest(parentElemsSelector);
+    const getNewTbody = (_getParentElem$queryS = getParentElem.querySelector("tbody.copied-data")) !== null && _getParentElem$queryS !== void 0 ? _getParentElem$queryS : null;
+    if (!getNewTbody) {
+      return;
+    }
+    const newTbodyRows = getNewTbody.querySelectorAll("tr");
+    const selectVal = selectedElem.value;
+    const rowsArr = Array.from(newTbodyRows);
+    if (selectVal === "asc~") {
+      let sortedTimeAscArr = rowsArr.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byValue)(i => i.getAttribute("data-start-time"), (0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byString)()));
+      this.emptyElem(getNewTbody);
+      getNewTbody.append(...sortedTimeAscArr);
+    } else if (selectVal === "desc~") {
+      let sortedTimeDescArr = rowsArr.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byValue)(i => i.getAttribute("data-start-time"), (0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byString)({
+        desc: true
+      })));
+      this.emptyElem(getNewTbody);
+      getNewTbody.append(...sortedTimeDescArr);
+    } else {
+      let originalSortedTime = rowsArr.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byValue)(i => Number(i.getAttribute("data-original-order")), (0,sort_es__WEBPACK_IMPORTED_MODULE_0__.byNumber)()));
+      this.emptyElem(getNewTbody);
+      getNewTbody.append(...originalSortedTime);
+    }
+    const getNewTbody3 = getParentElem.querySelector("tbody.copied-data");
+    this.alternateRowColor(getNewTbody3);
+    this.toggleEditingLockedMsg(filtersWrapper, true);
+  }
+  filtersArr(selectTagFilters) {
+    let optionsTagValues = [];
+    let optionsTagText = [];
+    selectTagFilters.forEach(elem => {
+      let val = elem.options[elem.selectedIndex].value;
+      let text = elem.options[elem.selectedIndex].text;
+      optionsTagValues.push(val);
+      optionsTagText.push(text);
+    });
+    const filtersToSet = new Set(optionsTagValues);
+    const filtersArr = [...filtersToSet];
+    const optionsTagTextSet = new Set(optionsTagText);
+    const optionsTagTextNewArr = [...optionsTagTextSet];
+    optionsTagText = optionsTagTextNewArr.filter(Boolean);
+    return {
+      filtersArr,
+      optionsTagValues,
+      optionsTagText
+    };
+  }
+  filterResetHandler(getNewTbody, currentTbody) {
+    getNewTbody.remove();
+    currentTbody.classList.remove("hide");
+  }
+  alternateRowColor(getNewTbody) {
+    const newTbodyRows = getNewTbody.querySelectorAll("tr:not(.hide)");
+    newTbodyRows.forEach((tr, i) => {
+      tr.classList.remove("bg-light-gray");
+      tr.classList.remove("bg-white");
+      if (i % 2 === 0) {
+        tr.classList.add("bg-light-gray");
+        return;
+      }
+      tr.classList.add("bg-white");
+    });
+  }
+  toggleEditingLockedMsg(filtersWrapper, bool) {
+    const editingLockedMsg = filtersWrapper.querySelector(".editing-locked-msg");
+    if (!filtersWrapper || !editingLockedMsg) {
+      return;
+    }
+    if (bool) {
+      if (editingLockedMsg.classList.contains("hide")) {
+        editingLockedMsg.classList.remove("hide");
+      }
+      return;
+    }
+    editingLockedMsg.classList.add("hide");
+  }
+  getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName) {
+    const getSelectTagFilters = [parentElem.querySelector(`select.${dayOfWeekClassName}`), parentElem.querySelector(`select.${cityClassName}`), parentElem.querySelector(`select.${groupTypeClassName}`), parentElem.querySelector(`select.${startTimeClassName}`)];
+    return getSelectTagFilters;
+  }
+  filterNotification(parentElem, selectTagFilters) {
+    var _parentElem$querySele2;
+    const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
+    const tbodyRowsShown = parentElem.querySelectorAll("tbody.copied-data tr:not(.hide)");
+    const notification = (_parentElem$querySele2 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele2 !== void 0 ? _parentElem$querySele2 : null;
+    const {
+      filtersArr
+    } = this.filtersArr(selectTagFilters);
+    const {
+      optionsTagValues
+    } = this.filtersArr(selectTagFilters);
+    const {
+      optionsTagText
+    } = this.filtersArr(selectTagFilters);
+    const optionsTagTextSelected = [];
+    let filtersStr = null;
+    switch (true) {
+      case filtersArr.length === 1 && filtersArr[0] === "":
+        if (notification) {
+          notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
+        }
+        return;
+      case tbodyRowsShown.length === 0:
+        filtersStr = this.selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected);
+        if (notification) {
+          notification.innerHTML = `Showing ${tbodyRowsShown.length} Meeting(s) when filter(s) selected:<br />${filtersStr}`;
+        }
+        return;
+      default:
+        filtersStr = this.selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected);
+        if (notification) {
+          notification.innerHTML = `Showing ${tbodyRowsShown.length} Meetings when filter(s) selected:<br />${filtersStr}`;
+        }
+    }
+  }
+  resetFilters(parentElem, selectTagFilters, currentTbody) {
+    const resetBtn = parentElem.querySelector(".wp-block-create-block-meetings-table-block_reset-btn");
+    resetBtn.addEventListener("click", e => {
+      var _btnParent$querySelec, _parentElem$querySele3;
+      const btnClicked = e.target;
+      const btnParent = btnClicked.closest(".wp-block-create-block-meetings-table-block");
+      const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
+      const newTbody = (_btnParent$querySelec = btnParent.querySelector("table tbody.copied-data")) !== null && _btnParent$querySelec !== void 0 ? _btnParent$querySelec : null;
+      const filtersWrapper = btnParent.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
+      if (!newTbody) {
+        return;
+      }
+      this.toggleEditingLockedMsg(filtersWrapper, false);
+      selectTagFilters.forEach(elem => {
+        elem.value = "";
+      });
+      const notification = (_parentElem$querySele3 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele3 !== void 0 ? _parentElem$querySele3 : null;
+      if (notification) {
+        notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
+      }
+      newTbody.remove();
+      currentTbody.classList.remove("hide");
+    });
+  }
+  isElemEmpty(elem) {
+    if (elem.childNodes.length === 0) {
+      return true;
+    }
+    return false;
+  }
+  emptyElem(elem) {
+    elem.textContent = "";
+  }
+  selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected) {
+    optionsTagValues.map((val, i) => {
+      if (val !== "") {
+        optionsTagTextSelected.push(optionsTagText[i]);
+      }
+    });
+    const textJoined = optionsTagTextSelected.join(", ");
+    return textJoined;
+  }
+  removeDupesFromArr(arr) {
+    const setFromArr = new Set(arr);
+    const newArr = [...setFromArr];
+    return newArr;
+  }
+
+  // START: used in view.js ONLY
+  onPrintEvents(btns, showPrintClass, hidePrintClass) {
+    btns.forEach(btn => {
+      btn.addEventListener("click", e => {
+        const allElems = document.querySelectorAll("*");
+        this.hideAllElemsOnPrint(allElems);
+        const currentBtn = e.target;
+        const table = currentBtn.closest("table");
+        currentBtn.classList.remove("wp-block-create-block-meetings-table-block_show-print");
+        currentBtn.classList.add("wp-block-create-block-meetings-table-block_hide-print");
+        this.updateParentElemClasses(currentBtn, showPrintClass, hidePrintClass);
+        const tableChildElems = this.getAllDescendants(table);
+        tableChildElems.forEach(child => {
+          if (child.classList) {
+            child.classList.remove("wp-block-create-block-meetings-table-block_hide-print");
+            child.classList.add("wp-block-create-block-meetings-table-block_show-print");
+          }
+        });
+        window.print();
+      });
+    });
+  }
+  hideAllElemsOnPrint(allElems) {
+    allElems.forEach(elem => {
+      const nodeTag = elem.nodeName.toUpperCase();
+      if (nodeTag !== "HTML") {
+        elem.classList.remove("wp-block-create-block-meetings-table-block_show-print");
+        elem.classList.add("wp-block-create-block-meetings-table-block_hide-print");
+      }
+    });
+  }
+  updateParentElemClasses(elem, addClass, removeClass) {
+    let getParent = elem.parentNode;
+    getParent.classList.add(addClass);
+    getParent.classList.remove(removeClass);
+    let parentNodeName = getParent.nodeName.toUpperCase();
+    while (parentNodeName) {
+      if (parentNodeName === "BODY" || !parentNodeName) {
+        break;
+      }
+      getParent = getParent.parentNode;
+      getParent.classList.add(addClass);
+      getParent.classList.remove(removeClass);
+      parentNodeName = getParent?.nodeName.toUpperCase();
+    }
+  }
+  exitPrintEvents(showPrintClass, hidePrintClass) {
+    const afterPrint = function () {
+      const printableElemsArr = Array.from(document.getElementsByClassName(showPrintClass));
+      const notPrintableElemsArr = Array.from(document.getElementsByClassName(hidePrintClass));
+      const elems = [...printableElemsArr, ...notPrintableElemsArr];
+      elems.forEach(elem => {
+        elem.classList.remove(showPrintClass);
+        elem.classList.remove(hidePrintClass);
+      });
+    };
+    const mediaQueryList = window.matchMedia("print");
+    mediaQueryList.addListener(function (e) {
+      if (!e.matches) {
+        afterPrint();
+      }
+    });
+  }
+  getAllDescendants(node) {
+    let arr = [];
+    getDescendants(node);
+    function getDescendants(node) {
+      for (var i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+        getDescendants(child);
+        arr.push(child);
+      }
+    }
+    return arr;
+  }
+  // END: used in view.js ONLY
+}
 
 /***/ }),
 

@@ -423,7 +423,7 @@ export default class Utilities {
 		}
 	}
 
-	resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem) {
+	resetFilters(parentElem, selectTagFilters, currentTbody) {
 		const resetBtn = parentElem.querySelector(
 			".wp-block-create-block-meetings-table-block_reset-btn"
 		);
@@ -483,6 +483,12 @@ export default class Utilities {
 
 		const textJoined = optionsTagTextSelected.join(", ");
 		return textJoined;
+	}
+
+	removeDupesFromArr(arr) {
+		const setFromArr = new Set(arr);
+		const newArr = [...setFromArr];
+		return newArr;
 	}
 
 	// START: used in view.js ONLY

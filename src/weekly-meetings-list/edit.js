@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "@wordpress/element";
+import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
@@ -11,12 +11,15 @@ import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
 import domify from "domify";
+import Utilities from "./js/utilities";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
 import "./js/filters-store";
 import "./editor.scss";
 
 export default function Edit({ attributes, setAttributes, clientId }) {
+	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState([""]);
+
 	const {
 		tableTitle,
 		citiesArr,
@@ -28,6 +31,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		meetingNameHeading,
 		groupInfoHeading,
 	} = attributes;
+
+	const utilities = new Utilities();
 
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
 
@@ -41,8 +46,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	const isEditPage = true;
 
-	// Code to test in console:
-	// wp.data.select('weekly-meetings-list/filters').getFilters();
 	const filtersArr = useSelect((select) => {
 		const store = select("weekly-meetings-list/filters");
 		if (!store) {
@@ -96,6 +99,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			];
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
+
+			setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
 
 			console.log("filtersArr");
 			console.log(filtersArr);
