@@ -173,12 +173,24 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</th>
 					</tr>
 				</thead>
-				<tbody className="original-data" colspan="6">
+				<tbody
+					className={
+						filtersArrNoDupes.length === 1
+							? `original-data`
+							: `original-data hide`
+					}
+					colspan="6"
+				>
 					<InnerBlocks
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>
-					<tbody class="copied-data hide"></tbody>
 				</tbody>
+				{filtersArrNoDupes.length > 1 ? (
+					<tbody class="copied-data"></tbody>
+				) : (
+					<></>
+				)}
+				{null}
 			</table>
 		</div>
 	);

@@ -311,13 +311,13 @@ function Edit({
     role: "columnheader",
     scope: "col"
   }, groupInfoHeadingToHtml))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
-    className: "original-data",
+    className: filtersArrNoDupes.length === 1 ? `original-data` : `original-data hide`,
     colspan: "6"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ["create-block/meetings-table-row-block"]
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
-    class: "copied-data hide"
-  }))));
+  })), filtersArrNoDupes.length > 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
+    class: "copied-data"
+  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), null));
 }
 
 /***/ }),
