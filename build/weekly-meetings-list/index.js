@@ -272,21 +272,6 @@ function Edit({
       console.log(filtersArr);
     }
   }, [childBlocks, filtersArr]);
-
-  // const filtersArr = useSelect((select) => {
-  // 	const store = select("weekly-meetings-list/filters");
-  // 	if (!store) {
-  // 		return null;
-  // 	}
-
-  // 	return {
-  // 		filters: store.getFilters(),
-  // 	};
-  // });
-
-  // console.log("filtersArr.filters");
-  // console.log(filtersArr.filters);
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -439,6 +424,15 @@ function Filters({
   const dayOfWeekEvent = e => {
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
   };
+  const citiesEvent = e => {
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(e.target.value, 1);
+  };
+  const groupTypeEvent = e => {
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(e.target.value, 2);
+  };
+  const startTimeEvent = e => {
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(e.target.value, 3);
+  };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
   }, editorMsg, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -462,17 +456,20 @@ function Filters({
     }, label);
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Meeting City:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "city-filter",
-    name: "cities"
+    name: "cities",
+    onChange: citiesEvent
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
     value: ""
   }, "Show All Cities"), cities))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Group Type:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "group-type-filter",
-    name: "group types"
+    name: "group types",
+    onChange: groupTypeEvent
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
     value: ""
   }, "Show All Group Types"), groupTypes))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Meeting Start Time:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "start-time-filter",
-    name: "meeting start times"
+    name: "meeting start times",
+    onChange: startTimeEvent
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
     value: ""
   }, "Show All Meetings Times"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {

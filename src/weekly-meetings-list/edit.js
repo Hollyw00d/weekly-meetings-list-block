@@ -102,20 +102,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		}
 	}, [childBlocks, filtersArr]);
 
-	// const filtersArr = useSelect((select) => {
-	// 	const store = select("weekly-meetings-list/filters");
-	// 	if (!store) {
-	// 		return null;
-	// 	}
-
-	// 	return {
-	// 		filters: store.getFilters(),
-	// 	};
-	// });
-
-	// console.log("filtersArr.filters");
-	// console.log(filtersArr.filters);
-
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>

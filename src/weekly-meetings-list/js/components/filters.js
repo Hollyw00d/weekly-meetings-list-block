@@ -48,6 +48,18 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
 	};
 
+	const citiesEvent = (e) => {
+		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 1);
+	};
+
+	const groupTypeEvent = (e) => {
+		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 2);
+	};
+
+	const startTimeEvent = (e) => {
+		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 3);
+	};
+
 	return (
 		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
 			{editorMsg}
@@ -84,7 +96,11 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 				<label>
 					<div>Meeting City:</div>
 					<div>
-						<select className="city-filter" name="cities">
+						<select
+							className="city-filter"
+							name="cities"
+							onChange={citiesEvent}
+						>
 							<option value="">Show All Cities</option>
 							{cities}
 						</select>
@@ -94,7 +110,11 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 				<label>
 					<div>Group Type:</div>
 					<div>
-						<select className="group-type-filter" name="group types">
+						<select
+							className="group-type-filter"
+							name="group types"
+							onChange={groupTypeEvent}
+						>
 							<option value="">Show All Group Types</option>
 							{groupTypes}
 						</select>
@@ -104,7 +124,11 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 				<label>
 					<div>Meeting Start Time:</div>
 					<div>
-						<select className="start-time-filter" name="meeting start times">
+						<select
+							className="start-time-filter"
+							name="meeting start times"
+							onChange={startTimeEvent}
+						>
 							<option value="">Show All Meetings Times</option>
 							<option value="asc~">Show Earliest to Latest Meetings</option>
 							<option value="desc~">Show Latest to Earliest Meetings</option>
