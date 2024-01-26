@@ -19,7 +19,11 @@ import "./js/filters-store";
 import "./editor.scss";
 
 export default function Edit({ attributes, setAttributes, clientId }) {
-	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState([""]);
+	const newMap = new Map();
+
+	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
+		newMap.set(`clientId_${clientId}`, [""])
+	);
 
 	const {
 		tableTitle,
@@ -101,7 +105,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
-			setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
+			// setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
+			setFiltersArrNoDupes(
+				(map) =>
+					new Map(
+						map.set(
+							`clientId_${clientId}`,
+							utilities.removeDupesFromArr(filtersArr)
+						)
+					)
+			);
 		}
 	}, [childBlocks, filtersArr]);
 
@@ -158,7 +171,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</thead>
 				<tbody
 					className={
-						filtersArrNoDupes.length === 1
+						filtersArrNoDupes.get(`clientId_${clientId}`).length === 1
 							? `original-data`
 							: `original-data hide`
 					}
@@ -168,7 +181,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>
 				</tbody>
-				{filtersArrNoDupes.length > 1 ? (
+				{filtersArrNoDupes.get(`clientId_${clientId}`).length > 1 ? (
 					<FilteredTableRows
 						filtersArr={filtersArr}
 						childBlocks={childBlocks}
