@@ -121,21 +121,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
 			/>
-			{/* <table>
-				<caption>TEST</caption>
-				{childBlocks.map((item) => {
-					let tr = parse(item.originalContent);
-					return <>{tr}</>;
-				})}
-			</table>
-
-			{childBlocks.map((item, i) => {
-				let tr = domify(item.originalContent);
-				tr.setAttribute("data-blah", "blah");
-				console.log("tr");
-				console.log(tr);
-				return <p>{i}</p>;
-			})} */}
 
 			<table>
 				<caption className="table-title">
