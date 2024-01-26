@@ -179,13 +179,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
+/* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
 /* harmony import */ var html_react_parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! html-react-parser */ "./node_modules/html-react-parser/esm/index.mjs");
 /* harmony import */ var _js_utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/utilities */ "./src/weekly-meetings-list/js/utilities.js");
 /* harmony import */ var _js_components_filters__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/components/filters */ "./src/weekly-meetings-list/js/components/filters.js");
 /* harmony import */ var _js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/components/filterNotifications */ "./src/weekly-meetings-list/js/components/filterNotifications.js");
-/* harmony import */ var _js_filters_store__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/filters-store */ "./src/weekly-meetings-list/js/filters-store/index.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
+/* harmony import */ var _js_components_filteredTableRows__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/components/filteredTableRows */ "./src/weekly-meetings-list/js/components/filteredTableRows.js");
+/* harmony import */ var _js_filters_store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./js/filters-store */ "./src/weekly-meetings-list/js/filters-store/index.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./editor.scss */ "./src/weekly-meetings-list/editor.scss");
+
 
 
 
@@ -254,13 +256,13 @@ function Edit({
       });
       const toSetCities = new Set(newCitiesArr);
       const newCitiesArrNoDupes = [...toSetCities];
-      const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_11__.byString)());
+      const citiesArrSorted = newCitiesArrNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_12__.byString)());
       setAttributes({
         citiesArr: citiesArrSorted
       });
       const toSetAdditionalGroups = new Set(additionalGroupTypesArr);
       const additionalGroupsNoDupes = [...toSetAdditionalGroups];
-      const additionalGroupsSorted = additionalGroupsNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_11__.byString)());
+      const additionalGroupsSorted = additionalGroupsNoDupes.sort((0,sort_es__WEBPACK_IMPORTED_MODULE_12__.byString)());
       const additionalGroupsClean = additionalGroupsSorted.filter(Boolean);
       const toSetGroupTypes = new Set(newGroupTypesArr);
       const newGroupTypesNoDupes = [...toSetGroupTypes];
@@ -270,8 +272,6 @@ function Edit({
         groupTypesArr: finalGroupTypesClean
       });
       setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
-      console.log("filtersArr");
-      console.log(filtersArr);
     }
   }, [childBlocks, filtersArr]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -315,8 +315,9 @@ function Edit({
     colspan: "6"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ["create-block/meetings-table-row-block"]
-  })), filtersArrNoDupes.length > 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
-    class: "copied-data"
+  })), filtersArrNoDupes.length > 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filteredTableRows__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    filtersArr: filtersArr,
+    childBlocks: childBlocks
   }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), null));
 }
 
@@ -368,6 +369,44 @@ function FilterNotifications() {
     role: "alert",
     "aria-live": "polite"
   });
+}
+
+/***/ }),
+
+/***/ "./src/weekly-meetings-list/js/components/filteredTableRows.js":
+/*!*********************************************************************!*\
+  !*** ./src/weekly-meetings-list/js/components/filteredTableRows.js ***!
+  \*********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ FilteredTableRows; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var html_react_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! html-react-parser */ "./node_modules/html-react-parser/esm/index.mjs");
+
+
+
+function FilteredTableRows({
+  filtersArr,
+  childBlocks
+}) {
+  // console.log("filtersArr");
+  // console.log(filtersArr);
+
+  // console.log("childBlocks");
+  // console.log(childBlocks);
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
+    class: "copied-data",
+    colspan: "6"
+  }, childBlocks.map(item => {
+    let tr = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_1__["default"])(item.originalContent);
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, tr);
+  }));
 }
 
 /***/ }),

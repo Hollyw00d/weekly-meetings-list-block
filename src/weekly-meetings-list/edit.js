@@ -14,6 +14,7 @@ import domify from "domify";
 import Utilities from "./js/utilities";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
+import FilteredTableRows from "./js/components/filteredTableRows";
 import "./js/filters-store";
 import "./editor.scss";
 
@@ -101,9 +102,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
 			setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
-
-			console.log("filtersArr");
-			console.log(filtersArr);
 		}
 	}, [childBlocks, filtersArr]);
 
@@ -186,7 +184,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 				</tbody>
 				{filtersArrNoDupes.length > 1 ? (
-					<tbody class="copied-data"></tbody>
+					<FilteredTableRows
+						filtersArr={filtersArr}
+						childBlocks={childBlocks}
+					/>
 				) : (
 					<></>
 				)}
