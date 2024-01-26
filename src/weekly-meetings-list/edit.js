@@ -10,7 +10,6 @@ import { PanelBody, TextControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
-import domify from "domify";
 import Utilities from "./js/utilities";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
@@ -22,7 +21,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const newMap = new Map();
 
 	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
-		newMap.set(`clientId_${clientId}`, [""])
+		newMap.set(`filtersArrNoDupes_${clientId}`, [""])
 	);
 
 	const {
@@ -105,12 +104,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
-			// setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
 			setFiltersArrNoDupes(
 				(map) =>
 					new Map(
 						map.set(
-							`clientId_${clientId}`,
+							`filtersArrNoDupes_${clientId}`,
 							utilities.removeDupesFromArr(filtersArr)
 						)
 					)
@@ -133,6 +131,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
+				clientId={clientId}
 			/>
 
 			<table>
@@ -171,7 +170,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</thead>
 				<tbody
 					className={
-						filtersArrNoDupes.get(`clientId_${clientId}`).length === 1
+						filtersArrNoDupes.get(`filtersArrNoDupes_${clientId}`).length === 1
 							? `original-data`
 							: `original-data hide`
 					}
@@ -181,7 +180,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>
 				</tbody>
-				{filtersArrNoDupes.get(`clientId_${clientId}`).length > 1 ? (
+				{filtersArrNoDupes.get(`filtersArrNoDupes_${clientId}`).length > 1 ? (
 					<FilteredTableRows
 						filtersArr={filtersArr}
 						childBlocks={childBlocks}

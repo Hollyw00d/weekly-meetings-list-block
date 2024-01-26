@@ -201,14 +201,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 function Edit({
   attributes,
   setAttributes,
   clientId
 }) {
   const newMap = new Map();
-  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(`clientId_${clientId}`, [""]));
+  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(`filtersArrNoDupes_${clientId}`, [""]));
   const {
     tableTitle,
     citiesArr,
@@ -272,9 +271,7 @@ function Edit({
       setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-
-      // setFiltersArrNoDupes(utilities.removeDupesFromArr(filtersArr));
-      setFiltersArrNoDupes(map => new Map(map.set(`clientId_${clientId}`, utilities.removeDupesFromArr(filtersArr))));
+      setFiltersArrNoDupes(map => new Map(map.set(`filtersArrNoDupes_${clientId}`, utilities.removeDupesFromArr(filtersArr))));
     }
   }, [childBlocks, filtersArr]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -288,7 +285,8 @@ function Edit({
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filters__WEBPACK_IMPORTED_MODULE_7__["default"], {
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
-    isEditPage: isEditPage
+    isEditPage: isEditPage,
+    clientId: clientId
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -314,11 +312,11 @@ function Edit({
     role: "columnheader",
     scope: "col"
   }, groupInfoHeadingToHtml))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
-    className: filtersArrNoDupes.get(`clientId_${clientId}`).length === 1 ? `original-data` : `original-data hide`,
+    className: filtersArrNoDupes.get(`filtersArrNoDupes_${clientId}`).length === 1 ? `original-data` : `original-data hide`,
     colspan: "6"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ["create-block/meetings-table-row-block"]
-  })), filtersArrNoDupes.get(`clientId_${clientId}`).length > 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filteredTableRows__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  })), filtersArrNoDupes.get(`filtersArrNoDupes_${clientId}`).length > 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filteredTableRows__WEBPACK_IMPORTED_MODULE_9__["default"], {
     filtersArr: filtersArr,
     childBlocks: childBlocks
   }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), null));
@@ -442,7 +440,8 @@ __webpack_require__.r(__webpack_exports__);
 function Filters({
   citiesArr,
   groupTypesArr,
-  isEditPage
+  isEditPage,
+  clientId
 }) {
   const utilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__["default"]();
   const daysArr = utilities.generateDaysArr();
@@ -471,6 +470,21 @@ function Filters({
       class: "editing-locked-msg hide"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Meeting Edits are Locked while using Filters (Drop-Downs)!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "To edit meetings again change all drop-downs to the first options to show all all meetings, including:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Days of Week"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Cities"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "etc.")));
   }
+  console.log("clientId");
+  console.log(clientId);
+
+  /*
+  Map object examples:
+  
+  const map1 = new Map();
+  map1.set('a', 1);
+  map1.set('b', 2);
+  map1.set('c', 3);
+  	console.log(map1);
+  // Output:
+  // Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
+  */
+
   const dayOfWeekEvent = e => {
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
   };

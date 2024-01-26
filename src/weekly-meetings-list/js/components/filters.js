@@ -1,7 +1,12 @@
 import { dispatch } from "@wordpress/data";
 import Utilities from "../../../weekly-meetings-list-child/js/utilities";
 
-export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
+export default function Filters({
+	citiesArr,
+	groupTypesArr,
+	isEditPage,
+	clientId,
+}) {
 	const utilities = new Utilities();
 	const daysArr = utilities.generateDaysArr();
 
@@ -43,6 +48,22 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 			</div>
 		);
 	}
+
+	console.log("clientId");
+	console.log(clientId);
+
+	/*
+	Map object examples:
+	
+	const map1 = new Map();
+	map1.set('a', 1);
+	map1.set('b', 2);
+	map1.set('c', 3);
+
+	console.log(map1);
+	// Output:
+	// Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
+	*/
 
 	const dayOfWeekEvent = (e) => {
 		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
