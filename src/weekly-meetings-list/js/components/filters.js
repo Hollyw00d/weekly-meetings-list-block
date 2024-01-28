@@ -49,8 +49,8 @@ export default function Filters({
 		);
 	}
 
-	console.log("uniqueId");
-	console.log(uniqueId);
+	// console.log("uniqueId");
+	// console.log(uniqueId);
 
 	// wp.data.select('weekly-meetings-list/filters').getFilters();
 
@@ -67,20 +67,38 @@ export default function Filters({
 	// Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
 	*/
 
+	// const mapObj = new Map();
+
 	const dayOfWeekEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(0, e.target.value);
+		dispatch("weekly-meetings-list/filters").replaceFilter(
+			uniqueId,
+			0,
+			e.target.value
+		);
 	};
 
 	const citiesEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(1, e.target.value);
+		dispatch("weekly-meetings-list/filters").replaceFilter(
+			uniqueId,
+			1,
+			e.target.value
+		);
 	};
 
 	const groupTypeEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(2, e.target.value);
+		dispatch("weekly-meetings-list/filters").replaceFilter(
+			uniqueId,
+			2,
+			e.target.value
+		);
 	};
 
 	const startTimeEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(3, e.target.value);
+		dispatch("weekly-meetings-list/filters").replaceFilter(
+			uniqueId,
+			3,
+			e.target.value
+		);
 	};
 
 	return (

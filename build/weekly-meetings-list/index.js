@@ -222,7 +222,7 @@ function Edit({
     groupInfoHeading
   } = attributes;
   const newMap = new Map();
-  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(`filtersArrNoDupes_${uniqueId}`, [""]));
+  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(uniqueId, [""]));
   const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
   const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
@@ -241,7 +241,7 @@ function Edit({
   });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-      const newUniqueId = "blockid-" + clientId.substr(2, 9).replace("-", "");
+      const newUniqueId = clientId.substr(2, 9).replace("-", "");
       setAttributes({
         uniqueId: newUniqueId
       });
@@ -284,12 +284,18 @@ function Edit({
       setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-      setFiltersArrNoDupes(map => new Map(map.set(`filtersArrNoDupes_${uniqueId}`, utilities.removeDupesFromArr(filtersArr))));
+      if (uniqueId) {
+        setFiltersArrNoDupes(map => new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr))));
+      }
     }
   }, [childBlocks, filtersArr]);
+
+  // console.log("uniqueId");
+  // console.log(uniqueId);
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(),
-    "data-block-id": uniqueId
+    "data-unique-id": `block_${uniqueId}`
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: "Table Title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
@@ -300,7 +306,7 @@ function Edit({
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage,
-    uniqueId: uniqueId
+    uniqueId: `block_${uniqueId}`
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -326,14 +332,11 @@ function Edit({
     role: "columnheader",
     scope: "col"
   }, groupInfoHeadingToHtml))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
-    className: filtersArrNoDupes.get(`filtersArrNoDupes_${uniqueId}`).length === 1 ? `original-data` : `original-data hide`,
+    className: `original-data`,
     colspan: "6"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ["create-block/meetings-table-row-block"]
-  })), filtersArrNoDupes.get(`filtersArrNoDupes_${uniqueId}`).length > 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filteredTableRows__WEBPACK_IMPORTED_MODULE_9__["default"], {
-    filtersArr: filtersArr,
-    childBlocks: childBlocks
-  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), null));
+  }))));
 }
 
 /***/ }),
@@ -484,8 +487,9 @@ function Filters({
       class: "editing-locked-msg hide"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Meeting Edits are Locked while using Filters (Drop-Downs)!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "To edit meetings again change all drop-downs to the first options to show all all meetings, including:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Days of Week"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Cities"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "etc.")));
   }
-  console.log("uniqueId");
-  console.log(uniqueId);
+
+  // console.log("uniqueId");
+  // console.log(uniqueId);
 
   // wp.data.select('weekly-meetings-list/filters').getFilters();
 
@@ -501,17 +505,19 @@ function Filters({
   // Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
   */
 
+  // const mapObj = new Map();
+
   const dayOfWeekEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(0, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 0, e.target.value);
   };
   const citiesEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(1, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 1, e.target.value);
   };
   const groupTypeEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(2, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 2, e.target.value);
   };
   const startTimeEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(3, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 3, e.target.value);
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
@@ -576,9 +582,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
 
-const replaceFilter = (index, filter) => {
+const replaceFilter = (uniqueId, index, filter) => {
   return {
     type: _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER,
+    uniqueId,
     index,
     filter
   };
@@ -666,15 +673,37 @@ const getFilters = state => {
   return state.items;
 };
 const replaceFilter = (state, {
+  uniqueId,
   index,
   filter
 }) => {
-  if (state.items.length > index) {
-    return {
-      ...state,
-      items: [...state.items.slice(0, index), filter, ...state.items.slice(index + 1)]
-    };
-  }
+  var _state$items$find;
+  const objectIdExists = (_state$items$find = state.items.find(obj => obj.id === uniqueId)) !== null && _state$items$find !== void 0 ? _state$items$find : false;
+
+  // if (objectIdExists && state.items.length > index) {
+  // 	return {
+  // 		...state,
+  // 		items: [
+  // 			{
+  // 				id: uniqueId,
+  // 				arr: [
+
+  // 				]
+  // 			}
+  // 		]
+  // 	};
+  // }
+
+  // if (uniqueId && state.items.length > index) {
+  // 	return {
+  // 		...state,
+  // 		items: [
+  // 			...state.items.slice(0, index),
+  // 			filter,
+  // 			...state.items.slice(index + 1),
+  // 		],
+  // 	};
+  // }
   return state;
 };
 

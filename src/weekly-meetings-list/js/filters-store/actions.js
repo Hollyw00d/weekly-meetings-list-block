@@ -1,8 +1,9 @@
 import { UPDATE_FILTER } from "./types";
 
-export const replaceFilter = (index, filter) => {
+export const replaceFilter = (uniqueId, index, filter) => {
 	return {
 		type: UPDATE_FILTER,
+		uniqueId,
 		index,
 		filter,
 	};
