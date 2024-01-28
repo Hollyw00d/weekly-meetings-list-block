@@ -17,9 +17,12 @@ import FilteredTableRows from "./js/components/filteredTableRows";
 import "./js/filters-store";
 import "./editor.scss";
 
+// For storing unique block IDs
+const uniqueIds = [];
+
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
-		blockId,
+		uniqueId,
 		tableTitle,
 		citiesArr,
 		groupTypesArr,
@@ -34,7 +37,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const newMap = new Map();
 
 	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
-		newMap.set(`filtersArrNoDupes_${clientId}`, [""])
+		newMap.set(`filtersArrNoDupes_${uniqueId}`, [""])
 	);
 
 	const utilities = new Utilities();
@@ -61,7 +64,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	});
 
 	useEffect(() => {
-		setAttributes({ blockId: clientId });
+		if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
+			const newUniqueId = "blockid-" + clientId.substr(2, 9).replace("-", "");
+
+			setAttributes({ uniqueId: newUniqueId });
+			uniqueIds.push(newUniqueId);
+		} else {
+			uniqueIds.push(uniqueId);
+		}
 
 		let isArray = Array.isArray(childBlocks);
 		let newCitiesArr = [];
@@ -111,7 +121,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				(map) =>
 					new Map(
 						map.set(
-							`filtersArrNoDupes_${clientId}`,
+							`filtersArrNoDupes_${uniqueId}`,
 							utilities.removeDupesFromArr(filtersArr)
 						)
 					)
@@ -120,7 +130,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [childBlocks, filtersArr]);
 
 	return (
-		<div {...useBlockProps()}>
+		<div {...useBlockProps()} data-block-id={uniqueId}>
 			<InspectorControls>
 				<PanelBody title="Table Title">
 					<TextControl
@@ -134,7 +144,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
-				blockId={clientId}
+				uniqueId={uniqueId}
 			/>
 
 			<table>
@@ -173,7 +183,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</thead>
 				<tbody
 					className={
-						filtersArrNoDupes.get(`filtersArrNoDupes_${clientId}`).length === 1
+						filtersArrNoDupes.get(`filtersArrNoDupes_${uniqueId}`).length === 1
 							? `original-data`
 							: `original-data hide`
 					}
@@ -183,7 +193,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>
 				</tbody>
-				{filtersArrNoDupes.get(`filtersArrNoDupes_${clientId}`).length > 1 ? (
+				{filtersArrNoDupes.get(`filtersArrNoDupes_${uniqueId}`).length > 1 ? (
 					<FilteredTableRows
 						filtersArr={filtersArr}
 						childBlocks={childBlocks}
