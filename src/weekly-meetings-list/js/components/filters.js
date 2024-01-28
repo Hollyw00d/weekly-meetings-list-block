@@ -49,8 +49,10 @@ export default function Filters({
 		);
 	}
 
-	console.log("clientId");
-	console.log(clientId);
+	// console.log("clientId");
+	// console.log(clientId);
+
+	// wp.data.select('weekly-meetings-list/filters').getFilters();
 
 	/*
 	Map object examples:
@@ -66,19 +68,19 @@ export default function Filters({
 	*/
 
 	const dayOfWeekEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 0);
+		dispatch("weekly-meetings-list/filters").replaceFilter(0, e.target.value);
 	};
 
 	const citiesEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 1);
+		dispatch("weekly-meetings-list/filters").replaceFilter(1, e.target.value);
 	};
 
 	const groupTypeEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 2);
+		dispatch("weekly-meetings-list/filters").replaceFilter(2, e.target.value);
 	};
 
 	const startTimeEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(e.target.value, 3);
+		dispatch("weekly-meetings-list/filters").replaceFilter(3, e.target.value);
 	};
 
 	return (

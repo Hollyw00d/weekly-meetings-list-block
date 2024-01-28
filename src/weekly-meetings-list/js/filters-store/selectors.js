@@ -2,13 +2,13 @@ export const getFilters = (state) => {
 	return state.items;
 };
 
-export const replaceFilter = (state, { index, val }) => {
+export const replaceFilter = (state, { index, filter }) => {
 	if (state.items.length > index) {
 		return {
 			...state,
 			items: [
 				...state.items.slice(0, index),
-				val,
+				filter,
 				...state.items.slice(index + 1),
 			],
 		};
