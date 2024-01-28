@@ -5,7 +5,7 @@ export default function Filters({
 	citiesArr,
 	groupTypesArr,
 	isEditPage,
-	clientId,
+	blockId,
 }) {
 	const utilities = new Utilities();
 	const daysArr = utilities.generateDaysArr();
@@ -49,8 +49,8 @@ export default function Filters({
 		);
 	}
 
-	// console.log("clientId");
-	// console.log(clientId);
+	console.log("blockId");
+	console.log(blockId);
 
 	// wp.data.select('weekly-meetings-list/filters').getFilters();
 

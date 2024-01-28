@@ -18,13 +18,8 @@ import "./js/filters-store";
 import "./editor.scss";
 
 export default function Edit({ attributes, setAttributes, clientId }) {
-	const newMap = new Map();
-
-	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
-		newMap.set(`filtersArrNoDupes_${clientId}`, [""])
-	);
-
 	const {
+		blockId,
 		tableTitle,
 		citiesArr,
 		groupTypesArr,
@@ -35,6 +30,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		meetingNameHeading,
 		groupInfoHeading,
 	} = attributes;
+
+	const newMap = new Map();
+
+	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
+		newMap.set(`filtersArrNoDupes_${clientId}`, [""])
+	);
 
 	const utilities = new Utilities();
 
@@ -60,6 +61,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	});
 
 	useEffect(() => {
+		setAttributes({ blockId: clientId });
+
 		let isArray = Array.isArray(childBlocks);
 		let newCitiesArr = [];
 		let newGroupTypesArr = [];
@@ -131,7 +134,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
-				clientId={clientId}
+				blockId={clientId}
 			/>
 
 			<table>

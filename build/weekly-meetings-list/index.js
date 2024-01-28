@@ -206,9 +206,8 @@ function Edit({
   setAttributes,
   clientId
 }) {
-  const newMap = new Map();
-  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(`filtersArrNoDupes_${clientId}`, [""]));
   const {
+    blockId,
     tableTitle,
     citiesArr,
     groupTypesArr,
@@ -219,6 +218,8 @@ function Edit({
     meetingNameHeading,
     groupInfoHeading
   } = attributes;
+  const newMap = new Map();
+  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(`filtersArrNoDupes_${clientId}`, [""]));
   const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
   const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
@@ -236,6 +237,9 @@ function Edit({
     return store.getFilters();
   });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setAttributes({
+      blockId: clientId
+    });
     let isArray = Array.isArray(childBlocks);
     let newCitiesArr = [];
     let newGroupTypesArr = [];
@@ -286,7 +290,7 @@ function Edit({
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage,
-    clientId: clientId
+    blockId: clientId
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -441,7 +445,7 @@ function Filters({
   citiesArr,
   groupTypesArr,
   isEditPage,
-  clientId
+  blockId
 }) {
   const utilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__["default"]();
   const daysArr = utilities.generateDaysArr();
@@ -470,9 +474,8 @@ function Filters({
       class: "editing-locked-msg hide"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Meeting Edits are Locked while using Filters (Drop-Downs)!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "To edit meetings again change all drop-downs to the first options to show all all meetings, including:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Days of Week"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Cities"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "etc.")));
   }
-
-  // console.log("clientId");
-  // console.log(clientId);
+  console.log("blockId");
+  console.log(blockId);
 
   // wp.data.select('weekly-meetings-list/filters').getFilters();
 
@@ -4574,7 +4577,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module) {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/meetings-table-block","version":"0.1.0","title":"Weekly Meetings Block","category":"widgets","icon":"editor-table","description":"Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or another type of religious studies group.","attributes":{"tableTitle":{"type":"string","default":""},"citiesArr":{"type":"array","default":[]},"groupTypesArr":{"type":"array","default":[]},"dayOfWeekHeading":{"type":"string","default":"Day of Week"},"timeHeading":{"type":"string","default":"Time"},"cityHeading":{"type":"string","default":"City"},"groupTypeHeading":{"type":"string","default":"Group Type"},"meetingNameHeading":{"type":"string","default":"Meeting Name"},"groupInfoHeading":{"type":"string","default":"Address / Remote Group and<br />Contact Information"}},"example":{},"supports":{"html":false,"inserter":true,"multiple":true},"textdomain":"meetings-table-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/meetings-table-block","version":"0.1.0","title":"Weekly Meetings Block","category":"widgets","icon":"editor-table","description":"Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or another type of religious studies group.","attributes":{"blockId":{"type":"string"},"tableTitle":{"type":"string","default":""},"citiesArr":{"type":"array","default":[]},"groupTypesArr":{"type":"array","default":[]},"dayOfWeekHeading":{"type":"string","default":"Day of Week"},"timeHeading":{"type":"string","default":"Time"},"cityHeading":{"type":"string","default":"City"},"groupTypeHeading":{"type":"string","default":"Group Type"},"meetingNameHeading":{"type":"string","default":"Meeting Name"},"groupInfoHeading":{"type":"string","default":"Address / Remote Group and<br />Contact Information"}},"example":{},"supports":{"html":false,"inserter":true,"multiple":true},"textdomain":"meetings-table-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

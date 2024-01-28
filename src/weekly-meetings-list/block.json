@@ -8,6 +8,9 @@
 	"icon": "editor-table",
 	"description": "Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or another type of religious studies group.",
 	"attributes": {
+		"blockId": {
+			"type": "string"
+		},
 		"tableTitle": {
 			"type": "string",
 			"default": ""
