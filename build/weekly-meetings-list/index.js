@@ -221,8 +221,13 @@ function Edit({
     meetingNameHeading,
     groupInfoHeading
   } = attributes;
-  const newMap = new Map();
-  const [filtersArrNoDupes, setFiltersArrNoDupes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(newMap.set(uniqueId, [""]));
+
+  // const newMap = new Map();
+
+  // const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
+  // 	newMap.set(uniqueId, [""])
+  // );
+
   const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
   const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
@@ -241,7 +246,7 @@ function Edit({
   });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-      const newUniqueId = clientId.substr(2, 9).replace("-", "");
+      const newUniqueId = clientId.slice(2, 10).replace("-", "");
       setAttributes({
         uniqueId: newUniqueId
       });
@@ -284,11 +289,19 @@ function Edit({
       setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-      if (uniqueId) {
-        setFiltersArrNoDupes(map => new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr))));
-      }
+
+      // if (uniqueId) {
+      // 	setFiltersArrNoDupes(
+      // 		(map) =>
+      // 			new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr)))
+      // 	);
+      // }
+
       console.log("filtersArr");
       console.log(filtersArr);
+
+      // console.log("uniqueId");
+      // console.log(uniqueId);
     }
   }, [childBlocks, filtersArr]);
 
@@ -633,22 +646,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
 
 const DEFAULT_STATE = {
-  items: ["", "", "", ""]
+  items: {}
 };
+const DEFAULT_FILTERS = ["", "", "", ""];
 const reducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER:
       const {
+        uniqueId,
         index,
         filter
       } = action;
-      if (state.items.length > index) {
-        return {
-          ...state,
-          items: [...state.items.slice(0, index), filter, ...state.items.slice(index + 1)]
-        };
-      }
-      return state;
+      const uniqueIdKey = `${uniqueId}_filters`;
+
+      // if (!(uniqueIdKey in state.items)) {
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [uniqueIdKey]: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+        }
+      };
     case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
       return state;
     default:
@@ -679,13 +697,16 @@ const replaceFilter = (state, {
   index,
   filter
 }) => {
-  if (state.items.length > index) {
-    return {
-      ...state,
-      items: [...state.items.slice(0, index), filter, ...state.items.slice(index + 1)]
-    };
-  }
-  return state;
+  const uniqueIdKey = `${uniqueId}`;
+
+  // if (!(uniqueIdKey in state.items)) {
+  return {
+    ...state,
+    items: {
+      ...state.items,
+      [uniqueIdKey]: uniqueIdKey
+    }
+  };
 };
 
 /***/ }),

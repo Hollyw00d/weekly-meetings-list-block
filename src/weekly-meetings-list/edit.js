@@ -34,11 +34,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		groupInfoHeading,
 	} = attributes;
 
-	const newMap = new Map();
+	// const newMap = new Map();
 
-	const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
-		newMap.set(uniqueId, [""])
-	);
+	// const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
+	// 	newMap.set(uniqueId, [""])
+	// );
 
 	const utilities = new Utilities();
 
@@ -65,7 +65,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	useEffect(() => {
 		if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-			const newUniqueId = clientId.substr(2, 9).replace("-", "");
+			const newUniqueId = clientId.slice(2, 10).replace("-", "");
 
 			setAttributes({ uniqueId: newUniqueId });
 			uniqueIds.push(newUniqueId);
@@ -117,15 +117,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
-			if (uniqueId) {
-				setFiltersArrNoDupes(
-					(map) =>
-						new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr)))
-				);
-			}
+			// if (uniqueId) {
+			// 	setFiltersArrNoDupes(
+			// 		(map) =>
+			// 			new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr)))
+			// 	);
+			// }
 
 			console.log("filtersArr");
 			console.log(filtersArr);
+
+			// console.log("uniqueId");
+			// console.log(uniqueId);
 		}
 	}, [childBlocks, filtersArr]);
 

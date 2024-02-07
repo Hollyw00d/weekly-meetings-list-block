@@ -1,26 +1,30 @@
 import { UPDATE_FILTER, OUTPUT_FILTERS } from "./types";
 
 const DEFAULT_STATE = {
-	items: ["", "", "", ""],
+	items: {},
 };
+
+const DEFAULT_FILTERS = ["", "", "", ""];
 
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type) {
 		case UPDATE_FILTER:
-			const { index, filter } = action;
+			const { uniqueId, index, filter } = action;
 
-			if (state.items.length > index) {
-				return {
-					...state,
-					items: [
-						...state.items.slice(0, index),
+			const uniqueIdKey = `${uniqueId}_filters`;
+
+			// if (!(uniqueIdKey in state.items)) {
+			return {
+				...state,
+				items: {
+					...state.items,
+					[uniqueIdKey]: [
+						...DEFAULT_FILTERS.slice(0, index),
 						filter,
-						...state.items.slice(index + 1),
+						...DEFAULT_FILTERS.slice(index + 1),
 					],
-				};
-			}
-
-			return state;
+				},
+			};
 		case OUTPUT_FILTERS:
 			return state;
 		default:

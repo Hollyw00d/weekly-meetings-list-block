@@ -3,16 +3,14 @@ export const getFilters = (state) => {
 };
 
 export const replaceFilter = (state, { uniqueId, index, filter }) => {
-	if (state.items.length > index) {
-		return {
-			...state,
-			items: [
-				...state.items.slice(0, index),
-				filter,
-				...state.items.slice(index + 1),
-			],
-		};
-	}
+	const uniqueIdKey = `${uniqueId}`;
 
-	return state;
+	// if (!(uniqueIdKey in state.items)) {
+	return {
+		...state,
+		items: {
+			...state.items,
+			[uniqueIdKey]: uniqueIdKey,
+		},
+	};
 };
