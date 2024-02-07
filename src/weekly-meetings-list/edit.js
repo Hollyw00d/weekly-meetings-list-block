@@ -123,6 +123,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr)))
 				);
 			}
+
+			console.log("filtersArr");
+			console.log(filtersArr);
 		}
 	}, [childBlocks, filtersArr]);
 

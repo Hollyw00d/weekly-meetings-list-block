@@ -287,6 +287,8 @@ function Edit({
       if (uniqueId) {
         setFiltersArrNoDupes(map => new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr))));
       }
+      console.log("filtersArr");
+      console.log(filtersArr);
     }
   }, [childBlocks, filtersArr]);
 
@@ -677,33 +679,12 @@ const replaceFilter = (state, {
   index,
   filter
 }) => {
-  var _state$items$find;
-  const objectIdExists = (_state$items$find = state.items.find(obj => obj.id === uniqueId)) !== null && _state$items$find !== void 0 ? _state$items$find : false;
-
-  // if (objectIdExists && state.items.length > index) {
-  // 	return {
-  // 		...state,
-  // 		items: [
-  // 			{
-  // 				id: uniqueId,
-  // 				arr: [
-
-  // 				]
-  // 			}
-  // 		]
-  // 	};
-  // }
-
-  // if (uniqueId && state.items.length > index) {
-  // 	return {
-  // 		...state,
-  // 		items: [
-  // 			...state.items.slice(0, index),
-  // 			filter,
-  // 			...state.items.slice(index + 1),
-  // 		],
-  // 	};
-  // }
+  if (state.items.length > index) {
+    return {
+      ...state,
+      items: [...state.items.slice(0, index), filter, ...state.items.slice(index + 1)]
+    };
+  }
   return state;
 };
 
