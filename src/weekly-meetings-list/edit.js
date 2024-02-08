@@ -34,12 +34,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		groupInfoHeading,
 	} = attributes;
 
-	// const newMap = new Map();
-
-	// const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
-	// 	newMap.set(uniqueId, [""])
-	// );
-
 	const utilities = new Utilities();
 
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
@@ -54,7 +48,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	const isEditPage = true;
 
-	const filtersArr = useSelect((select) => {
+	const filtersInfo = useSelect((select) => {
 		const store = select("weekly-meetings-list/filters");
 		if (!store) {
 			return null;
@@ -117,23 +111,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
-			// if (uniqueId) {
-			// 	setFiltersArrNoDupes(
-			// 		(map) =>
-			// 			new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr)))
-			// 	);
-			// }
-
-			console.log("filtersArr");
-			console.log(filtersArr);
-
-			// console.log("uniqueId");
-			// console.log(uniqueId);
+			console.log("filtersInfo");
+			console.log(filtersInfo);
 		}
-	}, [childBlocks, filtersArr]);
-
-	// console.log("uniqueId");
-	// console.log(uniqueId);
+	}, [childBlocks, filtersInfo]);
 
 	return (
 		<div {...useBlockProps()} data-unique-id={`block_${uniqueId}`}>

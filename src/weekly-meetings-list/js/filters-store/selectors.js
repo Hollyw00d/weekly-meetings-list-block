@@ -4,13 +4,20 @@ export const getFilters = (state) => {
 
 export const replaceFilter = (state, { uniqueId, index, filter }) => {
 	const uniqueIdKey = `${uniqueId}`;
+	const timeMs = Date.now();
 
-	// if (!(uniqueIdKey in state.items)) {
 	return {
 		...state,
 		items: {
 			...state.items,
-			[uniqueIdKey]: uniqueIdKey,
+			[uniqueIdKey]: {
+				time_stamp: timeMs,
+				filters_array: [
+					...DEFAULT_FILTERS.slice(0, index),
+					filter,
+					...DEFAULT_FILTERS.slice(index + 1),
+				],
+			},
 		},
 	};
 };

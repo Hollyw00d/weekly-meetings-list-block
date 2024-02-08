@@ -221,13 +221,6 @@ function Edit({
     meetingNameHeading,
     groupInfoHeading
   } = attributes;
-
-  // const newMap = new Map();
-
-  // const [filtersArrNoDupes, setFiltersArrNoDupes] = useState(
-  // 	newMap.set(uniqueId, [""])
-  // );
-
   const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
   const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
@@ -237,7 +230,7 @@ function Edit({
     });
   };
   const isEditPage = true;
-  const filtersArr = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
+  const filtersInfo = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     const store = select("weekly-meetings-list/filters");
     if (!store) {
       return null;
@@ -289,25 +282,10 @@ function Edit({
       setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-
-      // if (uniqueId) {
-      // 	setFiltersArrNoDupes(
-      // 		(map) =>
-      // 			new Map(map.set(uniqueId, utilities.removeDupesFromArr(filtersArr)))
-      // 	);
-      // }
-
-      console.log("filtersArr");
-      console.log(filtersArr);
-
-      // console.log("uniqueId");
-      // console.log(uniqueId);
+      console.log("filtersInfo");
+      console.log(filtersInfo);
     }
-  }, [childBlocks, filtersArr]);
-
-  // console.log("uniqueId");
-  // console.log(uniqueId);
-
+  }, [childBlocks, filtersInfo]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(),
     "data-unique-id": `block_${uniqueId}`
@@ -658,13 +636,15 @@ const reducer = (state = DEFAULT_STATE, action) => {
         filter
       } = action;
       const uniqueIdKey = `${uniqueId}_filters`;
-
-      // if (!(uniqueIdKey in state.items)) {
+      const timeMs = Date.now();
       return {
         ...state,
         items: {
           ...state.items,
-          [uniqueIdKey]: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+          [uniqueIdKey]: {
+            time_stamp: timeMs,
+            filters_array: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+          }
         }
       };
     case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
@@ -698,13 +678,15 @@ const replaceFilter = (state, {
   filter
 }) => {
   const uniqueIdKey = `${uniqueId}`;
-
-  // if (!(uniqueIdKey in state.items)) {
+  const timeMs = Date.now();
   return {
     ...state,
     items: {
       ...state.items,
-      [uniqueIdKey]: uniqueIdKey
+      [uniqueIdKey]: {
+        time_stamp: timeMs,
+        filters_array: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+      }
     }
   };
 };
