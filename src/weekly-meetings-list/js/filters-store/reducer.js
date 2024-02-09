@@ -1,7 +1,7 @@
 import { UPDATE_FILTER, OUTPUT_FILTERS } from "./types";
 
 const DEFAULT_STATE = {
-	items: {},
+	items: [],
 };
 
 const DEFAULT_FILTERS = ["", "", "", ""];
@@ -10,22 +10,22 @@ const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type) {
 		case UPDATE_FILTER:
 			const { uniqueId, index, filter } = action;
-			const uniqueIdKey = `${uniqueId}_filters`;
 			const timeMs = Date.now();
 
 			return {
 				...state,
-				items: {
+				items: [
 					...state.items,
-					[uniqueIdKey]: {
-						time_stamp: timeMs,
-						filters_array: [
+					{
+						blockId: uniqueId,
+						timeStamp: timeMs,
+						filtersArray: [
 							...DEFAULT_FILTERS.slice(0, index),
 							filter,
 							...DEFAULT_FILTERS.slice(index + 1),
 						],
 					},
-				},
+				],
 			};
 		case OUTPUT_FILTERS:
 			return state;

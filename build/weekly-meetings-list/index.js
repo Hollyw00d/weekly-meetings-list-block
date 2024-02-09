@@ -299,7 +299,7 @@ function Edit({
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage,
-    uniqueId: `block_${uniqueId}`
+    uniqueId: uniqueId
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -624,7 +624,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
 
 const DEFAULT_STATE = {
-  items: {}
+  items: []
 };
 const DEFAULT_FILTERS = ["", "", "", ""];
 const reducer = (state = DEFAULT_STATE, action) => {
@@ -635,17 +635,14 @@ const reducer = (state = DEFAULT_STATE, action) => {
         index,
         filter
       } = action;
-      const uniqueIdKey = `${uniqueId}_filters`;
       const timeMs = Date.now();
       return {
         ...state,
-        items: {
-          ...state.items,
-          [uniqueIdKey]: {
-            time_stamp: timeMs,
-            filters_array: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
-          }
-        }
+        items: [...state.items, {
+          blockId: uniqueId,
+          timeStamp: timeMs,
+          filtersArray: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+        }]
       };
     case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
       return state;
@@ -677,17 +674,14 @@ const replaceFilter = (state, {
   index,
   filter
 }) => {
-  const uniqueIdKey = `${uniqueId}`;
   const timeMs = Date.now();
   return {
     ...state,
-    items: {
-      ...state.items,
-      [uniqueIdKey]: {
-        time_stamp: timeMs,
-        filters_array: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
-      }
-    }
+    items: [...state.items, {
+      blockId: uniqueId,
+      timeStamp: timeMs,
+      filtersArray: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+    }]
   };
 };
 

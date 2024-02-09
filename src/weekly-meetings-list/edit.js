@@ -131,7 +131,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
-				uniqueId={`block_${uniqueId}`}
+				uniqueId={uniqueId}
 			/>
 
 			<table>
