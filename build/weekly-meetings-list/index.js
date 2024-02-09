@@ -444,6 +444,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../weekly-meetings-list-child/js/utilities */ "./src/weekly-meetings-list-child/js/utilities.js");
+/* harmony import */ var _filters_store_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../filters-store/types */ "./src/weekly-meetings-list/js/filters-store/types.js");
+
+
 
 
 
@@ -501,16 +504,16 @@ function Filters({
   // const mapObj = new Map();
 
   const dayOfWeekEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 0, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
   };
   const citiesEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 1, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 1, e.target.value);
   };
   const groupTypeEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 2, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 2, e.target.value);
   };
   const startTimeEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)("weekly-meetings-list/filters").replaceFilter(uniqueId, 3, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 3, e.target.value);
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
@@ -599,12 +602,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./src/weekly-meetings-list/js/filters-store/reducer.js");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./src/weekly-meetings-list/js/filters-store/selectors.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./src/weekly-meetings-list/js/filters-store/actions.js");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
 // Redux-like store using WP Data API
 
 
 
 
-const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)("weekly-meetings-list/filters", {
+
+const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)(_types__WEBPACK_IMPORTED_MODULE_4__.STORE_NAME, {
   reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
   actions: _actions__WEBPACK_IMPORTED_MODULE_3__
@@ -697,8 +702,10 @@ const replaceFilter = (state, {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   OUTPUT_FILTERS: function() { return /* binding */ OUTPUT_FILTERS; },
+/* harmony export */   STORE_NAME: function() { return /* binding */ STORE_NAME; },
 /* harmony export */   UPDATE_FILTER: function() { return /* binding */ UPDATE_FILTER; }
 /* harmony export */ });
+const STORE_NAME = "weekly-meetings-list/filters";
 const UPDATE_FILTER = "UPDATE_FILTER";
 const OUTPUT_FILTERS = "OUTPUT_FILTERS";
 

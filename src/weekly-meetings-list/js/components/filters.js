@@ -1,5 +1,7 @@
+import { useState } from "@wordpress/element";
 import { dispatch } from "@wordpress/data";
 import Utilities from "../../../weekly-meetings-list-child/js/utilities";
+import { STORE_NAME } from "../filters-store/types";
 
 export default function Filters({
 	citiesArr,
@@ -70,35 +72,19 @@ export default function Filters({
 	// const mapObj = new Map();
 
 	const dayOfWeekEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(
-			uniqueId,
-			0,
-			e.target.value
-		);
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
 	};
 
 	const citiesEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(
-			uniqueId,
-			1,
-			e.target.value
-		);
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 1, e.target.value);
 	};
 
 	const groupTypeEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(
-			uniqueId,
-			2,
-			e.target.value
-		);
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 2, e.target.value);
 	};
 
 	const startTimeEvent = (e) => {
-		dispatch("weekly-meetings-list/filters").replaceFilter(
-			uniqueId,
-			3,
-			e.target.value
-		);
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 3, e.target.value);
 	};
 
 	return (

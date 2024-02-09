@@ -4,8 +4,9 @@ import { createReduxStore, register } from "@wordpress/data";
 import reducer from "./reducer";
 import * as selectors from "./selectors";
 import * as actions from "./actions";
+import { STORE_NAME } from "./types";
 
-const store = createReduxStore("weekly-meetings-list/filters", {
+const store = createReduxStore(STORE_NAME, {
 	reducer,
 	selectors,
 	actions,
