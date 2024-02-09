@@ -1,4 +1,3 @@
-import { useState } from "@wordpress/element";
 import { dispatch } from "@wordpress/data";
 import Utilities from "../../../weekly-meetings-list-child/js/utilities";
 import { STORE_NAME } from "../filters-store/types";
