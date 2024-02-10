@@ -33,6 +33,22 @@ export default function Filters({
 		});
 	}
 
+	const dayOfWeekEvent = (e) => {
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
+	};
+
+	const citiesEvent = (e) => {
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 1, e.target.value);
+	};
+
+	const groupTypeEvent = (e) => {
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 2, e.target.value);
+	};
+
+	const startTimeEvent = (e) => {
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 3, e.target.value);
+	};
+
 	if (isEditPage) {
 		editorMsg = (
 			<div class="editing-locked-msg hide">
@@ -50,46 +66,18 @@ export default function Filters({
 		);
 	}
 
-	// console.log("uniqueId");
-	// console.log(uniqueId);
-
-	// wp.data.select('weekly-meetings-list/filters').getFilters();
-
-	/*
-	Map object examples:
-	
-	const map1 = new Map();
-	map1.set('a', 1);
-	map1.set('b', 2);
-	map1.set('c', 3);
-
-	console.log(map1);
-	// Output:
-	// Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
-	*/
-
-	// const mapObj = new Map();
-
-	const dayOfWeekEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
-	};
-
-	const citiesEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 1, e.target.value);
-	};
-
-	const groupTypeEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 2, e.target.value);
-	};
-
-	const startTimeEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 3, e.target.value);
-	};
-
 	return (
 		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
 			{editorMsg}
-			<div className="wp-block-create-block-meetings-table-block__filters">
+			<div
+				className="wp-block-create-block-meetings-table-block__filters"
+				// onChange={(e) => {
+				// 	console.log(e.target.parentNode.parentNode.parentNode);
+				// }}
+				// onClick={(e) => {
+				// 	console.log("Child elem clicked!");
+				// }}
+			>
 				<label>
 					<div>Day of Week:</div>
 					<div>
