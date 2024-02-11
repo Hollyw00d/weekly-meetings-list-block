@@ -648,14 +648,16 @@ const reducer = (state = DEFAULT_STATE, action) => {
         index,
         filters
       } = action;
-      const timeMs = Date.now();
+      const timeStamp = Date.now();
+      const getItems1 = [...state.items];
+      getItems1.push(...state.items, {
+        blockId: uniqueId,
+        timeStamp,
+        filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
+      });
       return {
         ...state,
-        items: [...state.items, {
-          blockId: uniqueId,
-          timeStamp: timeMs,
-          filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
-        }]
+        items: getItems1
       };
     case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
       return state;
@@ -687,14 +689,16 @@ const replaceFilter = (state, {
   index,
   filters
 }) => {
-  const timeMs = Date.now();
+  const timeStamp = Date.now();
+  const getItems1 = [...state.items];
+  getItems1.push(...state.items, {
+    blockId: uniqueId,
+    timeStamp,
+    filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
+  });
   return {
     ...state,
-    items: [...state.items, {
-      blockId: uniqueId,
-      timeStamp: timeMs,
-      filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
-    }]
+    items: getItems1
   };
 };
 

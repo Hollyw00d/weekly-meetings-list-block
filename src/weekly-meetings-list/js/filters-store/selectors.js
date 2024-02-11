@@ -3,21 +3,21 @@ export const getFilters = (state) => {
 };
 
 export const replaceFilter = (state, { uniqueId, index, filters }) => {
-	const timeMs = Date.now();
+	const timeStamp = Date.now();
+
+	const getItems1 = [...state.items];
+	getItems1.push(...state.items, {
+		blockId: uniqueId,
+		timeStamp,
+		filtersArray: [
+			...DEFAULT_FILTERS.slice(0, index),
+			...filters,
+			...DEFAULT_FILTERS.slice(index + 1),
+		],
+	});
 
 	return {
 		...state,
-		items: [
-			...state.items,
-			{
-				blockId: uniqueId,
-				timeStamp: timeMs,
-				filtersArray: [
-					...DEFAULT_FILTERS.slice(0, index),
-					...filters,
-					...DEFAULT_FILTERS.slice(index + 1),
-				],
-			},
-		],
+		items: getItems1,
 	};
 };
