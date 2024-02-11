@@ -7,6 +7,7 @@ export default function Filters({
 	groupTypesArr,
 	isEditPage,
 	uniqueId,
+	getChildBlocks,
 }) {
 	const utilities = new Utilities();
 	const daysArr = utilities.generateDaysArr();
@@ -44,8 +45,17 @@ export default function Filters({
 			filtersArr.push(value);
 		}
 
-		console.log("filtersArr");
-		console.log(filtersArr);
+		// console.log("filtersArr");
+		// console.log(filtersArr);
+
+		// console.log("childBlocks");
+		// console.log(childBlocks);
+
+		console.log("getChildBlocks");
+		console.log(getChildBlocks);
+
+		console.log("uniqueId");
+		console.log(uniqueId);
 
 		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, filtersArr);
 	};

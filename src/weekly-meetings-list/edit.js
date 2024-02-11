@@ -18,10 +18,11 @@ import "./js/filters-store";
 import "./editor.scss";
 
 // For storing unique block IDs
-const uniqueIds = [];
+// const uniqueIds = [];
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
+		getChildBlocks,
 		uniqueId,
 		tableTitle,
 		citiesArr,
@@ -58,14 +59,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	});
 
 	useEffect(() => {
-		if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-			const newUniqueId = clientId.slice(2, 10).replace("-", "");
+		// if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
+		// 	const newUniqueId = clientId.slice(2, 10).replace("-", "");
 
-			setAttributes({ uniqueId: newUniqueId });
-			uniqueIds.push(newUniqueId);
-		} else {
-			uniqueIds.push(uniqueId);
-		}
+		// 	setAttributes({ uniqueId: newUniqueId });
+		// 	uniqueIds.push(newUniqueId);
+		// } else {
+		// 	uniqueIds.push(uniqueId);
+		// }
 
 		let isArray = Array.isArray(childBlocks);
 		let newCitiesArr = [];
@@ -113,11 +114,20 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			console.log("filtersInfo");
 			console.log(filtersInfo);
+
+			// console.log("childBlocks");
+			// console.log(childBlocks);
+
+			childBlocks.map((child) => {
+				setAttributes({ uniqueId: child.clientId });
+			});
+
+			setAttributes({ getChildBlocks: [...childBlocks] });
 		}
-	}, [childBlocks, filtersInfo]);
+	}, [childBlocks, clientId, filtersInfo]);
 
 	return (
-		<div {...useBlockProps()} data-unique-id={`block_${uniqueId}`}>
+		<div {...useBlockProps()}>
 			<InspectorControls>
 				<PanelBody title="Table Title">
 					<TextControl
@@ -132,6 +142,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
 				uniqueId={uniqueId}
+				getChildBlocks={getChildBlocks}
 			/>
 
 			<table>

@@ -203,13 +203,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // For storing unique block IDs
-const uniqueIds = [];
+// const uniqueIds = [];
+
 function Edit({
   attributes,
   setAttributes,
   clientId
 }) {
   const {
+    getChildBlocks,
     uniqueId,
     tableTitle,
     citiesArr,
@@ -238,15 +240,15 @@ function Edit({
     return store.getFilters();
   });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-      const newUniqueId = clientId.slice(2, 10).replace("-", "");
-      setAttributes({
-        uniqueId: newUniqueId
-      });
-      uniqueIds.push(newUniqueId);
-    } else {
-      uniqueIds.push(uniqueId);
-    }
+    // if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
+    // 	const newUniqueId = clientId.slice(2, 10).replace("-", "");
+
+    // 	setAttributes({ uniqueId: newUniqueId });
+    // 	uniqueIds.push(newUniqueId);
+    // } else {
+    // 	uniqueIds.push(uniqueId);
+    // }
+
     let isArray = Array.isArray(childBlocks);
     let newCitiesArr = [];
     let newGroupTypesArr = [];
@@ -284,11 +286,22 @@ function Edit({
       });
       console.log("filtersInfo");
       console.log(filtersInfo);
+
+      // console.log("childBlocks");
+      // console.log(childBlocks);
+
+      childBlocks.map(child => {
+        setAttributes({
+          uniqueId: child.clientId
+        });
+      });
+      setAttributes({
+        getChildBlocks: [...childBlocks]
+      });
     }
-  }, [childBlocks, filtersInfo]);
+  }, [childBlocks, clientId, filtersInfo]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(),
-    "data-unique-id": `block_${uniqueId}`
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: "Table Title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
@@ -299,7 +312,8 @@ function Edit({
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage,
-    uniqueId: uniqueId
+    uniqueId: uniqueId,
+    getChildBlocks: getChildBlocks
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_8__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -453,7 +467,8 @@ function Filters({
   citiesArr,
   groupTypesArr,
   isEditPage,
-  uniqueId
+  uniqueId,
+  getChildBlocks
 }) {
   const utilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__["default"]();
   const daysArr = utilities.generateDaysArr();
@@ -487,8 +502,17 @@ function Filters({
       } = select;
       filtersArr.push(value);
     }
-    console.log("filtersArr");
-    console.log(filtersArr);
+
+    // console.log("filtersArr");
+    // console.log(filtersArr);
+
+    // console.log("childBlocks");
+    // console.log(childBlocks);
+
+    console.log("getChildBlocks");
+    console.log(getChildBlocks);
+    console.log("uniqueId");
+    console.log(uniqueId);
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 0, filtersArr);
   };
   if (isEditPage) {
@@ -4585,7 +4609,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module) {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/meetings-table-block","version":"0.1.0","title":"Weekly Meetings Block","category":"widgets","icon":"editor-table","description":"Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or another type of religious studies group.","attributes":{"uniqueId":{"type":"string","default":""},"blockId":{"type":"string","default":""},"tableTitle":{"type":"string","default":""},"citiesArr":{"type":"array","default":[]},"groupTypesArr":{"type":"array","default":[]},"dayOfWeekHeading":{"type":"string","default":"Day of Week"},"timeHeading":{"type":"string","default":"Time"},"cityHeading":{"type":"string","default":"City"},"groupTypeHeading":{"type":"string","default":"Group Type"},"meetingNameHeading":{"type":"string","default":"Meeting Name"},"groupInfoHeading":{"type":"string","default":"Address / Remote Group and<br />Contact Information"}},"example":{},"supports":{"html":false,"inserter":true,"multiple":true},"textdomain":"meetings-table-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/meetings-table-block","version":"0.1.0","title":"Weekly Meetings Block","category":"widgets","icon":"editor-table","description":"Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or another type of religious studies group.","attributes":{"getChildBlocks":{"type":"array","default":[]},"uniqueId":{"type":"string","default":""},"tableTitle":{"type":"string","default":""},"citiesArr":{"type":"array","default":[]},"groupTypesArr":{"type":"array","default":[]},"dayOfWeekHeading":{"type":"string","default":"Day of Week"},"timeHeading":{"type":"string","default":"Time"},"cityHeading":{"type":"string","default":"City"},"groupTypeHeading":{"type":"string","default":"Group Type"},"meetingNameHeading":{"type":"string","default":"Meeting Name"},"groupInfoHeading":{"type":"string","default":"Address / Remote Group and<br />Contact Information"}},"example":{},"supports":{"html":false,"inserter":true,"multiple":true},"textdomain":"meetings-table-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
