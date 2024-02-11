@@ -4,12 +4,12 @@ const DEFAULT_STATE = {
 	items: [],
 };
 
-const DEFAULT_FILTERS = ["", "", "", ""];
+const DEFAULT_FILTERS = [];
 
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type) {
 		case UPDATE_FILTER:
-			const { uniqueId, index, filter } = action;
+			const { uniqueId, index, filters } = action;
 			const timeMs = Date.now();
 
 			return {
@@ -21,7 +21,7 @@ const reducer = (state = DEFAULT_STATE, action) => {
 						timeStamp: timeMs,
 						filtersArray: [
 							...DEFAULT_FILTERS.slice(0, index),
-							filter,
+							...filters,
 							...DEFAULT_FILTERS.slice(index + 1),
 						],
 					},

@@ -2,7 +2,7 @@ export const getFilters = (state) => {
 	return state.items;
 };
 
-export const replaceFilter = (state, { uniqueId, index, filter }) => {
+export const replaceFilter = (state, { uniqueId, index, filters }) => {
 	const timeMs = Date.now();
 
 	return {
@@ -14,7 +14,7 @@ export const replaceFilter = (state, { uniqueId, index, filter }) => {
 				timeStamp: timeMs,
 				filtersArray: [
 					...DEFAULT_FILTERS.slice(0, index),
-					filter,
+					...filters,
 					...DEFAULT_FILTERS.slice(index + 1),
 				],
 			},

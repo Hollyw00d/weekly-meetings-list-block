@@ -489,18 +489,7 @@ function Filters({
     }
     console.log("filtersArr");
     console.log(filtersArr);
-  };
-  const dayOfWeekEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
-  };
-  const citiesEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 1, e.target.value);
-  };
-  const groupTypeEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 2, e.target.value);
-  };
-  const startTimeEvent = e => {
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 3, e.target.value);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 0, filtersArr);
   };
   if (isEditPage) {
     editorMsg = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -573,12 +562,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
 
-const replaceFilter = (uniqueId, index, filter) => {
+const replaceFilter = (uniqueId, index, filters) => {
   return {
     type: _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER,
     uniqueId,
     index,
-    filter
+    filters
   };
 };
 
@@ -626,14 +615,14 @@ __webpack_require__.r(__webpack_exports__);
 const DEFAULT_STATE = {
   items: []
 };
-const DEFAULT_FILTERS = ["", "", "", ""];
+const DEFAULT_FILTERS = [];
 const reducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER:
       const {
         uniqueId,
         index,
-        filter
+        filters
       } = action;
       const timeMs = Date.now();
       return {
@@ -641,7 +630,7 @@ const reducer = (state = DEFAULT_STATE, action) => {
         items: [...state.items, {
           blockId: uniqueId,
           timeStamp: timeMs,
-          filtersArray: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+          filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
         }]
       };
     case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
@@ -672,7 +661,7 @@ const getFilters = state => {
 const replaceFilter = (state, {
   uniqueId,
   index,
-  filter
+  filters
 }) => {
   const timeMs = Date.now();
   return {
@@ -680,7 +669,7 @@ const replaceFilter = (state, {
     items: [...state.items, {
       blockId: uniqueId,
       timeStamp: timeMs,
-      filtersArray: [...DEFAULT_FILTERS.slice(0, index), filter, ...DEFAULT_FILTERS.slice(index + 1)]
+      filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
     }]
   };
 };

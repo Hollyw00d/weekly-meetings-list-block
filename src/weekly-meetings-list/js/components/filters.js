@@ -46,22 +46,8 @@ export default function Filters({
 
 		console.log("filtersArr");
 		console.log(filtersArr);
-	};
 
-	const dayOfWeekEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
-	};
-
-	const citiesEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 1, e.target.value);
-	};
-
-	const groupTypeEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 2, e.target.value);
-	};
-
-	const startTimeEvent = (e) => {
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 3, e.target.value);
+		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, filtersArr);
 	};
 
 	if (isEditPage) {
