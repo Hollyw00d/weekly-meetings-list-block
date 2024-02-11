@@ -477,6 +477,19 @@ function Filters({
       }, itemClean);
     });
   }
+  const filterEvent = e => {
+    let filtersArr = [];
+    const filtersParentElem = e.target.parentNode.parentNode.parentNode;
+    const filterSelectTags = filtersParentElem.getElementsByTagName("select");
+    for (const select of filterSelectTags) {
+      const {
+        value
+      } = select;
+      filtersArr.push(value);
+    }
+    console.log("filtersArr");
+    console.log(filtersArr);
+  };
   const dayOfWeekEvent = e => {
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
   };
@@ -501,13 +514,10 @@ function Filters({
     // onChange={(e) => {
     // 	console.log(e.target.parentNode.parentNode.parentNode);
     // }}
-    // onClick={(e) => {
-    // 	console.log("Child elem clicked!");
-    // }}
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Day of Week:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "day-of-week-filter",
     name: "days of week",
-    onChange: dayOfWeekEvent
+    onChange: filterEvent
   }, daysArr.map(item => {
     let val = item.value;
     let label = item.label;
@@ -524,19 +534,19 @@ function Filters({
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Meeting City:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "city-filter",
     name: "cities",
-    onChange: citiesEvent
+    onChange: filterEvent
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
     value: ""
   }, "Show All Cities"), cities))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Group Type:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "group-type-filter",
     name: "group types",
-    onChange: groupTypeEvent
+    onChange: filterEvent
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
     value: ""
   }, "Show All Group Types"), groupTypes))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Meeting Start Time:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "start-time-filter",
     name: "meeting start times",
-    onChange: startTimeEvent
+    onChange: filterEvent
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
     value: ""
   }, "Show All Meetings Times"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {

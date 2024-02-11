@@ -33,6 +33,21 @@ export default function Filters({
 		});
 	}
 
+	const filterEvent = (e) => {
+		let filtersArr = [];
+
+		const filtersParentElem = e.target.parentNode.parentNode.parentNode;
+		const filterSelectTags = filtersParentElem.getElementsByTagName("select");
+
+		for (const select of filterSelectTags) {
+			const { value } = select;
+			filtersArr.push(value);
+		}
+
+		console.log("filtersArr");
+		console.log(filtersArr);
+	};
+
 	const dayOfWeekEvent = (e) => {
 		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, e.target.value);
 	};
@@ -74,9 +89,6 @@ export default function Filters({
 				// onChange={(e) => {
 				// 	console.log(e.target.parentNode.parentNode.parentNode);
 				// }}
-				// onClick={(e) => {
-				// 	console.log("Child elem clicked!");
-				// }}
 			>
 				<label>
 					<div>Day of Week:</div>
@@ -84,7 +96,7 @@ export default function Filters({
 						<select
 							className="day-of-week-filter"
 							name="days of week"
-							onChange={dayOfWeekEvent}
+							onChange={filterEvent}
 						>
 							{daysArr.map((item) => {
 								let val = item.value;
@@ -113,7 +125,7 @@ export default function Filters({
 						<select
 							className="city-filter"
 							name="cities"
-							onChange={citiesEvent}
+							onChange={filterEvent}
 						>
 							<option value="">Show All Cities</option>
 							{cities}
@@ -127,7 +139,7 @@ export default function Filters({
 						<select
 							className="group-type-filter"
 							name="group types"
-							onChange={groupTypeEvent}
+							onChange={filterEvent}
 						>
 							<option value="">Show All Group Types</option>
 							{groupTypes}
@@ -141,7 +153,7 @@ export default function Filters({
 						<select
 							className="start-time-filter"
 							name="meeting start times"
-							onChange={startTimeEvent}
+							onChange={filterEvent}
 						>
 							<option value="">Show All Meetings Times</option>
 							<option value="asc~">Show Earliest to Latest Meetings</option>
