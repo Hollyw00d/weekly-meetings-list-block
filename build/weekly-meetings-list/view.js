@@ -337,15 +337,21 @@ class Utilities {
     }
     return [...new Map(arr.map(item => [item[key], item])).values()];
   }
-  filtersArrayByItemId(blockId, arr) {
+  filtersArrayByItemId(uniqueId, arr) {
     if (arr.length === 0) {
       return arr;
     }
-    const findIndex = arr?.findIndex(item => item.blockId === blockId);
-    if (!findIndex) {
-      return arr;
-    }
-    return findIndex;
+    console.log("uniqueId");
+    console.log(uniqueId);
+    console.log("arr[0].blockId");
+    console.log(arr[0].blockId);
+
+    // const findIndex = arr?.findIndex((item) => item.blockId === blockId);
+    // if (!findIndex) {
+    // 	return arr;
+    // }
+
+    // return findIndex;
 
     // const selectedItem = arr[findIndex];
 

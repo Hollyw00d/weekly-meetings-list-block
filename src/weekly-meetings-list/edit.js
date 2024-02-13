@@ -1,4 +1,4 @@
-import { useEffect } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
@@ -10,6 +10,7 @@ import { PanelBody, TextControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
+import ShortUniqueId from "short-unique-id";
 import Utilities from "./js/utilities";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
@@ -23,7 +24,6 @@ import "./editor.scss";
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		getChildBlocks,
-		uniqueId,
 		tableTitle,
 		citiesArr,
 		groupTypesArr,
@@ -35,6 +35,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		groupInfoHeading,
 	} = attributes;
 
+	const { randomUUID } = new ShortUniqueId({ length: 50 });
+	// const uniqueId = randomUUID();
+	const [uniqueId, setUniqueId] = useState(randomUUID());
+
 	const utilities = new Utilities();
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
 
@@ -42,9 +46,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		(select) => select(blockStore).getBlocksByClientId(clientId)[0].innerBlocks
 	);
 
-	const currentBlock = useSelect(
-		(select) => select(blockStore).getBlocksByClientId(clientId)[0]
-	);
+	// const currentBlock = useSelect(
+	// 	(select) => select(blockStore).getBlocksByClientId(clientId)[0]
+	// );
 
 	const tableTitleChange = (val) => {
 		setAttributes({ tableTitle: val });
@@ -108,30 +112,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			];
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
-
-			// setAttributes({ uniqueId: currentBlock.clientId });
-
 			setAttributes({ getChildBlocks: [...childBlocks] });
 
-			console.log("currentBlock");
-			console.log(currentBlock);
-
-			console.log("filtersInfo");
-			console.log(filtersInfo);
-
-			// console.log("filtersInfo[0].blockId");
-			// console.log(typeof filtersInfo[0]?.blockId);
-
-			// console.log("uniqueId");
-			// console.log(uniqueId);
-
-			console.log("filtersInfo");
-			console.log(filtersInfo);
-
-			filtersArr = utilities.filtersArrayByItemId(
-				currentBlock.clientId,
-				filtersInfo
-			);
+			setUniqueId(randomUUID());
+			filtersArr = utilities.filtersArrayByItemId(uniqueId, filtersInfo);
 
 			console.log("filtersArr");
 			console.log(filtersArr);
@@ -158,7 +142,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
-				uniqueId={currentBlock.clientId}
+				uniqueId={uniqueId}
 				getChildBlocks={getChildBlocks}
 			/>
 

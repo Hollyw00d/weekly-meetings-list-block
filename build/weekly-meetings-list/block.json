@@ -12,10 +12,6 @@
       "type": "array",
       "default": []
     },
-    "uniqueId": {
-      "type": "string",
-      "default": ""
-    },
     "tableTitle": {
       "type": "string",
       "default": ""
