@@ -226,6 +226,7 @@ function Edit({
   const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const groupInfoHeadingToHtml = (0,html_react_parser__WEBPACK_IMPORTED_MODULE_5__["default"])(groupInfoHeading);
   const childBlocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0].innerBlocks);
+  const currentBlock = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getBlocksByClientId(clientId)[0]);
   const tableTitleChange = val => {
     setAttributes({
       tableTitle: val
@@ -239,16 +240,9 @@ function Edit({
     }
     return store.getFilters();
   });
+  let filtersArr = [];
+  let filtersArrNoDupes = [];
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    // if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-    // 	const newUniqueId = clientId.slice(2, 10).replace("-", "");
-
-    // 	setAttributes({ uniqueId: newUniqueId });
-    // 	uniqueIds.push(newUniqueId);
-    // } else {
-    // 	uniqueIds.push(uniqueId);
-    // }
-
     let isArray = Array.isArray(childBlocks);
     let newCitiesArr = [];
     let newGroupTypesArr = [];
@@ -284,22 +278,35 @@ function Edit({
       setAttributes({
         groupTypesArr: finalGroupTypesClean
       });
-      console.log("filtersInfo");
-      console.log(filtersInfo);
 
-      // console.log("childBlocks");
-      // console.log(childBlocks);
+      // setAttributes({ uniqueId: currentBlock.clientId });
 
-      childBlocks.map(child => {
-        setAttributes({
-          uniqueId: child.clientId
-        });
-      });
       setAttributes({
         getChildBlocks: [...childBlocks]
       });
+      console.log("currentBlock");
+      console.log(currentBlock);
+      console.log("filtersInfo");
+      console.log(filtersInfo);
+
+      // console.log("filtersInfo[0].blockId");
+      // console.log(typeof filtersInfo[0]?.blockId);
+
+      // console.log("uniqueId");
+      // console.log(uniqueId);
+
+      console.log("filtersInfo");
+      console.log(filtersInfo);
+      filtersArr = utilities.filtersArrayByItemId(currentBlock.clientId, filtersInfo);
+      console.log("filtersArr");
+      console.log(filtersArr);
+
+      // filtersArrNoDupes = utilities.removeDupesFromArr(filtersArr);
+
+      // console.log("filtersArrNoDupes");
+      // console.log(filtersArrNoDupes);
     }
-  }, [childBlocks, clientId, filtersInfo]);
+  }, [childBlocks, filtersInfo]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -312,7 +319,7 @@ function Edit({
     citiesArr: citiesArr,
     groupTypesArr: groupTypesArr,
     isEditPage: isEditPage,
-    uniqueId: uniqueId,
+    uniqueId: currentBlock.clientId,
     getChildBlocks: getChildBlocks
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
@@ -339,7 +346,7 @@ function Edit({
     role: "columnheader",
     scope: "col"
   }, groupInfoHeadingToHtml))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", {
-    className: `original-data`,
+    className: "original-data",
     colspan: "6"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ["create-block/meetings-table-row-block"]
@@ -635,11 +642,14 @@ const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)(
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/weekly-meetings-list/js/filters-store/types.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities */ "./src/weekly-meetings-list/js/utilities.js");
+
 
 const DEFAULT_STATE = {
   items: []
 };
 const DEFAULT_FILTERS = [];
+const utilities = new _utilities__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const reducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_FILTER:
@@ -649,15 +659,16 @@ const reducer = (state = DEFAULT_STATE, action) => {
         filters
       } = action;
       const timeStamp = Date.now();
-      const getItems1 = [...state.items];
-      getItems1.push(...state.items, {
+      const getItems = [...state.items];
+      getItems.push(...state.items, {
         blockId: uniqueId,
         timeStamp,
         filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
       });
+      const getItemsUniqueId = utilities.arrayUniqueByKey("blockId", getItems);
       return {
         ...state,
-        items: getItems1
+        items: getItemsUniqueId
       };
     case _types__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_FILTERS:
       return state;
@@ -681,6 +692,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getFilters: function() { return /* binding */ getFilters; },
 /* harmony export */   replaceFilter: function() { return /* binding */ replaceFilter; }
 /* harmony export */ });
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities */ "./src/weekly-meetings-list/js/utilities.js");
+
+const utilities = new _utilities__WEBPACK_IMPORTED_MODULE_0__["default"]();
 const getFilters = state => {
   return state.items;
 };
@@ -690,15 +704,16 @@ const replaceFilter = (state, {
   filters
 }) => {
   const timeStamp = Date.now();
-  const getItems1 = [...state.items];
-  getItems1.push(...state.items, {
+  const getItems = [...state.items];
+  getItems.push(...state.items, {
     blockId: uniqueId,
     timeStamp,
     filtersArray: [...DEFAULT_FILTERS.slice(0, index), ...filters, ...DEFAULT_FILTERS.slice(index + 1)]
   });
+  const getItemsUniqueId = utilities.arrayUniqueByKey("blockId", getItems);
   return {
     ...state,
-    items: getItems1
+    items: getItemsUniqueId
   };
 };
 
@@ -1052,6 +1067,26 @@ class Utilities {
     const setFromArr = new Set(arr);
     const newArr = [...setFromArr];
     return newArr;
+  }
+  arrayUniqueByKey(key, arr) {
+    if (arr.length === 0) {
+      return arr;
+    }
+    return [...new Map(arr.map(item => [item[key], item])).values()];
+  }
+  filtersArrayByItemId(blockId, arr) {
+    if (arr.length === 0) {
+      return arr;
+    }
+    const findIndex = arr?.findIndex(item => item.blockId === blockId);
+    if (!findIndex) {
+      return arr;
+    }
+    return findIndex;
+
+    // const selectedItem = arr[findIndex];
+
+    // return selectedItem;
   }
 
   // START: used in view.js ONLY

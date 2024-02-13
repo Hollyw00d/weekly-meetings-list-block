@@ -1,4 +1,4 @@
-import { useState, useEffect } from "@wordpress/element";
+import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
@@ -36,11 +36,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	} = attributes;
 
 	const utilities = new Utilities();
-
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
 
 	const childBlocks = useSelect(
 		(select) => select(blockStore).getBlocksByClientId(clientId)[0].innerBlocks
+	);
+
+	const currentBlock = useSelect(
+		(select) => select(blockStore).getBlocksByClientId(clientId)[0]
 	);
 
 	const tableTitleChange = (val) => {
@@ -58,16 +61,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		return store.getFilters();
 	});
 
+	let filtersArr = [];
+	let filtersArrNoDupes = [];
+
 	useEffect(() => {
-		// if (null === uniqueId || "" === uniqueId || uniqueIds.includes(uniqueId)) {
-		// 	const newUniqueId = clientId.slice(2, 10).replace("-", "");
-
-		// 	setAttributes({ uniqueId: newUniqueId });
-		// 	uniqueIds.push(newUniqueId);
-		// } else {
-		// 	uniqueIds.push(uniqueId);
-		// }
-
 		let isArray = Array.isArray(childBlocks);
 		let newCitiesArr = [];
 		let newGroupTypesArr = [];
@@ -112,19 +109,39 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 
+			// setAttributes({ uniqueId: currentBlock.clientId });
+
+			setAttributes({ getChildBlocks: [...childBlocks] });
+
+			console.log("currentBlock");
+			console.log(currentBlock);
+
 			console.log("filtersInfo");
 			console.log(filtersInfo);
 
-			// console.log("childBlocks");
-			// console.log(childBlocks);
+			// console.log("filtersInfo[0].blockId");
+			// console.log(typeof filtersInfo[0]?.blockId);
 
-			childBlocks.map((child) => {
-				setAttributes({ uniqueId: child.clientId });
-			});
+			// console.log("uniqueId");
+			// console.log(uniqueId);
 
-			setAttributes({ getChildBlocks: [...childBlocks] });
+			console.log("filtersInfo");
+			console.log(filtersInfo);
+
+			filtersArr = utilities.filtersArrayByItemId(
+				currentBlock.clientId,
+				filtersInfo
+			);
+
+			console.log("filtersArr");
+			console.log(filtersArr);
+
+			// filtersArrNoDupes = utilities.removeDupesFromArr(filtersArr);
+
+			// console.log("filtersArrNoDupes");
+			// console.log(filtersArrNoDupes);
 		}
-	}, [childBlocks, clientId, filtersInfo]);
+	}, [childBlocks, filtersInfo]);
 
 	return (
 		<div {...useBlockProps()}>
@@ -141,7 +158,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
 				isEditPage={isEditPage}
-				uniqueId={uniqueId}
+				uniqueId={currentBlock.clientId}
 				getChildBlocks={getChildBlocks}
 			/>
 
@@ -187,7 +204,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}
 					colspan="6"
 				> */}
-				<tbody className={`original-data`} colspan="6">
+				<tbody className="original-data" colspan="6">
 					<InnerBlocks
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>

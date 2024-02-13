@@ -1,12 +1,15 @@
+import Utilities from "../utilities";
+const utilities = new Utilities();
+
 export const getFilters = (state) => {
 	return state.items;
 };
 
 export const replaceFilter = (state, { uniqueId, index, filters }) => {
 	const timeStamp = Date.now();
+	const getItems = [...state.items];
 
-	const getItems1 = [...state.items];
-	getItems1.push(...state.items, {
+	getItems.push(...state.items, {
 		blockId: uniqueId,
 		timeStamp,
 		filtersArray: [
@@ -16,8 +19,10 @@ export const replaceFilter = (state, { uniqueId, index, filters }) => {
 		],
 	});
 
+	const getItemsUniqueId = utilities.arrayUniqueByKey("blockId", getItems);
+
 	return {
 		...state,
-		items: getItems1,
+		items: getItemsUniqueId,
 	};
 };

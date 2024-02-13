@@ -331,6 +331,26 @@ class Utilities {
     const newArr = [...setFromArr];
     return newArr;
   }
+  arrayUniqueByKey(key, arr) {
+    if (arr.length === 0) {
+      return arr;
+    }
+    return [...new Map(arr.map(item => [item[key], item])).values()];
+  }
+  filtersArrayByItemId(blockId, arr) {
+    if (arr.length === 0) {
+      return arr;
+    }
+    const findIndex = arr?.findIndex(item => item.blockId === blockId);
+    if (!findIndex) {
+      return arr;
+    }
+    return findIndex;
+
+    // const selectedItem = arr[findIndex];
+
+    // return selectedItem;
+  }
 
   // START: used in view.js ONLY
   onPrintEvents(btns, showPrintClass, hidePrintClass) {

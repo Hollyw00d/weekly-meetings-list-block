@@ -1,19 +1,21 @@
 import { UPDATE_FILTER, OUTPUT_FILTERS } from "./types";
+import Utilities from "../utilities";
 
 const DEFAULT_STATE = {
 	items: [],
 };
 
 const DEFAULT_FILTERS = [];
+const utilities = new Utilities();
 
 const reducer = (state = DEFAULT_STATE, action) => {
 	switch (action.type) {
 		case UPDATE_FILTER:
 			const { uniqueId, index, filters } = action;
 			const timeStamp = Date.now();
+			const getItems = [...state.items];
 
-			const getItems1 = [...state.items];
-			getItems1.push(...state.items, {
+			getItems.push(...state.items, {
 				blockId: uniqueId,
 				timeStamp,
 				filtersArray: [
@@ -23,9 +25,11 @@ const reducer = (state = DEFAULT_STATE, action) => {
 				],
 			});
 
+			const getItemsUniqueId = utilities.arrayUniqueByKey("blockId", getItems);
+
 			return {
 				...state,
-				items: getItems1,
+				items: getItemsUniqueId,
 			};
 		case OUTPUT_FILTERS:
 			return state;
