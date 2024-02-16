@@ -245,7 +245,6 @@ function Edit({
       tableTitle: val
     });
   };
-  const isEditPage = true;
   const filtersInfo = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     const store = select("weekly-meetings-list/filters");
     if (!store) {
@@ -298,11 +297,6 @@ function Edit({
       filtersArr = utilities.filtersArrayByItemId(uniqueId, filtersInfo);
       console.log("filtersArr");
       console.log(filtersArr);
-
-      // filtersArrNoDupes = utilities.removeDupesFromArr(filtersArr);
-
-      // console.log("filtersArrNoDupes");
-      // console.log(filtersArrNoDupes);
     }
   }, [childBlocks, filtersInfo]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -315,10 +309,7 @@ function Edit({
     onChange: tableTitleChange
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filters__WEBPACK_IMPORTED_MODULE_8__["default"], {
     citiesArr: citiesArr,
-    groupTypesArr: groupTypesArr,
-    isEditPage: isEditPage,
-    uniqueId: uniqueId,
-    getChildBlocks: getChildBlocks
+    groupTypesArr: groupTypesArr
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("caption", {
     className: "table-title"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, tableTitle, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_js_components_filterNotifications__WEBPACK_IMPORTED_MODULE_9__["default"], null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
@@ -462,26 +453,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../weekly-meetings-list-child/js/utilities */ "./src/weekly-meetings-list-child/js/utilities.js");
-/* harmony import */ var _filters_store_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../filters-store/types */ "./src/weekly-meetings-list/js/filters-store/types.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities */ "./src/weekly-meetings-list/js/utilities.js");
+/* harmony import */ var _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../weekly-meetings-list-child/js/utilities */ "./src/weekly-meetings-list-child/js/utilities.js");
+/* harmony import */ var _filters_store_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../filters-store/types */ "./src/weekly-meetings-list/js/filters-store/types.js");
+
 
 
 
 
 function Filters({
   citiesArr,
-  groupTypesArr,
-  isEditPage,
-  uniqueId,
-  getChildBlocks
+  groupTypesArr
 }) {
-  const utilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_2__["default"]();
-  const daysArr = utilities.generateDaysArr();
+  let editingLockedMsgClasses = "editing-locked-msg hide";
+  const parentBlockUtilities = new _utilities__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  const childBlockUtilities = new _weekly_meetings_list_child_js_utilities__WEBPACK_IMPORTED_MODULE_3__["default"]();
+  const daysArr = childBlockUtilities.generateDaysArr();
   let isCitiesArray = Array.isArray(citiesArr);
   let cities = null;
   let isGroupTypeArr = Array.isArray(groupTypesArr);
   let groupTypes = null;
-  let editorMsg = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null);
   if (isCitiesArray && citiesArr.length > 0) {
     cities = citiesArr.map(item => {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
@@ -491,7 +482,7 @@ function Filters({
   }
   if (isGroupTypeArr && groupTypesArr.length > 0) {
     groupTypes = groupTypesArr.map(item => {
-      let itemClean = utilities.removeStrPrefix(item);
+      let itemClean = childBlockUtilities.removeStrPrefix(item);
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
         value: item
       }, itemClean);
@@ -499,39 +490,35 @@ function Filters({
   }
   const filterEvent = e => {
     let filtersArr = [];
-    const filtersParentElem = e.target.parentNode.parentNode.parentNode;
-    const filterSelectTags = filtersParentElem.getElementsByTagName("select");
+
+    // const filtersParentElem = e.target.parentNode.parentNode.parentNode;
+    const blockParentElem = e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+
+    // console.log("blockParentElem");
+    // console.log(blockParentElem);
+
+    const filterSelectTags = blockParentElem.getElementsByTagName("select");
     for (const select of filterSelectTags) {
       const {
         value
       } = select;
       filtersArr.push(value);
     }
-
-    // console.log("filtersArr");
-    // console.log(filtersArr);
-
-    // console.log("childBlocks");
-    // console.log(childBlocks);
-
-    console.log("getChildBlocks");
-    console.log(getChildBlocks);
-    console.log("uniqueId");
-    console.log(uniqueId);
-    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)(_filters_store_types__WEBPACK_IMPORTED_MODULE_3__.STORE_NAME).replaceFilter(uniqueId, 0, filtersArr);
+    const filtersArrNoDupes = parentBlockUtilities.removeDupesFromArr(filtersArr);
+    if (filtersArrNoDupes.length < 2) {
+      editingLockedMsgClasses = "editing-locked-msg";
+    } else {
+      editingLockedMsgClasses = "editing-locked-msg hide";
+    }
+    console.log("filtersArrNoDupes.length");
+    console.log(filtersArrNoDupes.length);
   };
-  if (isEditPage) {
-    editorMsg = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "editing-locked-msg hide"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Meeting Edits are Locked while using Filters (Drop-Downs)!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "To edit meetings again change all drop-downs to the first options to show all all meetings, including:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Days of Week"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Cities"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "etc.")));
-  }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
-  }, editorMsg, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: editingLockedMsgClasses
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Meeting Edits are Locked while using Filters (Drop-Downs)!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "To edit meetings again change all drop-downs to the first options to show all all meetings, including:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Days of Week"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Show All Cities"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "etc."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters"
-    // onChange={(e) => {
-    // 	console.log(e.target.parentNode.parentNode.parentNode);
-    // }}
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Day of Week:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
     className: "day-of-week-filter",
     name: "days of week",
@@ -1076,21 +1063,6 @@ class Utilities {
     if (arr.length === 0) {
       return arr;
     }
-    console.log("uniqueId");
-    console.log(uniqueId);
-    console.log("arr[0].blockId");
-    console.log(arr[0].blockId);
-
-    // const findIndex = arr?.findIndex((item) => item.blockId === blockId);
-    // if (!findIndex) {
-    // 	return arr;
-    // }
-
-    // return findIndex;
-
-    // const selectedItem = arr[findIndex];
-
-    // return selectedItem;
   }
 
   // START: used in view.js ONLY

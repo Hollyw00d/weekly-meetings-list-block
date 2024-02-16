@@ -1,24 +1,19 @@
 import { dispatch } from "@wordpress/data";
-import Utilities from "../../../weekly-meetings-list-child/js/utilities";
+import ParentBlockUtilities from "../utilities";
+import ChildBlockUtilities from "../../../weekly-meetings-list-child/js/utilities";
 import { STORE_NAME } from "../filters-store/types";
 
-export default function Filters({
-	citiesArr,
-	groupTypesArr,
-	isEditPage,
-	uniqueId,
-	getChildBlocks,
-}) {
-	const utilities = new Utilities();
-	const daysArr = utilities.generateDaysArr();
+export default function Filters({ citiesArr, groupTypesArr }) {
+	let editingLockedMsgClasses = "editing-locked-msg hide";
+	const parentBlockUtilities = new ParentBlockUtilities();
+	const childBlockUtilities = new ChildBlockUtilities();
+	const daysArr = childBlockUtilities.generateDaysArr();
 
 	let isCitiesArray = Array.isArray(citiesArr);
 	let cities = null;
 
 	let isGroupTypeArr = Array.isArray(groupTypesArr);
 	let groupTypes = null;
-
-	let editorMsg = <></>;
 
 	if (isCitiesArray && citiesArr.length > 0) {
 		cities = citiesArr.map((item) => {
@@ -28,7 +23,7 @@ export default function Filters({
 
 	if (isGroupTypeArr && groupTypesArr.length > 0) {
 		groupTypes = groupTypesArr.map((item) => {
-			let itemClean = utilities.removeStrPrefix(item);
+			let itemClean = childBlockUtilities.removeStrPrefix(item);
 
 			return <option value={item}>{itemClean}</option>;
 		});
@@ -37,32 +32,36 @@ export default function Filters({
 	const filterEvent = (e) => {
 		let filtersArr = [];
 
-		const filtersParentElem = e.target.parentNode.parentNode.parentNode;
-		const filterSelectTags = filtersParentElem.getElementsByTagName("select");
+		// const filtersParentElem = e.target.parentNode.parentNode.parentNode;
+		const blockParentElem =
+			e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+
+		// console.log("blockParentElem");
+		// console.log(blockParentElem);
+
+		const filterSelectTags = blockParentElem.getElementsByTagName("select");
 
 		for (const select of filterSelectTags) {
 			const { value } = select;
 			filtersArr.push(value);
 		}
 
-		// console.log("filtersArr");
-		// console.log(filtersArr);
+		const filtersArrNoDupes =
+			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
-		// console.log("childBlocks");
-		// console.log(childBlocks);
+		if (filtersArrNoDupes.length < 2) {
+			editingLockedMsgClasses = "editing-locked-msg";
+		} else {
+			editingLockedMsgClasses = "editing-locked-msg hide";
+		}
 
-		console.log("getChildBlocks");
-		console.log(getChildBlocks);
-
-		console.log("uniqueId");
-		console.log(uniqueId);
-
-		dispatch(STORE_NAME).replaceFilter(uniqueId, 0, filtersArr);
+		console.log("filtersArrNoDupes.length");
+		console.log(filtersArrNoDupes.length);
 	};
 
-	if (isEditPage) {
-		editorMsg = (
-			<div class="editing-locked-msg hide">
+	return (
+		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
+			<div class={editingLockedMsgClasses}>
 				<h2>Meeting Edits are Locked while using Filters (Drop-Downs)!</h2>
 				<p>
 					To edit meetings again change all drop-downs to the first options to
@@ -74,18 +73,7 @@ export default function Filters({
 					<li>etc.</li>
 				</ul>
 			</div>
-		);
-	}
-
-	return (
-		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
-			{editorMsg}
-			<div
-				className="wp-block-create-block-meetings-table-block__filters"
-				// onChange={(e) => {
-				// 	console.log(e.target.parentNode.parentNode.parentNode);
-				// }}
-			>
+			<div className="wp-block-create-block-meetings-table-block__filters">
 				<label>
 					<div>Day of Week:</div>
 					<div>

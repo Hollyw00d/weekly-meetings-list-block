@@ -503,23 +503,6 @@ export default class Utilities {
 		if (arr.length === 0) {
 			return arr;
 		}
-
-		console.log("uniqueId");
-		console.log(uniqueId);
-
-		console.log("arr[0].blockId");
-		console.log(arr[0].blockId);
-
-		// const findIndex = arr?.findIndex((item) => item.blockId === blockId);
-		// if (!findIndex) {
-		// 	return arr;
-		// }
-
-		// return findIndex;
-
-		// const selectedItem = arr[findIndex];
-
-		// return selectedItem;
 	}
 
 	// START: used in view.js ONLY

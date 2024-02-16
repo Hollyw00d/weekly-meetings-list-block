@@ -54,8 +54,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		setAttributes({ tableTitle: val });
 	};
 
-	const isEditPage = true;
-
 	const filtersInfo = useSelect((select) => {
 		const store = select("weekly-meetings-list/filters");
 		if (!store) {
@@ -119,11 +117,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			console.log("filtersArr");
 			console.log(filtersArr);
-
-			// filtersArrNoDupes = utilities.removeDupesFromArr(filtersArr);
-
-			// console.log("filtersArrNoDupes");
-			// console.log(filtersArrNoDupes);
 		}
 	}, [childBlocks, filtersInfo]);
 
@@ -138,13 +131,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<Filters
-				citiesArr={citiesArr}
-				groupTypesArr={groupTypesArr}
-				isEditPage={isEditPage}
-				uniqueId={uniqueId}
-				getChildBlocks={getChildBlocks}
-			/>
+			<Filters citiesArr={citiesArr} groupTypesArr={groupTypesArr} />
 
 			<table>
 				<caption className="table-title">
