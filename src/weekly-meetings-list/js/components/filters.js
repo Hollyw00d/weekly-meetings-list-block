@@ -4,7 +4,6 @@ import ChildBlockUtilities from "../../../weekly-meetings-list-child/js/utilitie
 import { STORE_NAME } from "../filters-store/types";
 
 export default function Filters({ citiesArr, groupTypesArr }) {
-	let editingLockedMsgClasses = "editing-locked-msg hide";
 	const parentBlockUtilities = new ParentBlockUtilities();
 	const childBlockUtilities = new ChildBlockUtilities();
 	const daysArr = childBlockUtilities.generateDaysArr();
@@ -39,6 +38,15 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 		// console.log("blockParentElem");
 		// console.log(blockParentElem);
 
+		const editingLockedMsg =
+			blockParentElem.getElementsByClassName("editing-locked-msg")[0];
+
+		// console.log("editingLockedMsg");
+		// console.log(editingLockedMsg);
+
+		// console.log("blockParentElem");
+		// console.log(blockParentElem);
+
 		const filterSelectTags = blockParentElem.getElementsByTagName("select");
 
 		for (const select of filterSelectTags) {
@@ -50,18 +58,15 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
 		if (filtersArrNoDupes.length < 2) {
-			editingLockedMsgClasses = "editing-locked-msg";
+			editingLockedMsg.classList.add("hide");
 		} else {
-			editingLockedMsgClasses = "editing-locked-msg hide";
+			editingLockedMsg.classList.remove("hide");
 		}
-
-		console.log("filtersArrNoDupes.length");
-		console.log(filtersArrNoDupes.length);
 	};
 
 	return (
 		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
-			<div class={editingLockedMsgClasses}>
+			<div className="editing-locked-msg hide">
 				<h2>Meeting Edits are Locked while using Filters (Drop-Downs)!</h2>
 				<p>
 					To edit meetings again change all drop-downs to the first options to
