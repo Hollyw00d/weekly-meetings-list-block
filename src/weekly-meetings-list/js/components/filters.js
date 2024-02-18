@@ -29,12 +29,14 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 	const filterEvent = (e) => {
 		let filtersArr = [];
 
-		const blockParentElem =
-			e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+		const blockParentElem = e.target.closest(
+			".wp-block-create-block-meetings-table-block"
+		);
 
 		const editingLockedMsg =
 			blockParentElem.getElementsByClassName("editing-locked-msg")[0];
-		const currentTbody = blockParentElem.getElementsByTagName("tbody")[0];
+		const originalDataTbody =
+			blockParentElem.getElementsByClassName("original-data")[0];
 
 		const filterSelectTags = blockParentElem.getElementsByTagName("select");
 
@@ -47,10 +49,10 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
 		if (filtersArrNoDupes.length < 2) {
-			currentTbody.classList.remove("hide");
+			originalDataTbody.classList.remove("hide");
 			editingLockedMsg.classList.add("hide");
 		} else {
-			currentTbody.classList.add("hide");
+			originalDataTbody.classList.add("hide");
 			editingLockedMsg.classList.remove("hide");
 		}
 	};
