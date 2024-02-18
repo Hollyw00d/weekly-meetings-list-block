@@ -21,7 +21,7 @@ class Utilities {
       return;
     }
     const parentElemsArr = [...parentElems];
-    parentElemsArr.forEach((parentElem, i) => {
+    parentElemsArr.forEach(parentElem => {
       var _parentElem$querySele;
       const table = parentElem.querySelector("table");
       const currentTbody = parentElem.querySelector("tbody");
@@ -36,7 +36,8 @@ class Utilities {
       this.resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem);
       document.body.addEventListener("change", e => {
         var _table$querySelector, _table$querySelector2;
-        const filterClassName = e.target.className;
+        const target = e.target;
+        const filterClassName = target.className;
         let onStartTimeFilter = false;
         let selectedElem = e.target;
         switch (filterClassName) {
@@ -48,7 +49,7 @@ class Utilities {
             }
             let selectTagFilters2 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
             this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
-            this.filterNotification(parentElem, selectTagFilters2);
+            this.filterNotification(target, selectTagFilters2);
             return;
           case dayOfWeekClassName:
           case cityClassName:
@@ -60,7 +61,7 @@ class Utilities {
             }
             let selectTagFilters3 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
             this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
-            this.filterNotification(parentElem, selectTagFilters3);
+            this.filterNotification(target, selectTagFilters3);
             return;
         }
       });
@@ -230,8 +231,9 @@ class Utilities {
     const getSelectTagFilters = [parentElem.querySelector(`select.${dayOfWeekClassName}`), parentElem.querySelector(`select.${cityClassName}`), parentElem.querySelector(`select.${groupTypeClassName}`), parentElem.querySelector(`select.${startTimeClassName}`)];
     return getSelectTagFilters;
   }
-  filterNotification(parentElem, selectTagFilters) {
+  filterNotification(target, selectTagFilters) {
     var _parentElem$querySele2;
+    const parentElem = target.closest(".wp-block-create-block-meetings-table-block");
     const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
     const tbodyRowsShown = parentElem.querySelectorAll("tbody.copied-data tr:not(.hide)");
     const notification = (_parentElem$querySele2 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele2 !== void 0 ? _parentElem$querySele2 : null;

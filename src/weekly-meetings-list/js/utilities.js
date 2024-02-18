@@ -10,7 +10,7 @@ export default class Utilities {
 
 		const parentElemsArr = [...parentElems];
 
-		parentElemsArr.forEach((parentElem, i) => {
+		parentElemsArr.forEach((parentElem) => {
 			const table = parentElem.querySelector("table");
 			const currentTbody = parentElem.querySelector("tbody");
 			const currentTableRows = parentElem.querySelectorAll("tbody tr");
@@ -42,7 +42,8 @@ export default class Utilities {
 			);
 
 			document.body.addEventListener("change", (e) => {
-				const filterClassName = e.target.className;
+				const target = e.target;
+				const filterClassName = target.className;
 				let onStartTimeFilter = false;
 				let selectedElem = e.target;
 
@@ -76,7 +77,7 @@ export default class Utilities {
 							onStartTimeFilter
 						);
 
-						this.filterNotification(parentElem, selectTagFilters2);
+						this.filterNotification(target, selectTagFilters2);
 						return;
 					case dayOfWeekClassName:
 					case cityClassName:
@@ -110,7 +111,7 @@ export default class Utilities {
 							onStartTimeFilter
 						);
 
-						this.filterNotification(parentElem, selectTagFilters3);
+						this.filterNotification(target, selectTagFilters3);
 						return;
 				}
 			});
@@ -351,7 +352,11 @@ export default class Utilities {
 		return getSelectTagFilters;
 	}
 
-	filterNotification(parentElem, selectTagFilters) {
+	filterNotification(target, selectTagFilters) {
+		const parentElem = target.closest(
+			".wp-block-create-block-meetings-table-block"
+		);
+
 		const tbodyRowsOriginalData = parentElem.querySelectorAll(
 			"tbody.original-data tr"
 		);
@@ -359,6 +364,7 @@ export default class Utilities {
 		const tbodyRowsShown = parentElem.querySelectorAll(
 			"tbody.copied-data tr:not(.hide)"
 		);
+
 		const notification = parentElem.querySelector(".notification") ?? null;
 
 		const { filtersArr } = this.filtersArr(selectTagFilters);
