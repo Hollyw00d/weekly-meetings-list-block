@@ -15,26 +15,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sort_es__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sort-es */ "./node_modules/sort-es/lib/index.esm.js");
 
 class Utilities {
-  filterEvents(parentElemsSelector, isEditor = true) {
-    const parentElems = document.querySelectorAll(parentElemsSelector);
+  filterEvents(parentElemsSelector) {
+    const parentElems = document.getElementsByClassName(parentElemsSelector);
     if (parentElems.length === 0) {
       return;
     }
-    parentElems.forEach((parentElem, i) => {
-      var _filtersWrapper$query, _parentElem$querySele;
+    const parentElemsArr = [...parentElems];
+    parentElemsArr.forEach((parentElem, i) => {
+      var _parentElem$querySele;
       const table = parentElem.querySelector("table");
       const currentTbody = parentElem.querySelector("tbody");
       const currentTableRows = parentElem.querySelectorAll("tbody tr");
       const filtersWrapper = parentElem.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
-      const editingLockedMsg = (_filtersWrapper$query = filtersWrapper.querySelector(".editing-locked-msg")) !== null && _filtersWrapper$query !== void 0 ? _filtersWrapper$query : null;
       const innerBlockEditElem = (_parentElem$querySele = parentElem.querySelector(".block-editor-inner-blocks")) !== null && _parentElem$querySele !== void 0 ? _parentElem$querySele : null;
       const dayOfWeekClassName = "day-of-week-filter";
       const cityClassName = "city-filter";
       const groupTypeClassName = "group-type-filter";
       const startTimeClassName = "start-time-filter";
-      if (!isEditor && editingLockedMsg) {
-        editingLockedMsg.remove();
-      }
       let selectTagFilters = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
       this.resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem);
       document.body.addEventListener("change", e => {
@@ -111,7 +108,6 @@ class Utilities {
     if (onStartTimeFilter) {
       if (filtersArr.length === 1 && filtersArr[0] === "") {
         this.filterResetHandler(getNewTbody, currentTbody);
-        this.toggleEditingLockedMsg(filtersWrapper, false);
         return;
       } else {
         this.sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper);
@@ -121,7 +117,6 @@ class Utilities {
     // No filter active, or show ALL meetings
     else if (filtersArr.length === 1 && filtersArr[0] === "") {
       this.filterResetHandler(getNewTbody, currentTbody);
-      this.toggleEditingLockedMsg(filtersWrapper, false);
       return;
     }
     // Show meetings with filters EXCLUDING `select.start-time-filter` filter
@@ -164,12 +159,12 @@ class Utilities {
       });
       const getNewTbody2 = parentElem.querySelector("tbody.copied-data");
       this.alternateRowColor(getNewTbody2);
-      this.toggleEditingLockedMsg(filtersWrapper, true);
     }
   }
-  sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper) {
+  sortTimeFilter(parentElemsSelector, selectedElem) {
     var _getParentElem$queryS;
-    const getParentElem = selectedElem.closest(parentElemsSelector);
+    const parentElemsSelectorClass = `.${parentElemsSelector}`;
+    const getParentElem = selectedElem.closest(parentElemsSelectorClass);
     const getNewTbody = (_getParentElem$queryS = getParentElem.querySelector("tbody.copied-data")) !== null && _getParentElem$queryS !== void 0 ? _getParentElem$queryS : null;
     if (!getNewTbody) {
       return;
@@ -194,7 +189,6 @@ class Utilities {
     }
     const getNewTbody3 = getParentElem.querySelector("tbody.copied-data");
     this.alternateRowColor(getNewTbody3);
-    this.toggleEditingLockedMsg(filtersWrapper, true);
   }
   filtersArr(selectTagFilters) {
     let optionsTagValues = [];
@@ -231,19 +225,6 @@ class Utilities {
       }
       tr.classList.add("bg-white");
     });
-  }
-  toggleEditingLockedMsg(filtersWrapper, bool) {
-    const editingLockedMsg = filtersWrapper.querySelector(".editing-locked-msg");
-    if (!filtersWrapper || !editingLockedMsg) {
-      return;
-    }
-    if (bool) {
-      if (editingLockedMsg.classList.contains("hide")) {
-        editingLockedMsg.classList.remove("hide");
-      }
-      return;
-    }
-    editingLockedMsg.classList.add("hide");
   }
   getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName) {
     const getSelectTagFilters = [parentElem.querySelector(`select.${dayOfWeekClassName}`), parentElem.querySelector(`select.${cityClassName}`), parentElem.querySelector(`select.${groupTypeClassName}`), parentElem.querySelector(`select.${startTimeClassName}`)];
@@ -296,7 +277,6 @@ class Utilities {
       if (!newTbody) {
         return;
       }
-      this.toggleEditingLockedMsg(filtersWrapper, false);
       selectTagFilters.forEach(elem => {
         elem.value = "";
       });
@@ -679,7 +659,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/utilities */ "./src/weekly-meetings-list/js/utilities.js");
 
 const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_0__["default"]();
-utilities.filterEvents(".wp-block-create-block-meetings-table-block", false);
+utilities.filterEvents("wp-block-create-block-meetings-table-block");
 const printBtns = document.querySelectorAll(".wp-block-create-block-meetings-table-block button.print");
 utilities.onPrintEvents(printBtns, "show-print", "wp-block-create-block-meetings-table-block_hide-print");
 utilities.exitPrintEvents("show-print", "wp-block-create-block-meetings-table-block_hide-print");

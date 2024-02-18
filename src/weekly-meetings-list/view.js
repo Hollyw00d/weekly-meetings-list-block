@@ -1,6 +1,6 @@
 import Utilities from "./js/utilities";
 const utilities = new Utilities();
-utilities.filterEvents(".wp-block-create-block-meetings-table-block", false);
+utilities.filterEvents("wp-block-create-block-meetings-table-block");
 
 const printBtns = document.querySelectorAll(
 	".wp-block-create-block-meetings-table-block button.print"

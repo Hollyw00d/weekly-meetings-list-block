@@ -255,6 +255,9 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+.wp-block-create-block-meetings-table-block table tbody.original-data tr {
+  background-color: #fff;
+}
 .wp-block-create-block-meetings-table-block table tbody.original-data tr:nth-child(odd) {
   background-color: #f9f9f9;
 }

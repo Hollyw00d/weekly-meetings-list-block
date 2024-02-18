@@ -1,7 +1,5 @@
-import { dispatch } from "@wordpress/data";
 import ParentBlockUtilities from "../utilities";
 import ChildBlockUtilities from "../../../weekly-meetings-list-child/js/utilities";
-import { STORE_NAME } from "../filters-store/types";
 
 export default function Filters({ citiesArr, groupTypesArr }) {
 	const parentBlockUtilities = new ParentBlockUtilities();
@@ -31,21 +29,12 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 	const filterEvent = (e) => {
 		let filtersArr = [];
 
-		// const filtersParentElem = e.target.parentNode.parentNode.parentNode;
 		const blockParentElem =
 			e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
 
-		// console.log("blockParentElem");
-		// console.log(blockParentElem);
-
 		const editingLockedMsg =
 			blockParentElem.getElementsByClassName("editing-locked-msg")[0];
-
-		// console.log("editingLockedMsg");
-		// console.log(editingLockedMsg);
-
-		// console.log("blockParentElem");
-		// console.log(blockParentElem);
+		const currentTbody = blockParentElem.getElementsByTagName("tbody")[0];
 
 		const filterSelectTags = blockParentElem.getElementsByTagName("select");
 
@@ -58,8 +47,10 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
 		if (filtersArrNoDupes.length < 2) {
+			currentTbody.classList.remove("hide");
 			editingLockedMsg.classList.add("hide");
 		} else {
+			currentTbody.classList.add("hide");
 			editingLockedMsg.classList.remove("hide");
 		}
 	};

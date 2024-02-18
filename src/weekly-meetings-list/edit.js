@@ -1,4 +1,4 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
@@ -10,20 +10,12 @@ import { PanelBody, TextControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { byString } from "sort-es";
 import parse from "html-react-parser";
-import ShortUniqueId from "short-unique-id";
-import Utilities from "./js/utilities";
 import Filters from "./js/components/filters";
 import FilterNotifications from "./js/components/filterNotifications";
-import FilteredTableRows from "./js/components/filteredTableRows";
-import "./js/filters-store";
 import "./editor.scss";
-
-// For storing unique block IDs
-// const uniqueIds = [];
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
-		getChildBlocks,
 		tableTitle,
 		citiesArr,
 		groupTypesArr,
@@ -35,20 +27,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		groupInfoHeading,
 	} = attributes;
 
-	const { randomUUID } = new ShortUniqueId({ length: 50 });
-	// const uniqueId = randomUUID();
-	const [uniqueId, setUniqueId] = useState(randomUUID());
-
-	const utilities = new Utilities();
 	const groupInfoHeadingToHtml = parse(groupInfoHeading);
 
 	const childBlocks = useSelect(
 		(select) => select(blockStore).getBlocksByClientId(clientId)[0].innerBlocks
 	);
-
-	// const currentBlock = useSelect(
-	// 	(select) => select(blockStore).getBlocksByClientId(clientId)[0]
-	// );
 
 	const tableTitleChange = (val) => {
 		setAttributes({ tableTitle: val });
@@ -62,9 +45,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 		return store.getFilters();
 	});
-
-	let filtersArr = [];
-	let filtersArrNoDupes = [];
 
 	useEffect(() => {
 		let isArray = Array.isArray(childBlocks);
@@ -110,13 +90,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			];
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
-			setAttributes({ getChildBlocks: [...childBlocks] });
-
-			setUniqueId(randomUUID());
-			filtersArr = utilities.filtersArrayByItemId(uniqueId, filtersInfo);
-
-			console.log("filtersArr");
-			console.log(filtersArr);
 		}
 	}, [childBlocks, filtersInfo]);
 
@@ -167,28 +140,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</th>
 					</tr>
 				</thead>
-				{/* <tbody
-					className={
-						filtersArrNoDupes?.get(`filtersArrNoDupes_${uniqueId}`).length === 1
-							? `original-data`
-							: `original-data hide`
-					}
-					colspan="6"
-				> */}
 				<tbody className="original-data" colspan="6">
 					<InnerBlocks
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>
 				</tbody>
-				{/* {filtersArrNoDupes?.get(`filtersArrNoDupes_${uniqueId}`).length > 1 ? (
-					<FilteredTableRows
-						filtersArr={filtersArr}
-						childBlocks={childBlocks}
-					/>
-				) : (
-					<></>
-				)}
-				{null} */}
 			</table>
 		</div>
 	);

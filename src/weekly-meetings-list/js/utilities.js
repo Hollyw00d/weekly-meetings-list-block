@@ -1,22 +1,23 @@
 import { byValue, byString, byNumber } from "sort-es";
 
 export default class Utilities {
-	filterEvents(parentElemsSelector, isEditor = true) {
-		const parentElems = document.querySelectorAll(parentElemsSelector);
+	filterEvents(parentElemsSelector) {
+		const parentElems = document.getElementsByClassName(parentElemsSelector);
 
 		if (parentElems.length === 0) {
 			return;
 		}
 
-		parentElems.forEach((parentElem, i) => {
+		const parentElemsArr = [...parentElems];
+
+		parentElemsArr.forEach((parentElem, i) => {
 			const table = parentElem.querySelector("table");
 			const currentTbody = parentElem.querySelector("tbody");
 			const currentTableRows = parentElem.querySelectorAll("tbody tr");
 			const filtersWrapper = parentElem.querySelector(
 				".wp-block-create-block-meetings-table-block__filters__wrapper"
 			);
-			const editingLockedMsg =
-				filtersWrapper.querySelector(".editing-locked-msg") ?? null;
+
 			const innerBlockEditElem =
 				parentElem.querySelector(".block-editor-inner-blocks") ?? null;
 
@@ -24,10 +25,6 @@ export default class Utilities {
 			const cityClassName = "city-filter";
 			const groupTypeClassName = "group-type-filter";
 			const startTimeClassName = "start-time-filter";
-
-			if (!isEditor && editingLockedMsg) {
-				editingLockedMsg.remove();
-			}
 
 			let selectTagFilters = this.getSelectTagFilters(
 				parentElem,
@@ -184,7 +181,6 @@ export default class Utilities {
 		if (onStartTimeFilter) {
 			if (filtersArr.length === 1 && filtersArr[0] === "") {
 				this.filterResetHandler(getNewTbody, currentTbody);
-				this.toggleEditingLockedMsg(filtersWrapper, false);
 
 				return;
 			} else {
@@ -196,7 +192,6 @@ export default class Utilities {
 		// No filter active, or show ALL meetings
 		else if (filtersArr.length === 1 && filtersArr[0] === "") {
 			this.filterResetHandler(getNewTbody, currentTbody);
-			this.toggleEditingLockedMsg(filtersWrapper, false);
 			return;
 		}
 		// Show meetings with filters EXCLUDING `select.start-time-filter` filter
@@ -246,13 +241,12 @@ export default class Utilities {
 
 			const getNewTbody2 = parentElem.querySelector("tbody.copied-data");
 			this.alternateRowColor(getNewTbody2);
-			this.toggleEditingLockedMsg(filtersWrapper, true);
 		}
 	}
 
-	sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper) {
-		const getParentElem = selectedElem.closest(parentElemsSelector);
-
+	sortTimeFilter(parentElemsSelector, selectedElem) {
+		const parentElemsSelectorClass = `.${parentElemsSelector}`;
+		const getParentElem = selectedElem.closest(parentElemsSelectorClass);
 		const getNewTbody =
 			getParentElem.querySelector("tbody.copied-data") ?? null;
 
@@ -296,7 +290,6 @@ export default class Utilities {
 
 		const getNewTbody3 = getParentElem.querySelector("tbody.copied-data");
 		this.alternateRowColor(getNewTbody3);
-		this.toggleEditingLockedMsg(filtersWrapper, true);
 	}
 
 	filtersArr(selectTagFilters) {
@@ -339,25 +332,6 @@ export default class Utilities {
 
 			tr.classList.add("bg-white");
 		});
-	}
-
-	toggleEditingLockedMsg(filtersWrapper, bool) {
-		const editingLockedMsg = filtersWrapper.querySelector(
-			".editing-locked-msg"
-		);
-
-		if (!filtersWrapper || !editingLockedMsg) {
-			return;
-		}
-
-		if (bool) {
-			if (editingLockedMsg.classList.contains("hide")) {
-				editingLockedMsg.classList.remove("hide");
-			}
-			return;
-		}
-
-		editingLockedMsg.classList.add("hide");
 	}
 
 	getSelectTagFilters(
@@ -446,8 +420,6 @@ export default class Utilities {
 			if (!newTbody) {
 				return;
 			}
-
-			this.toggleEditingLockedMsg(filtersWrapper, false);
 
 			selectTagFilters.forEach((elem) => {
 				elem.value = "";

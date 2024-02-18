@@ -269,6 +269,8 @@
 
 			&.original-data {
 				tr {
+					background-color: $white;
+
 					&:nth-child(odd) {
 						background-color: $light-gray;
 					}
