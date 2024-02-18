@@ -27,6 +27,7 @@ class Utilities {
       const currentTbody = parentElem.querySelector("tbody");
       const currentTableRows = parentElem.querySelectorAll("tbody tr");
       const filtersWrapper = parentElem.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
+      const selectTags = parentElem.querySelectorAll("select");
       const innerBlockEditElem = (_parentElem$querySele = parentElem.querySelector(".block-editor-inner-blocks")) !== null && _parentElem$querySele !== void 0 ? _parentElem$querySele : null;
       const dayOfWeekClassName = "day-of-week-filter";
       const cityClassName = "city-filter";
@@ -34,36 +35,39 @@ class Utilities {
       const startTimeClassName = "start-time-filter";
       let selectTagFilters = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
       this.resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem);
-      document.body.addEventListener("change", e => {
-        var _table$querySelector, _table$querySelector2;
-        const target = e.target;
-        const filterClassName = target.className;
-        let onStartTimeFilter = false;
-        let selectedElem = e.target;
-        switch (filterClassName) {
-          case startTimeClassName:
-            onStartTimeFilter = true;
-            let getNewTbody = (_table$querySelector = table.querySelector("tbody.copied-data")) !== null && _table$querySelector !== void 0 ? _table$querySelector : null;
-            if (!getNewTbody) {
-              this.setupFilterHandler(table, currentTbody, currentTableRows);
-            }
-            let selectTagFilters2 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
-            this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
-            this.filterNotification(target, selectTagFilters2);
-            return;
-          case dayOfWeekClassName:
-          case cityClassName:
-          case groupTypeClassName:
-            onStartTimeFilter = false;
-            const getNewTbody2 = (_table$querySelector2 = table.querySelector("tbody.copied-data")) !== null && _table$querySelector2 !== void 0 ? _table$querySelector2 : null;
-            if (!getNewTbody2) {
-              this.setupFilterHandler(table, currentTbody, currentTableRows);
-            }
-            let selectTagFilters3 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
-            this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
-            this.filterNotification(target, selectTagFilters3);
-            return;
-        }
+      selectTagFilters.forEach(select => {
+        select.addEventListener("change", e => {
+          var _table$querySelector, _table$querySelector2;
+          const selectedElem = e.target;
+          const filterClassName = selectedElem.className;
+          const parentElemsSelectorClass = `.${parentElemsSelector}`;
+          const parentElem = selectedElem.closest(parentElemsSelectorClass);
+          let onStartTimeFilter = false;
+          switch (filterClassName) {
+            case startTimeClassName:
+              onStartTimeFilter = true;
+              let getNewTbody = (_table$querySelector = table.querySelector("tbody.copied-data")) !== null && _table$querySelector !== void 0 ? _table$querySelector : null;
+              if (!getNewTbody) {
+                this.setupFilterHandler(table, currentTbody, currentTableRows);
+              }
+              let selectTagFilters2 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+              this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+              this.filterNotification(selectedElem, selectTagFilters2);
+              return;
+            case dayOfWeekClassName:
+            case cityClassName:
+            case groupTypeClassName:
+              onStartTimeFilter = false;
+              const getNewTbody2 = (_table$querySelector2 = table.querySelector("tbody.copied-data")) !== null && _table$querySelector2 !== void 0 ? _table$querySelector2 : null;
+              if (!getNewTbody2) {
+                this.setupFilterHandler(table, currentTbody, currentTableRows);
+              }
+              let selectTagFilters3 = this.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+              this.showHideFilter(parentElemsSelector, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+              this.filterNotification(selectedElem, selectTagFilters3);
+              return;
+          }
+        });
       });
     });
   }
@@ -263,7 +267,7 @@ class Utilities {
       default:
         filtersStr = this.selectedFilterArr(optionsTagValues, optionsTagText, optionsTagTextSelected);
         if (notification) {
-          notification.innerHTML = `Showing ${tbodyRowsShown.length} Meetings when filter(s) selected:<br />${filtersStr}`;
+          notification.innerHTML = `Showing ${tbodyRowsShown.length} Meeting(s) when filter(s) selected:<br />${filtersStr}`;
         }
     }
   }

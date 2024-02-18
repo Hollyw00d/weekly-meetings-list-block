@@ -17,6 +17,7 @@ export default class Utilities {
 			const filtersWrapper = parentElem.querySelector(
 				".wp-block-create-block-meetings-table-block__filters__wrapper"
 			);
+			const selectTags = parentElem.querySelectorAll("select");
 
 			const innerBlockEditElem =
 				parentElem.querySelector(".block-editor-inner-blocks") ?? null;
@@ -41,79 +42,83 @@ export default class Utilities {
 				innerBlockEditElem
 			);
 
-			document.body.addEventListener("change", (e) => {
-				const target = e.target;
-				const filterClassName = target.className;
-				let onStartTimeFilter = false;
-				let selectedElem = e.target;
+			selectTagFilters.forEach((select) => {
+				select.addEventListener("change", (e) => {
+					const selectedElem = e.target;
+					const filterClassName = selectedElem.className;
+					const parentElemsSelectorClass = `.${parentElemsSelector}`;
+					const parentElem = selectedElem.closest(parentElemsSelectorClass);
+					let onStartTimeFilter = false;
 
-				switch (filterClassName) {
-					case startTimeClassName:
-						onStartTimeFilter = true;
-						let getNewTbody = table.querySelector("tbody.copied-data") ?? null;
+					switch (filterClassName) {
+						case startTimeClassName:
+							onStartTimeFilter = true;
+							let getNewTbody =
+								table.querySelector("tbody.copied-data") ?? null;
 
-						if (!getNewTbody) {
-							this.setupFilterHandler(table, currentTbody, currentTableRows);
-						}
+							if (!getNewTbody) {
+								this.setupFilterHandler(table, currentTbody, currentTableRows);
+							}
 
-						let selectTagFilters2 = this.getSelectTagFilters(
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName
-						);
+							let selectTagFilters2 = this.getSelectTagFilters(
+								parentElem,
+								dayOfWeekClassName,
+								cityClassName,
+								groupTypeClassName,
+								startTimeClassName
+							);
 
-						this.showHideFilter(
-							parentElemsSelector,
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName,
-							currentTbody,
-							filtersWrapper,
-							selectedElem,
-							onStartTimeFilter
-						);
+							this.showHideFilter(
+								parentElemsSelector,
+								parentElem,
+								dayOfWeekClassName,
+								cityClassName,
+								groupTypeClassName,
+								startTimeClassName,
+								currentTbody,
+								filtersWrapper,
+								selectedElem,
+								onStartTimeFilter
+							);
 
-						this.filterNotification(target, selectTagFilters2);
-						return;
-					case dayOfWeekClassName:
-					case cityClassName:
-					case groupTypeClassName:
-						onStartTimeFilter = false;
-						const getNewTbody2 =
-							table.querySelector("tbody.copied-data") ?? null;
+							this.filterNotification(selectedElem, selectTagFilters2);
+							return;
+						case dayOfWeekClassName:
+						case cityClassName:
+						case groupTypeClassName:
+							onStartTimeFilter = false;
+							const getNewTbody2 =
+								table.querySelector("tbody.copied-data") ?? null;
 
-						if (!getNewTbody2) {
-							this.setupFilterHandler(table, currentTbody, currentTableRows);
-						}
+							if (!getNewTbody2) {
+								this.setupFilterHandler(table, currentTbody, currentTableRows);
+							}
 
-						let selectTagFilters3 = this.getSelectTagFilters(
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName
-						);
+							let selectTagFilters3 = this.getSelectTagFilters(
+								parentElem,
+								dayOfWeekClassName,
+								cityClassName,
+								groupTypeClassName,
+								startTimeClassName
+							);
 
-						this.showHideFilter(
-							parentElemsSelector,
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName,
-							currentTbody,
-							filtersWrapper,
-							selectedElem,
-							onStartTimeFilter
-						);
+							this.showHideFilter(
+								parentElemsSelector,
+								parentElem,
+								dayOfWeekClassName,
+								cityClassName,
+								groupTypeClassName,
+								startTimeClassName,
+								currentTbody,
+								filtersWrapper,
+								selectedElem,
+								onStartTimeFilter
+							);
 
-						this.filterNotification(target, selectTagFilters3);
-						return;
-				}
+							this.filterNotification(selectedElem, selectTagFilters3);
+							return;
+					}
+				});
 			});
 		});
 	}
@@ -378,6 +383,7 @@ export default class Utilities {
 				if (notification) {
 					notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
 				}
+
 				return;
 			case tbodyRowsShown.length === 0:
 				filtersStr = this.selectedFilterArr(
@@ -398,7 +404,7 @@ export default class Utilities {
 				);
 
 				if (notification) {
-					notification.innerHTML = `Showing ${tbodyRowsShown.length} Meetings when filter(s) selected:<br />${filtersStr}`;
+					notification.innerHTML = `Showing ${tbodyRowsShown.length} Meeting(s) when filter(s) selected:<br />${filtersStr}`;
 				}
 		}
 	}
