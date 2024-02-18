@@ -145,6 +145,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						allowedBlocks={["create-block/meetings-table-row-block"]}
 					/>
 				</tbody>
+				<tbody className="copied-data hide" colspan="6"></tbody>
 			</table>
 		</div>
 	);
