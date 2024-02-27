@@ -1,5 +1,6 @@
 import ParentBlockUtilities from "../utilities";
 import ChildBlockUtilities from "../../../weekly-meetings-list-child/js/utilities";
+import utilityConstants from "./constants/utility-constants";
 
 export default function Filters({ citiesArr, groupTypesArr }) {
 	const parentBlockUtilities = new ParentBlockUtilities();

@@ -1,4 +1,5 @@
 import { byValue, byString, byNumber } from "sort-es";
+import utilityConstants from "./components/constants/utility-constants";
 
 export default class Utilities {
 	filterEvents(parentElemsSelector) {
@@ -17,15 +18,11 @@ export default class Utilities {
 			const filtersWrapper = parentElem.querySelector(
 				".wp-block-create-block-meetings-table-block__filters__wrapper"
 			);
-			const selectTags = parentElem.querySelectorAll("select");
 
-			const innerBlockEditElem =
-				parentElem.querySelector(".block-editor-inner-blocks") ?? null;
-
-			const dayOfWeekClassName = "day-of-week-filter";
-			const cityClassName = "city-filter";
-			const groupTypeClassName = "group-type-filter";
-			const startTimeClassName = "start-time-filter";
+			const { dayOfWeekClassName } = utilityConstants.selectTagClass;
+			const { cityClassName } = utilityConstants.selectTagClass;
+			const { groupTypeClassName } = utilityConstants.selectTagClass;
+			const { startTimeClassName } = utilityConstants.selectTagClass;
 
 			let selectTagFilters = this.getSelectTagFilters(
 				parentElem,
@@ -35,22 +32,19 @@ export default class Utilities {
 				startTimeClassName
 			);
 
-			this.resetFilters(
-				parentElem,
-				selectTagFilters,
-				currentTbody,
-				innerBlockEditElem
-			);
+			this.resetFilters(parentElem, selectTagFilters, currentTbody);
 
 			selectTagFilters.forEach((select) => {
 				select.addEventListener("change", (e) => {
 					const selectedElem = e.target;
 					const filterClassName = selectedElem.className;
+					const filterClassNameArr = filterClassName.split(" ");
+					const filterClassNameClean = filterClassNameArr[0].trim();
 					const parentElemsSelectorClass = `.${parentElemsSelector}`;
 					const parentElem = selectedElem.closest(parentElemsSelectorClass);
 					let onStartTimeFilter = false;
 
-					switch (filterClassName) {
+					switch (filterClassNameClean) {
 						case startTimeClassName:
 							onStartTimeFilter = true;
 							let getNewTbody =
@@ -83,9 +77,7 @@ export default class Utilities {
 
 							this.filterNotification(selectedElem, selectTagFilters2);
 							return;
-						case dayOfWeekClassName:
-						case cityClassName:
-						case groupTypeClassName:
+						default:
 							onStartTimeFilter = false;
 							const getNewTbody2 =
 								table.querySelector("tbody.copied-data") ?? null;
@@ -187,7 +179,6 @@ export default class Utilities {
 		if (onStartTimeFilter) {
 			if (filtersArr.length === 1 && filtersArr[0] === "") {
 				this.filterResetHandler(getNewTbody, currentTbody);
-
 				return;
 			} else {
 				this.sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper);
@@ -261,9 +252,7 @@ export default class Utilities {
 		}
 
 		const newTbodyRows = getNewTbody.querySelectorAll("tr");
-
 		const selectVal = selectedElem.value;
-
 		const rowsArr = Array.from(newTbodyRows);
 
 		if (selectVal === "asc~") {
@@ -359,7 +348,7 @@ export default class Utilities {
 
 	filterNotification(target, selectTagFilters) {
 		const parentElem = target.closest(
-			".wp-block-create-block-meetings-table-block"
+			`.${utilityConstants.parentBlockClassName}`
 		);
 
 		const tbodyRowsOriginalData = parentElem.querySelectorAll(
@@ -417,7 +406,7 @@ export default class Utilities {
 		resetBtn.addEventListener("click", (e) => {
 			const btnClicked = e.target;
 			const btnParent = btnClicked.closest(
-				".wp-block-create-block-meetings-table-block"
+				`.${utilityConstants.parentBlockClassName}`
 			);
 
 			const tbodyRowsOriginalData = parentElem.querySelectorAll(
@@ -475,20 +464,6 @@ export default class Utilities {
 		return newArr;
 	}
 
-	arrayUniqueByKey(key, arr) {
-		if (arr.length === 0) {
-			return arr;
-		}
-
-		return [...new Map(arr.map((item) => [item[key], item])).values()];
-	}
-
-	filtersArrayByItemId(uniqueId, arr) {
-		if (arr.length === 0) {
-			return arr;
-		}
-	}
-
 	// START: used in view.js ONLY
 	onPrintEvents(btns, showPrintClass, hidePrintClass) {
 		btns.forEach((btn) => {
@@ -513,6 +488,10 @@ export default class Utilities {
 				);
 
 				const tableChildElems = this.getAllDescendants(table);
+
+				if (!tableChildElems) {
+					return;
+				}
 
 				tableChildElems.forEach((child) => {
 					if (child.classList) {
@@ -589,17 +568,22 @@ export default class Utilities {
 		});
 	}
 
-	getAllDescendants(node) {
-		let arr = [];
-		getDescendants(node);
+	getAllDescendants(elem) {
+		if (!elem) {
+			return;
+		}
 
-		function getDescendants(node) {
-			for (var i = 0; i < node.childNodes.length; i++) {
-				let child = node.childNodes[i];
+		let arr = [];
+
+		function getDescendants(elem) {
+			for (var i = 0; i < elem.childNodes.length; i++) {
+				let child = elem.childNodes[i];
 				getDescendants(child);
 				arr.push(child);
 			}
 		}
+		getDescendants(elem);
+
 		return arr;
 	}
 	// END: used in view.js ONLY
