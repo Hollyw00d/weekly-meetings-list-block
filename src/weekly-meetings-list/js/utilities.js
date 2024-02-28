@@ -434,9 +434,10 @@ export default class Utilities {
 				`.${utilityConstants.parentBlockClassName}`
 			);
 
-			const tbodyRowsOriginalData = parentElem.querySelectorAll(
+			const tbodyRowsOriginalData = btnParent.querySelectorAll(
 				"tbody.original-data tr"
 			);
+
 			const newTbody =
 				btnParent.querySelector("table tbody.copied-data") ?? null;
 

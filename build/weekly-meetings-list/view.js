@@ -311,7 +311,7 @@ class Utilities {
       var _btnParent$querySelec, _parentElem$querySele2;
       const btnClicked = e.target;
       const btnParent = btnClicked.closest(`.${_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName}`);
-      const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
+      const tbodyRowsOriginalData = btnParent.querySelectorAll("tbody.original-data tr");
       const newTbody = (_btnParent$querySelec = btnParent.querySelector("table tbody.copied-data")) !== null && _btnParent$querySelec !== void 0 ? _btnParent$querySelec : null;
       if (!newTbody) {
         return;
