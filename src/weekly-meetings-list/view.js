@@ -5,7 +5,7 @@ const utilities = new Utilities();
 utilities.filterEvents(`${utilityConstants.parentBlockClassName}`);
 
 const printBtns = document.querySelectorAll(
-	`.${utilityConstants.parentBlockClassName}`
+	`.${utilityConstants.parentBlockClassName} button.print`
 );
 
 utilities.onPrintEvents(

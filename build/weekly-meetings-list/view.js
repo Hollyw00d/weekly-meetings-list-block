@@ -696,7 +696,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const utilities = new _js_utilities__WEBPACK_IMPORTED_MODULE_0__["default"]();
 utilities.filterEvents(`${_js_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_1__["default"].parentBlockClassName}`);
-const printBtns = document.querySelectorAll(`.${_js_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_1__["default"].parentBlockClassName}`);
+const printBtns = document.querySelectorAll(`.${_js_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_1__["default"].parentBlockClassName} button.print`);
 utilities.onPrintEvents(printBtns, "show-print", "wp-block-create-block-meetings-table-block_hide-print");
 utilities.exitPrintEvents("show-print", "wp-block-create-block-meetings-table-block_hide-print");
 })();
