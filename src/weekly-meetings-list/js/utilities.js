@@ -2,8 +2,8 @@ import { byValue, byString, byNumber } from "sort-es";
 import utilityConstants from "./components/constants/utility-constants";
 
 export default class Utilities {
-	filterEvents(parentElemsSelector) {
-		const parentElems = document.getElementsByClassName(parentElemsSelector);
+	filterEvents(parentElemsClassName) {
+		const parentElems = document.getElementsByClassName(parentElemsClassName);
 
 		if (parentElems.length === 0) {
 			return;
@@ -13,10 +13,10 @@ export default class Utilities {
 
 		parentElemsArr.forEach((parentElem) => {
 			const table = parentElem.querySelector("table");
-			const currentTbody = parentElem.querySelector("tbody");
-			const currentTableRows = parentElem.querySelectorAll("tbody tr");
+			const currentTbody = table.querySelector("tbody");
+			const currentTableRows = currentTbody.querySelectorAll("tr");
 			const filtersWrapper = parentElem.querySelector(
-				".wp-block-create-block-meetings-table-block__filters__wrapper"
+				`.${parentElemsClassName}__filters__wrapper`
 			);
 
 			const { dayOfWeekClassName } = utilityConstants.selectTagClass;
@@ -40,7 +40,7 @@ export default class Utilities {
 					const filterClassName = selectedElem.className;
 					const filterClassNameArr = filterClassName.split(" ");
 					const filterClassNameClean = filterClassNameArr[0].trim();
-					const parentElemsSelectorClass = `.${parentElemsSelector}`;
+					const parentElemsSelectorClass = `.${parentElemsClassName}`;
 					const parentElem = selectedElem.closest(parentElemsSelectorClass);
 					let onStartTimeFilter = false;
 
@@ -63,7 +63,7 @@ export default class Utilities {
 							);
 
 							this.showHideFilter(
-								parentElemsSelector,
+								parentElemsClassName,
 								parentElem,
 								dayOfWeekClassName,
 								cityClassName,
@@ -95,7 +95,7 @@ export default class Utilities {
 							);
 
 							this.showHideFilter(
-								parentElemsSelector,
+								parentElemsClassName,
 								parentElem,
 								dayOfWeekClassName,
 								cityClassName,
@@ -150,7 +150,7 @@ export default class Utilities {
 	}
 
 	showHideFilter(
-		parentElemsSelector,
+		parentElemsClassName,
 		parentElem,
 		dayOfWeekClassName,
 		cityClassName,
@@ -181,7 +181,7 @@ export default class Utilities {
 				this.filterResetHandler(getNewTbody, currentTbody);
 				return;
 			} else {
-				this.sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper);
+				this.sortTimeFilter(parentElemsClassName, selectedElem, filtersWrapper);
 			}
 
 			return;
@@ -241,8 +241,8 @@ export default class Utilities {
 		}
 	}
 
-	sortTimeFilter(parentElemsSelector, selectedElem) {
-		const parentElemsSelectorClass = `.${parentElemsSelector}`;
+	sortTimeFilter(parentElemsClassName, selectedElem) {
+		const parentElemsSelectorClass = `.${parentElemsClassName}`;
 		const getParentElem = selectedElem.closest(parentElemsSelectorClass);
 		const getNewTbody =
 			getParentElem.querySelector("tbody.copied-data") ?? null;

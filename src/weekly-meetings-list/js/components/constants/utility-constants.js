@@ -1,5 +1,8 @@
+const parentBlockClassName = "wp-block-create-block-meetings-table-block";
+
 export default {
-	parentBlockClassName: "wp-block-create-block-meetings-table-block",
+	parentBlockClassName,
+	filterWrapperClassName: `${parentBlockClassName}__filters__wrapper`,
 	selectTagClass: {
 		dayOfWeekClassName: "day-of-week-filter",
 		cityClassName: "city-filter",

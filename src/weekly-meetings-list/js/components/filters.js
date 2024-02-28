@@ -30,30 +30,51 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 	const filterEvent = (e) => {
 		let filtersArr = [];
 
-		const blockParentElem = e.target.closest(
-			".wp-block-create-block-meetings-table-block"
+		const parentElem = e.target.closest(
+			`.${utilityConstants.parentBlockClassName}`
 		);
 
-		const editingLockedMsg =
-			blockParentElem.getElementsByClassName("editing-locked-msg")[0];
-		const originalDataTbody =
-			blockParentElem.getElementsByClassName("original-data")[0];
+		const table = parentElem.querySelector("table");
+		const currentTbody = table.querySelector("tbody");
+		const currentTableRows = currentTbody.querySelectorAll("tr");
+		const filtersWrapper = parentElem.querySelector(
+			`.${utilityConstants.parentBlockClassName}__filters__wrapper`
+		);
+		const filterSelectTags = parentElem.querySelectorAll("select");
+		const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
 
-		const filterSelectTags = blockParentElem.getElementsByTagName("select");
+		const { dayOfWeekClassName } = utilityConstants.selectTagClass;
+		const { cityClassName } = utilityConstants.selectTagClass;
+		const { groupTypeClassName } = utilityConstants.selectTagClass;
+		const { startTimeClassName } = utilityConstants.selectTagClass;
 
-		for (const select of filterSelectTags) {
+		let selectTagFilters = parentBlockUtilities.getSelectTagFilters(
+			parentElem,
+			dayOfWeekClassName,
+			cityClassName,
+			groupTypeClassName,
+			startTimeClassName
+		);
+
+		parentBlockUtilities.resetFilters(
+			parentElem,
+			selectTagFilters,
+			currentTbody
+		);
+
+		filterSelectTags.forEach((select) => {
 			const { value } = select;
 			filtersArr.push(value);
-		}
+		});
 
 		const filtersArrNoDupes =
 			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
 		if (filtersArrNoDupes.length < 2) {
-			originalDataTbody.classList.remove("hide");
+			currentTbody.classList.remove("hide");
 			editingLockedMsg.classList.add("hide");
 		} else {
-			originalDataTbody.classList.add("hide");
+			currentTbody.classList.add("hide");
 			editingLockedMsg.classList.remove("hide");
 		}
 	};
