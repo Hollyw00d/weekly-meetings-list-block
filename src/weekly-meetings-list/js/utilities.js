@@ -12,11 +12,13 @@ export default class Utilities {
 		const parentElemsArr = [...parentElems];
 
 		parentElemsArr.forEach((parentElem) => {
-			const table = parentElem.querySelector("table");
-			const currentTbody = table.querySelector("tbody");
-			const currentTableRows = currentTbody.querySelectorAll("tr");
-			const filtersWrapper = parentElem.querySelector(
-				`.${parentElemsClassName}__filters__wrapper`
+			const table = parentElem.getElementsByTagName("table");
+			const currentTbody = parentElem.getElementsByTagName("tbody");
+			const currentTableRows = parentElem
+				.getElementsByTagName("tbody")[0]
+				.getElementsByTagName("tr");
+			const filtersWrapper = parentElem.getElementsByClassName(
+				`${parentElemsClassName}__filters__wrapper`
 			);
 
 			const { dayOfWeekClassName } = utilityConstants.selectTagClass;
@@ -24,13 +26,7 @@ export default class Utilities {
 			const { groupTypeClassName } = utilityConstants.selectTagClass;
 			const { startTimeClassName } = utilityConstants.selectTagClass;
 
-			let selectTagFilters = this.getSelectTagFilters(
-				parentElem,
-				dayOfWeekClassName,
-				cityClassName,
-				groupTypeClassName,
-				startTimeClassName
-			);
+			let selectTagFilters = this.getSelectTagFilters(parentElem);
 
 			this.resetFilters(parentElem, selectTagFilters, currentTbody);
 
@@ -61,7 +57,8 @@ export default class Utilities {
 		currentTableRows,
 		filtersWrapper
 	) {
-		selectTagFilters.forEach((select) => {
+		const selectTagFiltersArr = [...selectTagFilters];
+		selectTagFiltersArr.forEach((select) => {
 			select.addEventListener("change", (e) => {
 				const selectedElem = e.target;
 				const filterClassName = selectedElem.className;
@@ -74,19 +71,13 @@ export default class Utilities {
 				switch (filterClassNameClean) {
 					case startTimeClassName:
 						onStartTimeFilter = true;
-						let getNewTbody = table.querySelector("tbody.copied-data") ?? null;
+						let getNewTbody = table[0].getElementsByClassName("copied-data");
 
-						if (!getNewTbody) {
+						if (getNewTbody.length === 0) {
 							this.setupFilterHandler(table, currentTbody, currentTableRows);
 						}
 
-						let selectTagFilters2 = this.getSelectTagFilters(
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName
-						);
+						let selectTagFilters2 = this.getSelectTagFilters(parentElem);
 
 						this.showHideFilter(
 							parentElemsClassName,
@@ -105,20 +96,13 @@ export default class Utilities {
 						return;
 					default:
 						onStartTimeFilter = false;
-						const getNewTbody2 =
-							table.querySelector("tbody.copied-data") ?? null;
+						const getNewTbody2 = table[0].getElementsByClassName("copied-data");
 
-						if (!getNewTbody2) {
+						if (getNewTbody2.length === 0) {
 							this.setupFilterHandler(table, currentTbody, currentTableRows);
 						}
 
-						let selectTagFilters3 = this.getSelectTagFilters(
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName
-						);
+						let selectTagFilters3 = this.getSelectTagFilters(parentElem);
 
 						this.showHideFilter(
 							parentElemsClassName,
@@ -186,16 +170,10 @@ export default class Utilities {
 		selectedElem,
 		onStartTimeFilter
 	) {
-		const getNewTbody = parentElem.querySelector("tbody.copied-data");
-		const newTbodyRows = getNewTbody.querySelectorAll("tr");
+		const getNewTbody = parentElem.getElementsByClassName("copied-data");
+		const newTbodyRows = getNewTbody.getElementsByTagName("tr");
 
-		let selectTagFilters = this.getSelectTagFilters(
-			parentElem,
-			dayOfWeekClassName,
-			cityClassName,
-			groupTypeClassName,
-			startTimeClassName
-		);
+		let selectTagFilters = this.getSelectTagFilters(parentElem);
 
 		let { filtersArr } = this.filtersArr(selectTagFilters);
 		let { optionsTagValues } = this.filtersArr(selectTagFilters);
@@ -354,21 +332,9 @@ export default class Utilities {
 		});
 	}
 
-	getSelectTagFilters(
-		parentElem,
-		dayOfWeekClassName,
-		cityClassName,
-		groupTypeClassName,
-		startTimeClassName
-	) {
-		const getSelectTagFilters = [
-			parentElem.querySelector(`select.${dayOfWeekClassName}`),
-			parentElem.querySelector(`select.${cityClassName}`),
-			parentElem.querySelector(`select.${groupTypeClassName}`),
-			parentElem.querySelector(`select.${startTimeClassName}`),
-		];
-
-		return getSelectTagFilters;
+	getSelectTagFilters(parentElem) {
+		const selectTagElems = parentElem.getElementsByTagName("select");
+		return selectTagElems;
 	}
 
 	filterNotification(target, selectTagFilters) {
@@ -424,11 +390,13 @@ export default class Utilities {
 	}
 
 	resetFilters(parentElem, selectTagFilters, currentTbody) {
-		const resetBtn = parentElem.querySelector(
-			".wp-block-create-block-meetings-table-block_reset-btn"
-		);
+		const resetBtn = parentElem.getElementsByClassName(
+			"wp-block-create-block-meetings-table-block_reset-btn"
+		)[0];
 
 		resetBtn.addEventListener("click", (e) => {
+			console.log("resetBtn clicked!");
+
 			const btnClicked = e.target;
 			const btnParent = btnClicked.closest(
 				`.${utilityConstants.parentBlockClassName}`
@@ -485,6 +453,21 @@ export default class Utilities {
 		const setFromArr = new Set(arr);
 		const newArr = [...setFromArr];
 		return newArr;
+	}
+
+	ifHTMLCollectionOrNodeList(elem) {
+		switch (true) {
+			case HTMLCollection.prototype.isPrototypeOf(elem):
+				console.log("Is HTMLCollection");
+				console.log(elem);
+				return;
+			case NodeList.prototype.isPrototypeOf(elem):
+				console.log("Is NodeList");
+				console.log(elem);
+				return;
+			default:
+				console.log("NOT HTMLCollection or NodeList!!!");
+		}
 	}
 
 	// START: used in view.js ONLY
