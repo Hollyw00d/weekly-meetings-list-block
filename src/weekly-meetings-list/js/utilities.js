@@ -439,9 +439,6 @@ export default class Utilities {
 			);
 			const newTbody =
 				btnParent.querySelector("table tbody.copied-data") ?? null;
-			const filtersWrapper = btnParent.querySelector(
-				".wp-block-create-block-meetings-table-block__filters__wrapper"
-			);
 
 			if (!newTbody) {
 				return;

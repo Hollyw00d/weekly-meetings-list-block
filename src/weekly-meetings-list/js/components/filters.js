@@ -30,15 +30,14 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 	const filterEvent = (e) => {
 		let filtersArr = [];
 
-		const parentElem = e.target.closest(
-			`.${utilityConstants.parentBlockClassName}`
-		);
+		const parentElemsClassName = utilityConstants.parentBlockClassName;
+		const parentElem = e.target.closest(`.${parentElemsClassName}`);
 
 		const table = parentElem.querySelector("table");
 		const currentTbody = table.querySelector("tbody");
 		const currentTableRows = currentTbody.querySelectorAll("tr");
 		const filtersWrapper = parentElem.querySelector(
-			`.${utilityConstants.parentBlockClassName}__filters__wrapper`
+			`.${parentElemsClassName}__filters__wrapper`
 		);
 		const filterSelectTags = parentElem.querySelectorAll("select");
 		const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
@@ -71,12 +70,23 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
 		if (filtersArrNoDupes.length < 2) {
-			currentTbody.classList.remove("hide");
 			editingLockedMsg.classList.add("hide");
 		} else {
-			currentTbody.classList.add("hide");
 			editingLockedMsg.classList.remove("hide");
 		}
+
+		parentBlockUtilities.selectTagFilterEvents(
+			parentElemsClassName,
+			selectTagFilters,
+			dayOfWeekClassName,
+			cityClassName,
+			groupTypeClassName,
+			startTimeClassName,
+			table,
+			currentTbody,
+			currentTableRows,
+			filtersWrapper
+		);
 	};
 
 	return (

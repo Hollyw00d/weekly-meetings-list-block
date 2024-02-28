@@ -431,11 +431,12 @@ function Filters({
   }
   const filterEvent = e => {
     let filtersArr = [];
-    const parentElem = e.target.closest(`.${_constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].parentBlockClassName}`);
+    const parentElemsClassName = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].parentBlockClassName;
+    const parentElem = e.target.closest(`.${parentElemsClassName}`);
     const table = parentElem.querySelector("table");
     const currentTbody = table.querySelector("tbody");
     const currentTableRows = currentTbody.querySelectorAll("tr");
-    const filtersWrapper = parentElem.querySelector(`.${_constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].parentBlockClassName}__filters__wrapper`);
+    const filtersWrapper = parentElem.querySelector(`.${parentElemsClassName}__filters__wrapper`);
     const filterSelectTags = parentElem.querySelectorAll("select");
     const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
     const {
@@ -460,12 +461,11 @@ function Filters({
     });
     const filtersArrNoDupes = parentBlockUtilities.removeDupesFromArr(filtersArr);
     if (filtersArrNoDupes.length < 2) {
-      currentTbody.classList.remove("hide");
       editingLockedMsg.classList.add("hide");
     } else {
-      currentTbody.classList.add("hide");
       editingLockedMsg.classList.remove("hide");
     }
+    parentBlockUtilities.selectTagFilterEvents(parentElemsClassName, selectTagFilters, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
@@ -807,7 +807,6 @@ class Utilities {
       const btnParent = btnClicked.closest(`.${_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName}`);
       const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
       const newTbody = (_btnParent$querySelec = btnParent.querySelector("table tbody.copied-data")) !== null && _btnParent$querySelec !== void 0 ? _btnParent$querySelec : null;
-      const filtersWrapper = btnParent.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
       if (!newTbody) {
         return;
       }

@@ -313,7 +313,6 @@ class Utilities {
       const btnParent = btnClicked.closest(`.${_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName}`);
       const tbodyRowsOriginalData = parentElem.querySelectorAll("tbody.original-data tr");
       const newTbody = (_btnParent$querySelec = btnParent.querySelector("table tbody.copied-data")) !== null && _btnParent$querySelec !== void 0 ? _btnParent$querySelec : null;
-      const filtersWrapper = btnParent.querySelector(".wp-block-create-block-meetings-table-block__filters__wrapper");
       if (!newTbody) {
         return;
       }
