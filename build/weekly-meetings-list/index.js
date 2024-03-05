@@ -350,9 +350,6 @@ const parentBlockClassName = "wp-block-create-block-meetings-table-block";
   parentBlockClassName,
   filterWrapperClassName: `${parentBlockClassName}__filters__wrapper`,
   selectTagClass: {
-    dayOfWeekClassName: "day-of-week-filter",
-    cityClassName: "city-filter",
-    groupTypeClassName: "group-type-filter",
     startTimeClassName: "start-time-filter"
   }
 });
@@ -440,15 +437,6 @@ function Filters({
     const filterSelectTags = parentElem.querySelectorAll("select");
     const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
     const {
-      dayOfWeekClassName
-    } = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].selectTagClass;
-    const {
-      cityClassName
-    } = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].selectTagClass;
-    const {
-      groupTypeClassName
-    } = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].selectTagClass;
-    const {
       startTimeClassName
     } = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].selectTagClass;
     let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
@@ -464,7 +452,7 @@ function Filters({
       editingLockedMsg.classList.add("hide");
     } else {
       editingLockedMsg.classList.remove("hide");
-      parentBlockUtilities.selectTagFilterEvents(parentElemsClassName, selectTagFilters, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
+      parentBlockUtilities.selectTagFilterEvents(parentElemsClassName, selectTagFilters, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
     }
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -547,23 +535,14 @@ class Utilities {
       const currentTableRows = parentElem.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
       const filtersWrapper = parentElem.getElementsByClassName(`${parentElemsClassName}__filters__wrapper`);
       const {
-        dayOfWeekClassName
-      } = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].selectTagClass;
-      const {
-        cityClassName
-      } = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].selectTagClass;
-      const {
-        groupTypeClassName
-      } = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].selectTagClass;
-      const {
         startTimeClassName
       } = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].selectTagClass;
       let selectTagFilters = this.getSelectTagFilters(parentElem);
       this.resetFilters(parentElem, selectTagFilters, currentTbody);
-      this.selectTagFilterEvents(parentElemsClassName, selectTagFilters, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
+      this.selectTagFilterEvents(parentElemsClassName, selectTagFilters, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
     });
   }
-  selectTagFilterEvents(parentElemsClassName, selectTagFilters, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper) {
+  selectTagFilterEvents(parentElemsClassName, selectTagFilters, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper) {
     const selectTagFiltersArr = [...selectTagFilters];
     selectTagFiltersArr.forEach(select => {
       select.addEventListener("change", e => {
@@ -582,7 +561,7 @@ class Utilities {
               this.setupFilterHandler(table, currentTbody, currentTableRows);
             }
             let selectTagFilters2 = this.getSelectTagFilters(parentElem);
-            this.showHideFilter(parentElemsClassName, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+            this.showHideFilter(parentElemsClassName, parentElem, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
             this.filterNotification(selectedElem, selectTagFilters2);
             return;
           default:
@@ -592,7 +571,7 @@ class Utilities {
               this.setupFilterHandler(table, currentTbody, currentTableRows);
             }
             let selectTagFilters3 = this.getSelectTagFilters(parentElem);
-            this.showHideFilter(parentElemsClassName, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
+            this.showHideFilter(parentElemsClassName, parentElem, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
             this.filterNotification(selectedElem, selectTagFilters3);
             return;
         }
@@ -624,7 +603,7 @@ class Utilities {
       table[0].appendChild(newTbody);
     }
   }
-  showHideFilter(parentElemsClassName, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter) {
+  showHideFilter(parentElemsClassName, parentElem, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter) {
     const getNewTbody = parentElem.getElementsByClassName("copied-data");
     const newTbodyRows = getNewTbody[0].getElementsByTagName("tr");
     const newTbodyRowsArr = [...newTbodyRows];

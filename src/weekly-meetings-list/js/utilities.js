@@ -21,9 +21,6 @@ export default class Utilities {
 				`${parentElemsClassName}__filters__wrapper`
 			);
 
-			const { dayOfWeekClassName } = utilityConstants.selectTagClass;
-			const { cityClassName } = utilityConstants.selectTagClass;
-			const { groupTypeClassName } = utilityConstants.selectTagClass;
 			const { startTimeClassName } = utilityConstants.selectTagClass;
 
 			let selectTagFilters = this.getSelectTagFilters(parentElem);
@@ -33,9 +30,6 @@ export default class Utilities {
 			this.selectTagFilterEvents(
 				parentElemsClassName,
 				selectTagFilters,
-				dayOfWeekClassName,
-				cityClassName,
-				groupTypeClassName,
 				startTimeClassName,
 				table,
 				currentTbody,
@@ -48,9 +42,6 @@ export default class Utilities {
 	selectTagFilterEvents(
 		parentElemsClassName,
 		selectTagFilters,
-		dayOfWeekClassName,
-		cityClassName,
-		groupTypeClassName,
 		startTimeClassName,
 		table,
 		currentTbody,
@@ -83,10 +74,6 @@ export default class Utilities {
 						this.showHideFilter(
 							parentElemsClassName,
 							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName,
 							currentTbody,
 							filtersWrapper,
 							selectedElem,
@@ -108,10 +95,6 @@ export default class Utilities {
 						this.showHideFilter(
 							parentElemsClassName,
 							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName,
 							currentTbody,
 							filtersWrapper,
 							selectedElem,
@@ -161,10 +144,6 @@ export default class Utilities {
 	showHideFilter(
 		parentElemsClassName,
 		parentElem,
-		dayOfWeekClassName,
-		cityClassName,
-		groupTypeClassName,
-		startTimeClassName,
 		currentTbody,
 		filtersWrapper,
 		selectedElem,

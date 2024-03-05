@@ -42,9 +42,6 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 		const filterSelectTags = parentElem.querySelectorAll("select");
 		const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
 
-		const { dayOfWeekClassName } = utilityConstants.selectTagClass;
-		const { cityClassName } = utilityConstants.selectTagClass;
-		const { groupTypeClassName } = utilityConstants.selectTagClass;
 		const { startTimeClassName } = utilityConstants.selectTagClass;
 
 		let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
@@ -71,9 +68,6 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			parentBlockUtilities.selectTagFilterEvents(
 				parentElemsClassName,
 				selectTagFilters,
-				dayOfWeekClassName,
-				cityClassName,
-				groupTypeClassName,
 				startTimeClassName,
 				table,
 				currentTbody,
