@@ -451,7 +451,7 @@ function Filters({
     const {
       startTimeClassName
     } = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].selectTagClass;
-    let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName);
+    let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
     parentBlockUtilities.resetFilters(parentElem, selectTagFilters, currentTbody);
     filterSelectTags.forEach(select => {
       const {
@@ -464,8 +464,8 @@ function Filters({
       editingLockedMsg.classList.add("hide");
     } else {
       editingLockedMsg.classList.remove("hide");
+      parentBlockUtilities.selectTagFilterEvents(parentElemsClassName, selectTagFilters, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
     }
-    parentBlockUtilities.selectTagFilterEvents(parentElemsClassName, selectTagFilters, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"
@@ -626,7 +626,8 @@ class Utilities {
   }
   showHideFilter(parentElemsClassName, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter) {
     const getNewTbody = parentElem.getElementsByClassName("copied-data");
-    const newTbodyRows = getNewTbody.getElementsByTagName("tr");
+    const newTbodyRows = getNewTbody[0].getElementsByTagName("tr");
+    const newTbodyRowsArr = [...newTbodyRows];
     let selectTagFilters = this.getSelectTagFilters(parentElem);
     let {
       filtersArr
@@ -652,7 +653,7 @@ class Utilities {
     }
     // Show meetings with filters EXCLUDING `select.start-time-filter` filter
     else {
-      newTbodyRows.forEach(tr => {
+      newTbodyRowsArr.forEach(tr => {
         let selectTagFilterStr = JSON.stringify(optionsTagValues);
         let dayVal = tr.getAttribute("data-filter-day");
         let cityVal = tr.getAttribute("data-filter-city");
@@ -724,7 +725,8 @@ class Utilities {
   filtersArr(selectTagFilters) {
     let optionsTagValues = [];
     let optionsTagText = [];
-    selectTagFilters.forEach(elem => {
+    const selectTagFiltesArr = [...selectTagFilters];
+    selectTagFiltesArr.forEach(elem => {
       let val = elem.options[elem.selectedIndex].value;
       let text = elem.options[elem.selectedIndex].text;
       optionsTagValues.push(val);
@@ -798,10 +800,10 @@ class Utilities {
     }
   }
   resetFilters(parentElem, selectTagFilters, currentTbody) {
+    const selectTagFiltesArr = [...selectTagFilters];
     const resetBtn = parentElem.getElementsByClassName("wp-block-create-block-meetings-table-block_reset-btn")[0];
     resetBtn.addEventListener("click", e => {
       var _btnParent$querySelec, _parentElem$querySele2;
-      console.log("resetBtn clicked!");
       const btnClicked = e.target;
       const btnParent = btnClicked.closest(`.${_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName}`);
       const tbodyRowsOriginalData = btnParent.querySelectorAll("tbody.original-data tr");
@@ -809,7 +811,7 @@ class Utilities {
       if (!newTbody) {
         return;
       }
-      selectTagFilters.forEach(elem => {
+      selectTagFiltesArr.forEach(elem => {
         elem.value = "";
       });
       const notification = (_parentElem$querySele2 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele2 !== void 0 ? _parentElem$querySele2 : null;
@@ -817,7 +819,7 @@ class Utilities {
         notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
       }
       newTbody.remove();
-      currentTbody.classList.remove("hide");
+      currentTbody[0].classList.remove("hide");
     });
   }
   isElemEmpty(elem) {

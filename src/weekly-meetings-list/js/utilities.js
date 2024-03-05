@@ -58,6 +58,7 @@ export default class Utilities {
 		filtersWrapper
 	) {
 		const selectTagFiltersArr = [...selectTagFilters];
+
 		selectTagFiltersArr.forEach((select) => {
 			select.addEventListener("change", (e) => {
 				const selectedElem = e.target;
@@ -170,7 +171,8 @@ export default class Utilities {
 		onStartTimeFilter
 	) {
 		const getNewTbody = parentElem.getElementsByClassName("copied-data");
-		const newTbodyRows = getNewTbody.getElementsByTagName("tr");
+		const newTbodyRows = getNewTbody[0].getElementsByTagName("tr");
+		const newTbodyRowsArr = [...newTbodyRows];
 
 		let selectTagFilters = this.getSelectTagFilters(parentElem);
 
@@ -195,7 +197,7 @@ export default class Utilities {
 		}
 		// Show meetings with filters EXCLUDING `select.start-time-filter` filter
 		else {
-			newTbodyRows.forEach((tr) => {
+			newTbodyRowsArr.forEach((tr) => {
 				let selectTagFilterStr = JSON.stringify(optionsTagValues);
 				let dayVal = tr.getAttribute("data-filter-day");
 				let cityVal = tr.getAttribute("data-filter-city");
@@ -293,7 +295,9 @@ export default class Utilities {
 		let optionsTagValues = [];
 		let optionsTagText = [];
 
-		selectTagFilters.forEach((elem) => {
+		const selectTagFiltesArr = [...selectTagFilters];
+
+		selectTagFiltesArr.forEach((elem) => {
 			let val = elem.options[elem.selectedIndex].value;
 			let text = elem.options[elem.selectedIndex].text;
 			optionsTagValues.push(val);
@@ -389,13 +393,13 @@ export default class Utilities {
 	}
 
 	resetFilters(parentElem, selectTagFilters, currentTbody) {
+		const selectTagFiltesArr = [...selectTagFilters];
+
 		const resetBtn = parentElem.getElementsByClassName(
 			"wp-block-create-block-meetings-table-block_reset-btn"
 		)[0];
 
 		resetBtn.addEventListener("click", (e) => {
-			console.log("resetBtn clicked!");
-
 			const btnClicked = e.target;
 			const btnParent = btnClicked.closest(
 				`.${utilityConstants.parentBlockClassName}`
@@ -412,7 +416,7 @@ export default class Utilities {
 				return;
 			}
 
-			selectTagFilters.forEach((elem) => {
+			selectTagFiltesArr.forEach((elem) => {
 				elem.value = "";
 			});
 
@@ -422,7 +426,7 @@ export default class Utilities {
 				notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
 			}
 			newTbody.remove();
-			currentTbody.classList.remove("hide");
+			currentTbody[0].classList.remove("hide");
 		});
 	}
 

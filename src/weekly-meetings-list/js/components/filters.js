@@ -47,13 +47,7 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 		const { groupTypeClassName } = utilityConstants.selectTagClass;
 		const { startTimeClassName } = utilityConstants.selectTagClass;
 
-		let selectTagFilters = parentBlockUtilities.getSelectTagFilters(
-			parentElem,
-			dayOfWeekClassName,
-			cityClassName,
-			groupTypeClassName,
-			startTimeClassName
-		);
+		let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
 
 		parentBlockUtilities.resetFilters(
 			parentElem,
@@ -73,20 +67,20 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			editingLockedMsg.classList.add("hide");
 		} else {
 			editingLockedMsg.classList.remove("hide");
-		}
 
-		parentBlockUtilities.selectTagFilterEvents(
-			parentElemsClassName,
-			selectTagFilters,
-			dayOfWeekClassName,
-			cityClassName,
-			groupTypeClassName,
-			startTimeClassName,
-			table,
-			currentTbody,
-			currentTableRows,
-			filtersWrapper
-		);
+			parentBlockUtilities.selectTagFilterEvents(
+				parentElemsClassName,
+				selectTagFilters,
+				dayOfWeekClassName,
+				cityClassName,
+				groupTypeClassName,
+				startTimeClassName,
+				table,
+				currentTbody,
+				currentTableRows,
+				filtersWrapper
+			);
+		}
 	};
 
 	return (
