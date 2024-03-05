@@ -430,18 +430,17 @@ function Filters({
     let filtersArr = [];
     const parentElemsClassName = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].parentBlockClassName;
     const parentElem = e.target.closest(`.${parentElemsClassName}`);
-    const table = parentElem.querySelector("table");
-    const currentTbody = table.querySelector("tbody");
-    const currentTableRows = currentTbody.querySelectorAll("tr");
-    const filtersWrapper = parentElem.querySelector(`.${parentElemsClassName}__filters__wrapper`);
-    const filterSelectTags = parentElem.querySelectorAll("select");
-    const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
+    const table = parentElem.getElementsByTagName("table");
+    const currentTbody = parentElem.getElementsByTagName("tbody");
+    const currentTableRows = parentElem.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+    const filtersWrapper = parentElem.getElementsByClassName(`${parentElemsClassName}__filters__wrapper`);
+    const filterSelectTags = parentElem.getElementsByTagName("select");
+    const editingLockedMsg = parentElem.getElementsByClassName("editing-locked-msg");
     const {
       startTimeClassName
     } = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].selectTagClass;
     let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
-    parentBlockUtilities.resetFilters(parentElem, selectTagFilters, currentTbody);
-    filterSelectTags.forEach(select => {
+    [...filterSelectTags].forEach(select => {
       const {
         value
       } = select;
@@ -449,10 +448,9 @@ function Filters({
     });
     const filtersArrNoDupes = parentBlockUtilities.removeDupesFromArr(filtersArr);
     if (filtersArrNoDupes.length < 2) {
-      editingLockedMsg.classList.add("hide");
+      editingLockedMsg[0].classList.add("hide");
     } else {
-      editingLockedMsg.classList.remove("hide");
-      parentBlockUtilities.selectTagFilterEvents(parentElemsClassName, selectTagFilters, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
+      editingLockedMsg[0].classList.remove("hide");
     }
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -543,8 +541,7 @@ class Utilities {
     });
   }
   selectTagFilterEvents(parentElemsClassName, selectTagFilters, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper) {
-    const selectTagFiltersArr = [...selectTagFilters];
-    selectTagFiltersArr.forEach(select => {
+    [...selectTagFilters].forEach(select => {
       select.addEventListener("change", e => {
         const selectedElem = e.target;
         const filterClassName = selectedElem.className;
@@ -593,8 +590,7 @@ class Utilities {
       newTbody.classList.remove("hide");
     }
     if (this.isElemEmpty(newTbody)) {
-      const currentTableRowsArr = [...currentTableRows];
-      currentTableRowsArr.forEach((tr, i) => {
+      [...currentTableRows].forEach((tr, i) => {
         const origOrder = i + 1;
         const trClone = tr.cloneNode(true);
         trClone.setAttribute("data-original-order", origOrder);
@@ -704,8 +700,7 @@ class Utilities {
   filtersArr(selectTagFilters) {
     let optionsTagValues = [];
     let optionsTagText = [];
-    const selectTagFiltesArr = [...selectTagFilters];
-    selectTagFiltesArr.forEach(elem => {
+    [...selectTagFilters].forEach(elem => {
       let val = elem.options[elem.selectedIndex].value;
       let text = elem.options[elem.selectedIndex].text;
       optionsTagValues.push(val);
@@ -779,7 +774,6 @@ class Utilities {
     }
   }
   resetFilters(parentElem, selectTagFilters, currentTbody) {
-    const selectTagFiltesArr = [...selectTagFilters];
     const resetBtn = parentElem.getElementsByClassName("wp-block-create-block-meetings-table-block_reset-btn")[0];
     resetBtn.addEventListener("click", e => {
       var _btnParent$querySelec, _parentElem$querySele2;
@@ -790,7 +784,7 @@ class Utilities {
       if (!newTbody) {
         return;
       }
-      selectTagFiltesArr.forEach(elem => {
+      [...selectTagFilters].forEach(elem => {
         elem.value = "";
       });
       const notification = (_parentElem$querySele2 = parentElem.querySelector(".notification")) !== null && _parentElem$querySele2 !== void 0 ? _parentElem$querySele2 : null;
@@ -821,8 +815,7 @@ class Utilities {
   }
   removeDupesFromArr(arr) {
     const setFromArr = new Set(arr);
-    const newArr = [...setFromArr];
-    return newArr;
+    return [...setFromArr];
   }
   ifHTMLCollectionOrNodeList(elem) {
     switch (true) {

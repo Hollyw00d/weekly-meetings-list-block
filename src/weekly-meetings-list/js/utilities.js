@@ -48,9 +48,7 @@ export default class Utilities {
 		currentTableRows,
 		filtersWrapper
 	) {
-		const selectTagFiltersArr = [...selectTagFilters];
-
-		selectTagFiltersArr.forEach((select) => {
+		[...selectTagFilters].forEach((select) => {
 			select.addEventListener("change", (e) => {
 				const selectedElem = e.target;
 				const filterClassName = selectedElem.className;
@@ -128,9 +126,7 @@ export default class Utilities {
 		}
 
 		if (this.isElemEmpty(newTbody)) {
-			const currentTableRowsArr = [...currentTableRows];
-
-			currentTableRowsArr.forEach((tr, i) => {
+			[...currentTableRows].forEach((tr, i) => {
 				const origOrder = i + 1;
 				const trClone = tr.cloneNode(true);
 				trClone.setAttribute("data-original-order", origOrder);
@@ -274,9 +270,7 @@ export default class Utilities {
 		let optionsTagValues = [];
 		let optionsTagText = [];
 
-		const selectTagFiltesArr = [...selectTagFilters];
-
-		selectTagFiltesArr.forEach((elem) => {
+		[...selectTagFilters].forEach((elem) => {
 			let val = elem.options[elem.selectedIndex].value;
 			let text = elem.options[elem.selectedIndex].text;
 			optionsTagValues.push(val);
@@ -372,8 +366,6 @@ export default class Utilities {
 	}
 
 	resetFilters(parentElem, selectTagFilters, currentTbody) {
-		const selectTagFiltesArr = [...selectTagFilters];
-
 		const resetBtn = parentElem.getElementsByClassName(
 			"wp-block-create-block-meetings-table-block_reset-btn"
 		)[0];
@@ -395,7 +387,7 @@ export default class Utilities {
 				return;
 			}
 
-			selectTagFiltesArr.forEach((elem) => {
+			[...selectTagFilters].forEach((elem) => {
 				elem.value = "";
 			});
 
@@ -433,8 +425,7 @@ export default class Utilities {
 
 	removeDupesFromArr(arr) {
 		const setFromArr = new Set(arr);
-		const newArr = [...setFromArr];
-		return newArr;
+		return [...setFromArr];
 	}
 
 	ifHTMLCollectionOrNodeList(elem) {

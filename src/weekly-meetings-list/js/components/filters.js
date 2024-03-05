@@ -33,26 +33,24 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 		const parentElemsClassName = utilityConstants.parentBlockClassName;
 		const parentElem = e.target.closest(`.${parentElemsClassName}`);
 
-		const table = parentElem.querySelector("table");
-		const currentTbody = table.querySelector("tbody");
-		const currentTableRows = currentTbody.querySelectorAll("tr");
-		const filtersWrapper = parentElem.querySelector(
-			`.${parentElemsClassName}__filters__wrapper`
+		const table = parentElem.getElementsByTagName("table");
+		const currentTbody = parentElem.getElementsByTagName("tbody");
+		const currentTableRows = parentElem
+			.getElementsByTagName("tbody")[0]
+			.getElementsByTagName("tr");
+		const filtersWrapper = parentElem.getElementsByClassName(
+			`${parentElemsClassName}__filters__wrapper`
 		);
-		const filterSelectTags = parentElem.querySelectorAll("select");
-		const editingLockedMsg = parentElem.querySelector(".editing-locked-msg");
+		const filterSelectTags = parentElem.getElementsByTagName("select");
+
+		const editingLockedMsg =
+			parentElem.getElementsByClassName("editing-locked-msg");
 
 		const { startTimeClassName } = utilityConstants.selectTagClass;
 
 		let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
 
-		parentBlockUtilities.resetFilters(
-			parentElem,
-			selectTagFilters,
-			currentTbody
-		);
-
-		filterSelectTags.forEach((select) => {
+		[...filterSelectTags].forEach((select) => {
 			const { value } = select;
 			filtersArr.push(value);
 		});
@@ -61,19 +59,9 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 			parentBlockUtilities.removeDupesFromArr(filtersArr);
 
 		if (filtersArrNoDupes.length < 2) {
-			editingLockedMsg.classList.add("hide");
+			editingLockedMsg[0].classList.add("hide");
 		} else {
-			editingLockedMsg.classList.remove("hide");
-
-			parentBlockUtilities.selectTagFilterEvents(
-				parentElemsClassName,
-				selectTagFilters,
-				startTimeClassName,
-				table,
-				currentTbody,
-				currentTableRows,
-				filtersWrapper
-			);
+			editingLockedMsg[0].classList.remove("hide");
 		}
 	};
 
