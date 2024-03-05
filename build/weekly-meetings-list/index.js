@@ -600,31 +600,36 @@ class Utilities {
     });
   }
   setupFilterHandler(table, currentTbody, currentTableRows) {
-    var _table$querySelector;
-    if (!currentTbody.classList.contains("hide")) {
-      currentTbody.classList.add("hide");
+    var _table$0$getElementsB;
+    // console.log('currentTbody[0].classList.contains("hide")');
+    // console.log(currentTbody[0].classList.contains("hide"));
+
+    if (!currentTbody[0].classList.contains("hide")) {
+      currentTbody[0].classList.add("hide");
     }
-    const newTbodyCheck = (_table$querySelector = table.querySelector("tbody.copied-data")) !== null && _table$querySelector !== void 0 ? _table$querySelector : null;
-    if (newTbodyCheck) {
+    const newTbodyCheck = (_table$0$getElementsB = table[0].getElementsByClassName("copied-data")) !== null && _table$0$getElementsB !== void 0 ? _table$0$getElementsB : null;
+    if (newTbodyCheck.length > 0) {
       newTbodyCheck.remove();
     }
     const newTbody = document.createElement("tbody");
+
+    // console.log("newTbody");
+    // console.log(newTbody);
+
     newTbody.classList.add("copied-data");
     if (newTbody.classList.contains("hide")) {
       newTbody.classList.remove("hide");
     }
     if (this.isElemEmpty(newTbody)) {
-      currentTableRows.forEach(tr => {
-        const newTr = tr.cloneNode(true);
-        newTbody.appendChild(newTr);
+      const currentTableRowsArr = [...currentTableRows];
+      currentTableRowsArr.forEach((tr, i) => {
+        const origOrder = i + 1;
+        const trClone = tr.cloneNode(true);
+        trClone.setAttribute("data-original-order", origOrder);
+        newTbody.appendChild(trClone);
       });
-      table.appendChild(newTbody);
+      table[0].appendChild(newTbody);
     }
-    const newTbodyRows = newTbody.querySelectorAll("tr");
-    newTbodyRows.forEach((tr, i) => {
-      const origOrder = i + 1;
-      tr.setAttribute("data-original-order", origOrder);
-    });
   }
   showHideFilter(parentElemsClassName, parentElem, dayOfWeekClassName, cityClassName, groupTypeClassName, startTimeClassName, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter) {
     const getNewTbody = parentElem.getElementsByClassName("copied-data");
