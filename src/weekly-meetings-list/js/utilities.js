@@ -371,6 +371,8 @@ export default class Utilities {
 		)[0];
 
 		resetBtn.addEventListener("click", (e) => {
+			console.log("inside resetBtn");
+
 			const btnClicked = e.target;
 			const btnParent = btnClicked.closest(
 				`.${utilityConstants.parentBlockClassName}`
