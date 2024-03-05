@@ -107,9 +107,6 @@ class Utilities {
   }
   setupFilterHandler(table, currentTbody, currentTableRows) {
     var _table$0$getElementsB;
-    // console.log('currentTbody[0].classList.contains("hide")');
-    // console.log(currentTbody[0].classList.contains("hide"));
-
     if (!currentTbody[0].classList.contains("hide")) {
       currentTbody[0].classList.add("hide");
     }
@@ -118,10 +115,6 @@ class Utilities {
       newTbodyCheck.remove();
     }
     const newTbody = document.createElement("tbody");
-
-    // console.log("newTbody");
-    // console.log(newTbody);
-
     newTbody.classList.add("copied-data");
     if (newTbody.classList.contains("hide")) {
       newTbody.classList.remove("hide");
