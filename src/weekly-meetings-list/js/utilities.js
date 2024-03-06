@@ -343,9 +343,7 @@ export default class Utilities {
 			`.${utilityConstants.parentBlockClassName}`
 		);
 
-		const tbodyRowsOriginalData = parentElem.querySelectorAll(
-			"tbody.original-data tr"
-		);
+		const trOriginal = parentElem.querySelectorAll("tbody.original-data tr");
 
 		const tbodyRowsShown = parentElem.querySelectorAll(
 			"tbody.copied-data tr:not(.hide)"
@@ -361,7 +359,7 @@ export default class Utilities {
 		switch (true) {
 			case filtersArr.length === 1 && filtersArr[0] === "":
 				if (notification) {
-					notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
+					notification.textContent = `Showing All ${trOriginal.length} Meeting(s)`;
 				}
 
 				return;
@@ -396,33 +394,44 @@ export default class Utilities {
 
 		resetBtn.addEventListener("click", (e) => {
 			const btnClicked = e.target;
-			const btnParent = btnClicked.closest(
-				`.${utilityConstants.parentBlockClassName}`
+			const parentElemsClassName = utilityConstants.parentBlockClassName;
+
+			this.resetBtnEvents(
+				btnClicked,
+				parentElemsClassName,
+				selectTagFilters,
+				currentTbody
 			);
-
-			const tbodyRowsOriginalData = btnParent.querySelectorAll(
-				"tbody.original-data tr"
-			);
-
-			const newTbody =
-				btnParent.querySelector("table tbody.copied-data") ?? null;
-
-			if (!newTbody) {
-				return;
-			}
-
-			[...selectTagFilters].forEach((elem) => {
-				elem.value = "";
-			});
-
-			const notification = parentElem.querySelector(".notification") ?? null;
-
-			if (notification) {
-				notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
-			}
-			newTbody.remove();
-			currentTbody[0].classList.remove("hide");
 		});
+	}
+
+	resetBtnEvents(
+		btnClicked,
+		parentElemsClassName,
+		selectTagFilters,
+		currentTbody
+	) {
+		const btnParent = btnClicked.closest(`.${parentElemsClassName}`);
+		const trOriginal = btnParent
+			.getElementsByClassName("original-data")[0]
+			.getElementsByTagName("tr");
+		const newTbody = btnParent.getElementsByClassName("copied-data");
+
+		if (newTbody.length === 0) {
+			return;
+		}
+
+		[...selectTagFilters].forEach((elem) => {
+			elem.value = "";
+		});
+
+		const notification = btnParent.getElementsByClassName("notification");
+
+		if (notification.length > 0) {
+			notification[0].textContent = `Showing All ${trOriginal.length} Meeting(s)`;
+		}
+		newTbody[0].remove();
+		currentTbody[0].classList.remove("hide");
 	}
 
 	isElemEmpty(elem) {

@@ -37,7 +37,6 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 		const filterClassNameClean = filterClassNameArr[0].trim();
 		const parentElemsClassName = utilityConstants.parentBlockClassName;
 		const parentElem = e.target.closest(`.${parentElemsClassName}`);
-
 		const table = parentElem.getElementsByTagName("table");
 		const currentTbody = parentElem.getElementsByTagName("tbody");
 		const currentTableRows = parentElem
@@ -47,13 +46,10 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 			`${parentElemsClassName}__filters__wrapper`
 		);
 		const filterSelectTags = parentElem.getElementsByTagName("select");
-
 		const editingLockedMsg =
 			parentElem.getElementsByClassName("editing-locked-msg");
 
 		const { startTimeClassName } = utilityConstants.selectTagClass;
-
-		let selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
 
 		[...filterSelectTags].forEach((select) => {
 			const { value } = select;
@@ -80,6 +76,10 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 			currentTableRows,
 			filtersWrapper
 		);
+	};
+
+	const resetBtnEvent = (e) => {
+		console.log(e.target);
 	};
 
 	return (
@@ -160,7 +160,10 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 				</label>
 
 				<div>
-					<button className="wp-block-create-block-meetings-table-block_reset-btn">
+					<button
+						className="wp-block-create-block-meetings-table-block_reset-btn"
+						onClick={resetBtnEvent}
+					>
 						Reset
 					</button>
 				</div>
