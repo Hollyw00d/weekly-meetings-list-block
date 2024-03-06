@@ -28,8 +28,8 @@ export default class Utilities {
 			this.resetFilters(parentElem, selectTagFilters, currentTbody);
 
 			this.selectTagFilterEvents(
-				parentElemsClassName,
 				selectTagFilters,
+				parentElemsClassName,
 				startTimeClassName,
 				table,
 				currentTbody,
@@ -40,8 +40,8 @@ export default class Utilities {
 	}
 
 	selectTagFilterEvents(
-		parentElemsClassName,
 		selectTagFilters,
+		parentElemsClassName,
 		startTimeClassName,
 		table,
 		currentTbody,
@@ -56,54 +56,79 @@ export default class Utilities {
 				const filterClassNameClean = filterClassNameArr[0].trim();
 				const parentElemsSelectorClass = `.${parentElemsClassName}`;
 				const parentElem = selectedElem.closest(parentElemsSelectorClass);
-				let onStartTimeFilter = false;
 
-				switch (filterClassNameClean) {
-					case startTimeClassName:
-						onStartTimeFilter = true;
-						let getNewTbody = table[0].getElementsByClassName("copied-data");
-
-						if (getNewTbody.length === 0) {
-							this.setupFilterHandler(table, currentTbody, currentTableRows);
-						}
-
-						let selectTagFilters2 = this.getSelectTagFilters(parentElem);
-
-						this.showHideFilter(
-							parentElemsClassName,
-							parentElem,
-							currentTbody,
-							filtersWrapper,
-							selectedElem,
-							onStartTimeFilter
-						);
-
-						this.filterNotification(selectedElem, selectTagFilters2);
-						return;
-					default:
-						onStartTimeFilter = false;
-						const getNewTbody2 = table[0].getElementsByClassName("copied-data");
-
-						if (getNewTbody2.length === 0) {
-							this.setupFilterHandler(table, currentTbody, currentTableRows);
-						}
-
-						let selectTagFilters3 = this.getSelectTagFilters(parentElem);
-
-						this.showHideFilter(
-							parentElemsClassName,
-							parentElem,
-							currentTbody,
-							filtersWrapper,
-							selectedElem,
-							onStartTimeFilter
-						);
-
-						this.filterNotification(selectedElem, selectTagFilters3);
-						return;
-				}
+				this.filterEventsLoop(
+					selectedElem,
+					filterClassNameClean,
+					parentElemsClassName,
+					parentElem,
+					startTimeClassName,
+					table,
+					currentTbody,
+					currentTableRows,
+					filtersWrapper
+				);
 			});
 		});
+	}
+
+	filterEventsLoop(
+		selectedElem,
+		filterClassNameClean,
+		parentElemsClassName,
+		parentElem,
+		startTimeClassName,
+		table,
+		currentTbody,
+		currentTableRows,
+		filtersWrapper
+	) {
+		let onStartTimeFilter = false;
+
+		switch (filterClassNameClean) {
+			case startTimeClassName:
+				onStartTimeFilter = true;
+				let getNewTbody = table[0].getElementsByClassName("copied-data");
+
+				if (getNewTbody.length === 0) {
+					this.setupFilterHandler(table, currentTbody, currentTableRows);
+				}
+
+				let selectTagFilters2 = this.getSelectTagFilters(parentElem);
+
+				this.showHideFilter(
+					parentElemsClassName,
+					parentElem,
+					currentTbody,
+					filtersWrapper,
+					selectedElem,
+					onStartTimeFilter
+				);
+
+				this.filterNotification(selectedElem, selectTagFilters2);
+				return;
+			default:
+				onStartTimeFilter = false;
+				const getNewTbody2 = table[0].getElementsByClassName("copied-data");
+
+				if (getNewTbody2.length === 0) {
+					this.setupFilterHandler(table, currentTbody, currentTableRows);
+				}
+
+				let selectTagFilters3 = this.getSelectTagFilters(parentElem);
+
+				this.showHideFilter(
+					parentElemsClassName,
+					parentElem,
+					currentTbody,
+					filtersWrapper,
+					selectedElem,
+					onStartTimeFilter
+				);
+
+				this.filterNotification(selectedElem, selectTagFilters3);
+				return;
+		}
 	}
 
 	setupFilterHandler(table, currentTbody, currentTableRows) {
@@ -424,8 +449,8 @@ export default class Utilities {
 	}
 
 	removeDupesFromArr(arr) {
-		const setFromArr = new Set(arr);
-		return [...setFromArr];
+		const toSet = new Set(arr);
+		return [...toSet];
 	}
 
 	ifHTMLCollectionOrNodeList(elem) {
