@@ -67,7 +67,7 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 
 	return (
 		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
-			<div className="editing-locked-msg hide">
+			<div className="editing-locked-msg hide" role="alert" aria-live="polite">
 				<h2>Meeting Edits are Locked while using Filters (Drop-Downs)!</h2>
 				<p>
 					To edit meetings again change all drop-downs to the first options to
