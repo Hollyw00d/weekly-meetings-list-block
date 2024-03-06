@@ -31,6 +31,10 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 	const filterEvent = (e) => {
 		let filtersArr = [];
 
+		const selectedElem = e.target;
+		const filterClassName = selectedElem.className;
+		const filterClassNameArr = filterClassName.split(" ");
+		const filterClassNameClean = filterClassNameArr[0].trim();
 		const parentElemsClassName = utilityConstants.parentBlockClassName;
 		const parentElem = e.target.closest(`.${parentElemsClassName}`);
 
@@ -64,6 +68,18 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 		} else {
 			editingLockedMsg[0].classList.remove("hide");
 		}
+
+		parentBlockUtilities.filterEventsLoop(
+			selectedElem,
+			filterClassNameClean,
+			parentElemsClassName,
+			parentElem,
+			startTimeClassName,
+			table,
+			currentTbody,
+			currentTableRows,
+			filtersWrapper
+		);
 	};
 
 	return (

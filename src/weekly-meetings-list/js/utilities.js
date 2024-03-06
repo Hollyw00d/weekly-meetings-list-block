@@ -352,7 +352,6 @@ export default class Utilities {
 		);
 
 		const notification = parentElem.querySelector(".notification") ?? null;
-
 		const { filtersArr } = this.filtersArr(selectTagFilters);
 		const { optionsTagValues } = this.filtersArr(selectTagFilters);
 		const { optionsTagText } = this.filtersArr(selectTagFilters);
