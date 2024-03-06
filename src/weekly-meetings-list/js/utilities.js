@@ -27,47 +27,27 @@ export default class Utilities {
 
 			this.resetFilters(parentElem, selectTagFilters, currentTbody);
 
-			this.selectTagFilterEvents(
-				selectTagFilters,
-				parentElemsClassName,
-				startTimeClassName,
-				table,
-				currentTbody,
-				currentTableRows,
-				filtersWrapper
-			);
-		});
-	}
+			[...selectTagFilters].forEach((select) => {
+				select.addEventListener("change", (e) => {
+					const selectedElem = e.target;
+					const filterClassName = selectedElem.className;
+					const filterClassNameArr = filterClassName.split(" ");
+					const filterClassNameClean = filterClassNameArr[0].trim();
+					const parentElemsSelectorClass = `.${parentElemsClassName}`;
+					const parentElem = selectedElem.closest(parentElemsSelectorClass);
 
-	selectTagFilterEvents(
-		selectTagFilters,
-		parentElemsClassName,
-		startTimeClassName,
-		table,
-		currentTbody,
-		currentTableRows,
-		filtersWrapper
-	) {
-		[...selectTagFilters].forEach((select) => {
-			select.addEventListener("change", (e) => {
-				const selectedElem = e.target;
-				const filterClassName = selectedElem.className;
-				const filterClassNameArr = filterClassName.split(" ");
-				const filterClassNameClean = filterClassNameArr[0].trim();
-				const parentElemsSelectorClass = `.${parentElemsClassName}`;
-				const parentElem = selectedElem.closest(parentElemsSelectorClass);
-
-				this.filterEventsLoop(
-					selectedElem,
-					filterClassNameClean,
-					parentElemsClassName,
-					parentElem,
-					startTimeClassName,
-					table,
-					currentTbody,
-					currentTableRows,
-					filtersWrapper
-				);
+					this.filterEventsLoop(
+						selectedElem,
+						filterClassNameClean,
+						parentElemsClassName,
+						parentElem,
+						startTimeClassName,
+						table,
+						currentTbody,
+						currentTableRows,
+						filtersWrapper
+					);
+				});
 			});
 		});
 	}
