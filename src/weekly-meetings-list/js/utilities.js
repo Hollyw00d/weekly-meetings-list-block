@@ -288,8 +288,8 @@ export default class Utilities {
 	}
 
 	filterResetHandler(getNewTbody, currentTbody) {
-		getNewTbody.remove();
-		currentTbody.classList.remove("hide");
+		getNewTbody[0].remove();
+		currentTbody[0].classList.remove("hide");
 	}
 
 	alternateRowColor(getNewTbody) {
@@ -371,8 +371,6 @@ export default class Utilities {
 		)[0];
 
 		resetBtn.addEventListener("click", (e) => {
-			console.log("inside resetBtn");
-
 			const btnClicked = e.target;
 			const btnParent = btnClicked.closest(
 				`.${utilityConstants.parentBlockClassName}`

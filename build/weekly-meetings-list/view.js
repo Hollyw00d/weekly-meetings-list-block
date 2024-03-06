@@ -235,8 +235,8 @@ class Utilities {
     };
   }
   filterResetHandler(getNewTbody, currentTbody) {
-    getNewTbody.remove();
-    currentTbody.classList.remove("hide");
+    getNewTbody[0].remove();
+    currentTbody[0].classList.remove("hide");
   }
   alternateRowColor(getNewTbody) {
     const newTbodyRows = getNewTbody.querySelectorAll("tr:not(.hide)");
@@ -294,7 +294,6 @@ class Utilities {
     const resetBtn = parentElem.getElementsByClassName("wp-block-create-block-meetings-table-block_reset-btn")[0];
     resetBtn.addEventListener("click", e => {
       var _btnParent$querySelec, _parentElem$querySele2;
-      console.log("inside resetBtn");
       const btnClicked = e.target;
       const btnParent = btnClicked.closest(`.${_components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName}`);
       const tbodyRowsOriginalData = btnParent.querySelectorAll("tbody.original-data tr");

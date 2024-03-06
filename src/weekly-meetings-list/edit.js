@@ -104,7 +104,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<Filters citiesArr={citiesArr} groupTypesArr={groupTypesArr} />
+			<Filters
+				citiesArr={citiesArr}
+				groupTypesArr={groupTypesArr}
+				isEditPage={true}
+			/>
 
 			<table>
 				<caption className="table-title">

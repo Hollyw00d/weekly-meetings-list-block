@@ -1,8 +1,9 @@
 import ParentBlockUtilities from "../utilities";
 import ChildBlockUtilities from "../../../weekly-meetings-list-child/js/utilities";
 import utilityConstants from "./constants/utility-constants";
+import EditingLockedMsg from "./editingLockedMsg";
 
-export default function Filters({ citiesArr, groupTypesArr }) {
+export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 	const parentBlockUtilities = new ParentBlockUtilities();
 	const childBlockUtilities = new ChildBlockUtilities();
 	const daysArr = childBlockUtilities.generateDaysArr();
@@ -67,18 +68,8 @@ export default function Filters({ citiesArr, groupTypesArr }) {
 
 	return (
 		<div className="wp-block-create-block-meetings-table-block__filters__wrapper">
-			<div className="editing-locked-msg hide" role="alert" aria-live="polite">
-				<h2>Meeting Edits are Locked while using Filters (Drop-Downs)!</h2>
-				<p>
-					To edit meetings again change all drop-downs to the first options to
-					show all all meetings, including:
-				</p>
-				<ul>
-					<li>Show All Days of Week</li>
-					<li>Show All Cities</li>
-					<li>etc.</li>
-				</ul>
-			</div>
+			{isEditPage ? <EditingLockedMsg /> : null}
+
 			<div className="wp-block-create-block-meetings-table-block__filters">
 				<label>
 					<div>Day of Week:</div>
