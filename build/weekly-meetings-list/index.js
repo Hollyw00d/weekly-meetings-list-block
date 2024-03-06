@@ -437,6 +437,7 @@ function Filters({
   let cities = null;
   let isGroupTypeArr = Array.isArray(groupTypesArr);
   let groupTypes = null;
+  const parentElemsClassName = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].parentBlockClassName;
   if (isCitiesArray && citiesArr.length > 0) {
     cities = citiesArr.map(item => {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
@@ -458,7 +459,6 @@ function Filters({
     const filterClassName = selectedElem.className;
     const filterClassNameArr = filterClassName.split(" ");
     const filterClassNameClean = filterClassNameArr[0].trim();
-    const parentElemsClassName = _constants_utility_constants__WEBPACK_IMPORTED_MODULE_3__["default"].parentBlockClassName;
     const parentElem = e.target.closest(`.${parentElemsClassName}`);
     const table = parentElem.getElementsByTagName("table");
     const currentTbody = parentElem.getElementsByTagName("tbody");
@@ -484,7 +484,13 @@ function Filters({
     parentBlockUtilities.filterEventsLoop(selectedElem, filterClassNameClean, parentElemsClassName, parentElem, startTimeClassName, table, currentTbody, currentTableRows, filtersWrapper);
   };
   const resetBtnEvent = e => {
-    console.log(e.target);
+    const btnClicked = e.target;
+    const parentElem = e.target.closest(`.${parentElemsClassName}`);
+    const selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
+    const currentTbody = parentElem.getElementsByTagName("tbody");
+    const editingLockedMsg = parentElem.getElementsByClassName("editing-locked-msg");
+    editingLockedMsg[0].classList.add("hide");
+    parentBlockUtilities.resetBtnEvents(btnClicked, parentElemsClassName, selectTagFilters, currentTbody);
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-block-create-block-meetings-table-block__filters__wrapper"

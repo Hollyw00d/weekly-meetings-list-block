@@ -14,6 +14,8 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 	let isGroupTypeArr = Array.isArray(groupTypesArr);
 	let groupTypes = null;
 
+	const parentElemsClassName = utilityConstants.parentBlockClassName;
+
 	if (isCitiesArray && citiesArr.length > 0) {
 		cities = citiesArr.map((item) => {
 			return <option value={item}>{item}</option>;
@@ -35,7 +37,6 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 		const filterClassName = selectedElem.className;
 		const filterClassNameArr = filterClassName.split(" ");
 		const filterClassNameClean = filterClassNameArr[0].trim();
-		const parentElemsClassName = utilityConstants.parentBlockClassName;
 		const parentElem = e.target.closest(`.${parentElemsClassName}`);
 		const table = parentElem.getElementsByTagName("table");
 		const currentTbody = parentElem.getElementsByTagName("tbody");
@@ -79,7 +80,22 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 	};
 
 	const resetBtnEvent = (e) => {
-		console.log(e.target);
+		const btnClicked = e.target;
+		const parentElem = e.target.closest(`.${parentElemsClassName}`);
+		const selectTagFilters =
+			parentBlockUtilities.getSelectTagFilters(parentElem);
+		const currentTbody = parentElem.getElementsByTagName("tbody");
+		const editingLockedMsg =
+			parentElem.getElementsByClassName("editing-locked-msg");
+
+		editingLockedMsg[0].classList.add("hide");
+
+		parentBlockUtilities.resetBtnEvents(
+			btnClicked,
+			parentElemsClassName,
+			selectTagFilters,
+			currentTbody
+		);
 	};
 
 	return (
