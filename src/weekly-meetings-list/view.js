@@ -1,9 +1,11 @@
 import Utilities from "./js/utilities";
+import utilityConstants from "./js/components/constants/utility-constants";
+
 const utilities = new Utilities();
-utilities.filterEvents(".wp-block-create-block-meetings-table-block", false);
+utilities.filterEvents(`${utilityConstants.parentBlockClassName}`);
 
 const printBtns = document.querySelectorAll(
-	".wp-block-create-block-meetings-table-block button.print"
+	`.${utilityConstants.parentBlockClassName} button.print`
 );
 
 utilities.onPrintEvents(
