@@ -330,20 +330,6 @@ class Utilities {
     const toSet = new Set(arr);
     return [...toSet];
   }
-  ifHTMLCollectionOrNodeList(elem) {
-    switch (true) {
-      case HTMLCollection.prototype.isPrototypeOf(elem):
-        console.log("Is HTMLCollection");
-        console.log(elem);
-        return;
-      case NodeList.prototype.isPrototypeOf(elem):
-        console.log("Is NodeList");
-        console.log(elem);
-        return;
-      default:
-        console.log("NOT HTMLCollection or NodeList!!!");
-    }
-  }
 
   // START: used in view.js ONLY
   onPrintEvents(btns, showPrintClass, hidePrintClass) {
