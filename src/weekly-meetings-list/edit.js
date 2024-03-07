@@ -37,15 +37,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		setAttributes({ tableTitle: val });
 	};
 
-	const filtersInfo = useSelect((select) => {
-		const store = select("weekly-meetings-list/filters");
-		if (!store) {
-			return null;
-		}
-
-		return store.getFilters();
-	});
-
 	useEffect(() => {
 		let isArray = Array.isArray(childBlocks);
 		let newCitiesArr = [];
@@ -91,7 +82,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			setAttributes({ groupTypesArr: finalGroupTypesClean });
 		}
-	}, [childBlocks, filtersInfo]);
+	}, [childBlocks]);
 
 	return (
 		<div {...useBlockProps()}>
