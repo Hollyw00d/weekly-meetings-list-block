@@ -53,7 +53,12 @@ class Utilities {
         startTimeClassName
       } = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].selectTagClass;
       let selectTagFilters = parentElem.getElementsByTagName("select");
-      this.resetFilters(parentElem, selectTagFilters, currentTbody);
+      const resetBtn = parentElem.getElementsByClassName("wp-block-create-block-meetings-table-block_reset-btn")[0];
+      resetBtn.addEventListener("click", e => {
+        const btnClicked = e.target;
+        const parentElemsClassName = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName;
+        this.resetBtnEvents(btnClicked, parentElemsClassName, selectTagFilters, currentTbody);
+      });
       [...selectTagFilters].forEach(select => {
         select.addEventListener("change", e => {
           const selectedElem = e.target;
@@ -285,14 +290,6 @@ class Utilities {
           notification.innerHTML = `Showing ${tbodyRowsShown.length} Meeting(s) when filter(s) selected:<br />${filtersStr}`;
         }
     }
-  }
-  resetFilters(parentElem, selectTagFilters, currentTbody) {
-    const resetBtn = parentElem.getElementsByClassName("wp-block-create-block-meetings-table-block_reset-btn")[0];
-    resetBtn.addEventListener("click", e => {
-      const btnClicked = e.target;
-      const parentElemsClassName = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].parentBlockClassName;
-      this.resetBtnEvents(btnClicked, parentElemsClassName, selectTagFilters, currentTbody);
-    });
   }
   resetBtnEvents(btnClicked, parentElemsClassName, selectTagFilters, currentTbody) {
     const btnParent = btnClicked.closest(`.${parentElemsClassName}`);
