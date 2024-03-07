@@ -28,7 +28,7 @@ export default function Save({ attributes }) {
 			<Filters
 				citiesArr={citiesArr}
 				groupTypesArr={groupTypesArr}
-				isEditPage={isEditPage}
+				isEditPage={false}
 			/>
 			<table>
 				<caption className="table-title">

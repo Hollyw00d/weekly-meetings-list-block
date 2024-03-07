@@ -1,133 +1,137 @@
 import { byValue, byString, byNumber } from "sort-es";
+import utilityConstants from "./components/constants/utility-constants";
 
 export default class Utilities {
-	filterEvents(parentElemsSelector, isEditor = true) {
-		const parentElems = document.querySelectorAll(parentElemsSelector);
+	filterEvents(parentElemsClassName) {
+		const parentElems = document.getElementsByClassName(parentElemsClassName);
 
 		if (parentElems.length === 0) {
 			return;
 		}
 
-		parentElems.forEach((parentElem, i) => {
-			const table = parentElem.querySelector("table");
-			const currentTbody = parentElem.querySelector("tbody");
-			const currentTableRows = parentElem.querySelectorAll("tbody tr");
-			const filtersWrapper = parentElem.querySelector(
-				".wp-block-create-block-meetings-table-block__filters__wrapper"
-			);
-			const editingLockedMsg =
-				filtersWrapper.querySelector(".editing-locked-msg") ?? null;
-			const innerBlockEditElem =
-				parentElem.querySelector(".block-editor-inner-blocks") ?? null;
+		const parentElemsArr = [...parentElems];
 
-			const dayOfWeekClassName = "day-of-week-filter";
-			const cityClassName = "city-filter";
-			const groupTypeClassName = "group-type-filter";
-			const startTimeClassName = "start-time-filter";
-
-			if (!isEditor && editingLockedMsg) {
-				editingLockedMsg.remove();
-			}
-
-			let selectTagFilters = this.getSelectTagFilters(
-				parentElem,
-				dayOfWeekClassName,
-				cityClassName,
-				groupTypeClassName,
-				startTimeClassName
+		parentElemsArr.forEach((parentElem) => {
+			const table = parentElem.getElementsByTagName("table");
+			const currentTbody = parentElem.getElementsByTagName("tbody");
+			const currentTableRows = parentElem
+				.getElementsByTagName("tbody")[0]
+				.getElementsByTagName("tr");
+			const filtersWrapper = parentElem.getElementsByClassName(
+				`${parentElemsClassName}__filters__wrapper`
 			);
 
-			this.resetFilters(
-				parentElem,
-				selectTagFilters,
-				currentTbody,
-				innerBlockEditElem
-			);
+			const { startTimeClassName } = utilityConstants.selectTagClass;
+			let selectTagFilters = parentElem.getElementsByTagName("select");
+			const resetBtn = parentElem.getElementsByClassName(
+				"wp-block-create-block-meetings-table-block_reset-btn"
+			)[0];
 
-			document.body.addEventListener("change", (e) => {
-				const filterClassName = e.target.className;
-				let onStartTimeFilter = false;
-				let selectedElem = e.target;
+			resetBtn.addEventListener("click", (e) => {
+				const btnClicked = e.target;
+				const parentElemsClassName = utilityConstants.parentBlockClassName;
 
-				switch (filterClassName) {
-					case startTimeClassName:
-						onStartTimeFilter = true;
-						let getNewTbody = table.querySelector("tbody.copied-data") ?? null;
+				this.resetBtnEvents(
+					btnClicked,
+					parentElemsClassName,
+					selectTagFilters,
+					currentTbody
+				);
+			});
 
-						if (!getNewTbody) {
-							this.setupFilterHandler(table, currentTbody, currentTableRows);
-						}
+			[...selectTagFilters].forEach((select) => {
+				select.addEventListener("change", (e) => {
+					const selectedElem = e.target;
+					const filterClassName = selectedElem.className;
+					const filterClassNameArr = filterClassName.split(" ");
+					const filterClassNameClean = filterClassNameArr[0].trim();
+					const parentElemsSelectorClass = `.${parentElemsClassName}`;
+					const parentElem = selectedElem.closest(parentElemsSelectorClass);
 
-						let selectTagFilters2 = this.getSelectTagFilters(
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName
-						);
-
-						this.showHideFilter(
-							parentElemsSelector,
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName,
-							currentTbody,
-							filtersWrapper,
-							selectedElem,
-							onStartTimeFilter
-						);
-
-						this.filterNotification(parentElem, selectTagFilters2);
-						return;
-					case dayOfWeekClassName:
-					case cityClassName:
-					case groupTypeClassName:
-						onStartTimeFilter = false;
-						const getNewTbody2 =
-							table.querySelector("tbody.copied-data") ?? null;
-
-						if (!getNewTbody2) {
-							this.setupFilterHandler(table, currentTbody, currentTableRows);
-						}
-
-						let selectTagFilters3 = this.getSelectTagFilters(
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName
-						);
-
-						this.showHideFilter(
-							parentElemsSelector,
-							parentElem,
-							dayOfWeekClassName,
-							cityClassName,
-							groupTypeClassName,
-							startTimeClassName,
-							currentTbody,
-							filtersWrapper,
-							selectedElem,
-							onStartTimeFilter
-						);
-
-						this.filterNotification(parentElem, selectTagFilters3);
-						return;
-				}
+					this.filterEventsLoop(
+						selectedElem,
+						filterClassNameClean,
+						parentElemsClassName,
+						parentElem,
+						startTimeClassName,
+						table,
+						currentTbody,
+						currentTableRows,
+						filtersWrapper
+					);
+				});
 			});
 		});
 	}
 
+	filterEventsLoop(
+		selectedElem,
+		filterClassNameClean,
+		parentElemsClassName,
+		parentElem,
+		startTimeClassName,
+		table,
+		currentTbody,
+		currentTableRows,
+		filtersWrapper
+	) {
+		let onStartTimeFilter = false;
+
+		switch (filterClassNameClean) {
+			case startTimeClassName:
+				onStartTimeFilter = true;
+				let getNewTbody = table[0].getElementsByClassName("copied-data");
+
+				if (getNewTbody.length === 0) {
+					this.setupFilterHandler(table, currentTbody, currentTableRows);
+				}
+
+				let selectTagFilters2 = parentElem.getElementsByTagName("select");
+
+				this.showHideFilter(
+					parentElemsClassName,
+					parentElem,
+					currentTbody,
+					filtersWrapper,
+					selectedElem,
+					onStartTimeFilter
+				);
+
+				this.filterNotification(selectedElem, selectTagFilters2);
+				return;
+			default:
+				onStartTimeFilter = false;
+				const getNewTbody2 = table[0].getElementsByClassName("copied-data");
+
+				if (getNewTbody2.length === 0) {
+					this.setupFilterHandler(table, currentTbody, currentTableRows);
+				}
+
+				let selectTagFilters3 = parentElem.getElementsByTagName("select");
+
+				this.showHideFilter(
+					parentElemsClassName,
+					parentElem,
+					currentTbody,
+					filtersWrapper,
+					selectedElem,
+					onStartTimeFilter
+				);
+
+				this.filterNotification(selectedElem, selectTagFilters3);
+				return;
+		}
+	}
+
 	setupFilterHandler(table, currentTbody, currentTableRows) {
-		if (!currentTbody.classList.contains("hide")) {
-			currentTbody.classList.add("hide");
+		if (!currentTbody[0].classList.contains("hide")) {
+			currentTbody[0].classList.add("hide");
 		}
 
-		const newTbodyCheck = table.querySelector("tbody.copied-data") ?? null;
+		const newTbodyCheck =
+			table[0].getElementsByClassName("copied-data") ?? null;
 
-		if (newTbodyCheck) {
+		if (newTbodyCheck.length > 0) {
 			newTbodyCheck.remove();
 		}
 
@@ -139,43 +143,30 @@ export default class Utilities {
 		}
 
 		if (this.isElemEmpty(newTbody)) {
-			currentTableRows.forEach((tr) => {
-				const newTr = tr.cloneNode(true);
-				newTbody.appendChild(newTr);
+			[...currentTableRows].forEach((tr, i) => {
+				const origOrder = i + 1;
+				const trClone = tr.cloneNode(true);
+				trClone.setAttribute("data-original-order", origOrder);
+				newTbody.appendChild(trClone);
 			});
-			table.appendChild(newTbody);
+
+			table[0].appendChild(newTbody);
 		}
-
-		const newTbodyRows = newTbody.querySelectorAll("tr");
-
-		newTbodyRows.forEach((tr, i) => {
-			const origOrder = i + 1;
-			tr.setAttribute("data-original-order", origOrder);
-		});
 	}
 
 	showHideFilter(
-		parentElemsSelector,
+		parentElemsClassName,
 		parentElem,
-		dayOfWeekClassName,
-		cityClassName,
-		groupTypeClassName,
-		startTimeClassName,
 		currentTbody,
 		filtersWrapper,
 		selectedElem,
 		onStartTimeFilter
 	) {
-		const getNewTbody = parentElem.querySelector("tbody.copied-data");
-		const newTbodyRows = getNewTbody.querySelectorAll("tr");
+		const getNewTbody = parentElem.getElementsByClassName("copied-data");
+		const newTbodyRows = getNewTbody[0].getElementsByTagName("tr");
+		const newTbodyRowsArr = [...newTbodyRows];
 
-		let selectTagFilters = this.getSelectTagFilters(
-			parentElem,
-			dayOfWeekClassName,
-			cityClassName,
-			groupTypeClassName,
-			startTimeClassName
-		);
+		let selectTagFilters = parentElem.getElementsByTagName("select");
 
 		let { filtersArr } = this.filtersArr(selectTagFilters);
 		let { optionsTagValues } = this.filtersArr(selectTagFilters);
@@ -184,11 +175,9 @@ export default class Utilities {
 		if (onStartTimeFilter) {
 			if (filtersArr.length === 1 && filtersArr[0] === "") {
 				this.filterResetHandler(getNewTbody, currentTbody);
-				this.toggleEditingLockedMsg(filtersWrapper, false);
-
 				return;
 			} else {
-				this.sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper);
+				this.sortTimeFilter(parentElemsClassName, selectedElem, filtersWrapper);
 			}
 
 			return;
@@ -196,12 +185,11 @@ export default class Utilities {
 		// No filter active, or show ALL meetings
 		else if (filtersArr.length === 1 && filtersArr[0] === "") {
 			this.filterResetHandler(getNewTbody, currentTbody);
-			this.toggleEditingLockedMsg(filtersWrapper, false);
 			return;
 		}
 		// Show meetings with filters EXCLUDING `select.start-time-filter` filter
 		else {
-			newTbodyRows.forEach((tr) => {
+			newTbodyRowsArr.forEach((tr) => {
 				let selectTagFilterStr = JSON.stringify(optionsTagValues);
 				let dayVal = tr.getAttribute("data-filter-day");
 				let cityVal = tr.getAttribute("data-filter-city");
@@ -246,13 +234,12 @@ export default class Utilities {
 
 			const getNewTbody2 = parentElem.querySelector("tbody.copied-data");
 			this.alternateRowColor(getNewTbody2);
-			this.toggleEditingLockedMsg(filtersWrapper, true);
 		}
 	}
 
-	sortTimeFilter(parentElemsSelector, selectedElem, filtersWrapper) {
-		const getParentElem = selectedElem.closest(parentElemsSelector);
-
+	sortTimeFilter(parentElemsClassName, selectedElem) {
+		const parentElemsSelectorClass = `.${parentElemsClassName}`;
+		const getParentElem = selectedElem.closest(parentElemsSelectorClass);
 		const getNewTbody =
 			getParentElem.querySelector("tbody.copied-data") ?? null;
 
@@ -261,9 +248,7 @@ export default class Utilities {
 		}
 
 		const newTbodyRows = getNewTbody.querySelectorAll("tr");
-
 		const selectVal = selectedElem.value;
-
 		const rowsArr = Array.from(newTbodyRows);
 
 		if (selectVal === "asc~") {
@@ -296,14 +281,13 @@ export default class Utilities {
 
 		const getNewTbody3 = getParentElem.querySelector("tbody.copied-data");
 		this.alternateRowColor(getNewTbody3);
-		this.toggleEditingLockedMsg(filtersWrapper, true);
 	}
 
 	filtersArr(selectTagFilters) {
 		let optionsTagValues = [];
 		let optionsTagText = [];
 
-		selectTagFilters.forEach((elem) => {
+		[...selectTagFilters].forEach((elem) => {
 			let val = elem.options[elem.selectedIndex].value;
 			let text = elem.options[elem.selectedIndex].text;
 			optionsTagValues.push(val);
@@ -321,8 +305,8 @@ export default class Utilities {
 	}
 
 	filterResetHandler(getNewTbody, currentTbody) {
-		getNewTbody.remove();
-		currentTbody.classList.remove("hide");
+		getNewTbody[0].remove();
+		currentTbody[0].classList.remove("hide");
 	}
 
 	alternateRowColor(getNewTbody) {
@@ -341,52 +325,18 @@ export default class Utilities {
 		});
 	}
 
-	toggleEditingLockedMsg(filtersWrapper, bool) {
-		const editingLockedMsg = filtersWrapper.querySelector(
-			".editing-locked-msg"
+	filterNotification(target, selectTagFilters) {
+		const parentElem = target.closest(
+			`.${utilityConstants.parentBlockClassName}`
 		);
 
-		if (!filtersWrapper || !editingLockedMsg) {
-			return;
-		}
-
-		if (bool) {
-			if (editingLockedMsg.classList.contains("hide")) {
-				editingLockedMsg.classList.remove("hide");
-			}
-			return;
-		}
-
-		editingLockedMsg.classList.add("hide");
-	}
-
-	getSelectTagFilters(
-		parentElem,
-		dayOfWeekClassName,
-		cityClassName,
-		groupTypeClassName,
-		startTimeClassName
-	) {
-		const getSelectTagFilters = [
-			parentElem.querySelector(`select.${dayOfWeekClassName}`),
-			parentElem.querySelector(`select.${cityClassName}`),
-			parentElem.querySelector(`select.${groupTypeClassName}`),
-			parentElem.querySelector(`select.${startTimeClassName}`),
-		];
-
-		return getSelectTagFilters;
-	}
-
-	filterNotification(parentElem, selectTagFilters) {
-		const tbodyRowsOriginalData = parentElem.querySelectorAll(
-			"tbody.original-data tr"
-		);
+		const trOriginal = parentElem.querySelectorAll("tbody.original-data tr");
 
 		const tbodyRowsShown = parentElem.querySelectorAll(
 			"tbody.copied-data tr:not(.hide)"
 		);
-		const notification = parentElem.querySelector(".notification") ?? null;
 
+		const notification = parentElem.querySelector(".notification") ?? null;
 		const { filtersArr } = this.filtersArr(selectTagFilters);
 		const { optionsTagValues } = this.filtersArr(selectTagFilters);
 		const { optionsTagText } = this.filtersArr(selectTagFilters);
@@ -396,8 +346,9 @@ export default class Utilities {
 		switch (true) {
 			case filtersArr.length === 1 && filtersArr[0] === "":
 				if (notification) {
-					notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
+					notification.textContent = `Showing All ${trOriginal.length} Meeting(s)`;
 				}
+
 				return;
 			case tbodyRowsShown.length === 0:
 				filtersStr = this.selectedFilterArr(
@@ -418,49 +369,38 @@ export default class Utilities {
 				);
 
 				if (notification) {
-					notification.innerHTML = `Showing ${tbodyRowsShown.length} Meetings when filter(s) selected:<br />${filtersStr}`;
+					notification.innerHTML = `Showing ${tbodyRowsShown.length} Meeting(s) when filter(s) selected:<br />${filtersStr}`;
 				}
 		}
 	}
 
-	resetFilters(parentElem, selectTagFilters, currentTbody, innerBlockEditElem) {
-		const resetBtn = parentElem.querySelector(
-			".wp-block-create-block-meetings-table-block_reset-btn"
-		);
+	resetBtnEvents(
+		btnClicked,
+		parentElemsClassName,
+		selectTagFilters,
+		currentTbody
+	) {
+		const btnParent = btnClicked.closest(`.${parentElemsClassName}`);
+		const trOriginal = btnParent
+			.getElementsByClassName("original-data")[0]
+			.getElementsByTagName("tr");
+		const newTbody = btnParent.getElementsByClassName("copied-data");
 
-		resetBtn.addEventListener("click", (e) => {
-			const btnClicked = e.target;
-			const btnParent = btnClicked.closest(
-				".wp-block-create-block-meetings-table-block"
-			);
+		if (newTbody.length === 0) {
+			return;
+		}
 
-			const tbodyRowsOriginalData = parentElem.querySelectorAll(
-				"tbody.original-data tr"
-			);
-			const newTbody =
-				btnParent.querySelector("table tbody.copied-data") ?? null;
-			const filtersWrapper = btnParent.querySelector(
-				".wp-block-create-block-meetings-table-block__filters__wrapper"
-			);
-
-			if (!newTbody) {
-				return;
-			}
-
-			this.toggleEditingLockedMsg(filtersWrapper, false);
-
-			selectTagFilters.forEach((elem) => {
-				elem.value = "";
-			});
-
-			const notification = parentElem.querySelector(".notification") ?? null;
-
-			if (notification) {
-				notification.textContent = `Showing All ${tbodyRowsOriginalData.length} Meeting(s)`;
-			}
-			newTbody.remove();
-			currentTbody.classList.remove("hide");
+		[...selectTagFilters].forEach((elem) => {
+			elem.value = "";
 		});
+
+		const notification = btnParent.getElementsByClassName("notification");
+
+		if (notification.length > 0) {
+			notification[0].textContent = `Showing All ${trOriginal.length} Meeting(s)`;
+		}
+		newTbody[0].remove();
+		currentTbody[0].classList.remove("hide");
 	}
 
 	isElemEmpty(elem) {
@@ -483,6 +423,11 @@ export default class Utilities {
 
 		const textJoined = optionsTagTextSelected.join(", ");
 		return textJoined;
+	}
+
+	removeDupesFromArr(arr) {
+		const toSet = new Set(arr);
+		return [...toSet];
 	}
 
 	// START: used in view.js ONLY
@@ -509,6 +454,10 @@ export default class Utilities {
 				);
 
 				const tableChildElems = this.getAllDescendants(table);
+
+				if (!tableChildElems) {
+					return;
+				}
 
 				tableChildElems.forEach((child) => {
 					if (child.classList) {
@@ -585,17 +534,22 @@ export default class Utilities {
 		});
 	}
 
-	getAllDescendants(node) {
-		let arr = [];
-		getDescendants(node);
+	getAllDescendants(elem) {
+		if (!elem) {
+			return;
+		}
 
-		function getDescendants(node) {
-			for (var i = 0; i < node.childNodes.length; i++) {
-				let child = node.childNodes[i];
+		let arr = [];
+
+		function getDescendants(elem) {
+			for (var i = 0; i < elem.childNodes.length; i++) {
+				let child = elem.childNodes[i];
 				getDescendants(child);
 				arr.push(child);
 			}
 		}
+		getDescendants(elem);
+
 		return arr;
 	}
 	// END: used in view.js ONLY
