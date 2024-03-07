@@ -486,7 +486,7 @@ function Filters({
   const resetBtnEvent = e => {
     const btnClicked = e.target;
     const parentElem = e.target.closest(`.${parentElemsClassName}`);
-    const selectTagFilters = parentBlockUtilities.getSelectTagFilters(parentElem);
+    const selectTagFilters = parentElem.getElementsByTagName("select");
     const currentTbody = parentElem.getElementsByTagName("tbody");
     const editingLockedMsg = parentElem.getElementsByClassName("editing-locked-msg");
     editingLockedMsg[0].classList.add("hide");
@@ -573,7 +573,7 @@ class Utilities {
       const {
         startTimeClassName
       } = _components_constants_utility_constants__WEBPACK_IMPORTED_MODULE_0__["default"].selectTagClass;
-      let selectTagFilters = this.getSelectTagFilters(parentElem);
+      let selectTagFilters = parentElem.getElementsByTagName("select");
       this.resetFilters(parentElem, selectTagFilters, currentTbody);
       [...selectTagFilters].forEach(select => {
         select.addEventListener("change", e => {
@@ -597,7 +597,7 @@ class Utilities {
         if (getNewTbody.length === 0) {
           this.setupFilterHandler(table, currentTbody, currentTableRows);
         }
-        let selectTagFilters2 = this.getSelectTagFilters(parentElem);
+        let selectTagFilters2 = parentElem.getElementsByTagName("select");
         this.showHideFilter(parentElemsClassName, parentElem, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
         this.filterNotification(selectedElem, selectTagFilters2);
         return;
@@ -607,7 +607,7 @@ class Utilities {
         if (getNewTbody2.length === 0) {
           this.setupFilterHandler(table, currentTbody, currentTableRows);
         }
-        let selectTagFilters3 = this.getSelectTagFilters(parentElem);
+        let selectTagFilters3 = parentElem.getElementsByTagName("select");
         this.showHideFilter(parentElemsClassName, parentElem, currentTbody, filtersWrapper, selectedElem, onStartTimeFilter);
         this.filterNotification(selectedElem, selectTagFilters3);
         return;
@@ -641,7 +641,7 @@ class Utilities {
     const getNewTbody = parentElem.getElementsByClassName("copied-data");
     const newTbodyRows = getNewTbody[0].getElementsByTagName("tr");
     const newTbodyRowsArr = [...newTbodyRows];
-    let selectTagFilters = this.getSelectTagFilters(parentElem);
+    let selectTagFilters = parentElem.getElementsByTagName("select");
     let {
       filtersArr
     } = this.filtersArr(selectTagFilters);
@@ -770,10 +770,6 @@ class Utilities {
       }
       tr.classList.add("bg-white");
     });
-  }
-  getSelectTagFilters(parentElem) {
-    const selectTagElems = parentElem.getElementsByTagName("select");
-    return selectTagElems;
   }
   filterNotification(target, selectTagFilters) {
     var _parentElem$querySele;

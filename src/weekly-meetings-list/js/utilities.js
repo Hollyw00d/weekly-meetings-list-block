@@ -23,7 +23,7 @@ export default class Utilities {
 
 			const { startTimeClassName } = utilityConstants.selectTagClass;
 
-			let selectTagFilters = this.getSelectTagFilters(parentElem);
+			let selectTagFilters = parentElem.getElementsByTagName("select");
 
 			this.resetFilters(parentElem, selectTagFilters, currentTbody);
 
@@ -74,7 +74,7 @@ export default class Utilities {
 					this.setupFilterHandler(table, currentTbody, currentTableRows);
 				}
 
-				let selectTagFilters2 = this.getSelectTagFilters(parentElem);
+				let selectTagFilters2 = parentElem.getElementsByTagName("select");
 
 				this.showHideFilter(
 					parentElemsClassName,
@@ -95,7 +95,7 @@ export default class Utilities {
 					this.setupFilterHandler(table, currentTbody, currentTableRows);
 				}
 
-				let selectTagFilters3 = this.getSelectTagFilters(parentElem);
+				let selectTagFilters3 = parentElem.getElementsByTagName("select");
 
 				this.showHideFilter(
 					parentElemsClassName,
@@ -154,7 +154,7 @@ export default class Utilities {
 		const newTbodyRows = getNewTbody[0].getElementsByTagName("tr");
 		const newTbodyRowsArr = [...newTbodyRows];
 
-		let selectTagFilters = this.getSelectTagFilters(parentElem);
+		let selectTagFilters = parentElem.getElementsByTagName("select");
 
 		let { filtersArr } = this.filtersArr(selectTagFilters);
 		let { optionsTagValues } = this.filtersArr(selectTagFilters);
@@ -311,11 +311,6 @@ export default class Utilities {
 
 			tr.classList.add("bg-white");
 		});
-	}
-
-	getSelectTagFilters(parentElem) {
-		const selectTagElems = parentElem.getElementsByTagName("select");
-		return selectTagElems;
 	}
 
 	filterNotification(target, selectTagFilters) {

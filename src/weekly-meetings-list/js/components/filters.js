@@ -82,8 +82,7 @@ export default function Filters({ citiesArr, groupTypesArr, isEditPage }) {
 	const resetBtnEvent = (e) => {
 		const btnClicked = e.target;
 		const parentElem = e.target.closest(`.${parentElemsClassName}`);
-		const selectTagFilters =
-			parentBlockUtilities.getSelectTagFilters(parentElem);
+		const selectTagFilters = parentElem.getElementsByTagName("select");
 		const currentTbody = parentElem.getElementsByTagName("tbody");
 		const editingLockedMsg =
 			parentElem.getElementsByClassName("editing-locked-msg");
