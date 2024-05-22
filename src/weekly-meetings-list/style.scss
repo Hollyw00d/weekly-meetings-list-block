@@ -7,6 +7,9 @@
  */
 .wp-block-create-block-meetings-table-block {
 	margin-bottom: 1.6rem;
+	position: relative;
+
+	@include row-bottom-line("pos", 0px, 0px, 0px, 3, $black);
 
 	// Styles for saved blocked (NOT editor block)
 	&.wp-block-create-block-meetings-table-block_save {
@@ -223,8 +226,6 @@
 			@media print {
 				display: table-header-group;
 			}
-
-			@include row-bottom-line("pos", 0px, 0px, -1px, 3, $black);
 
 			tr {
 				@media print {
