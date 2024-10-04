@@ -432,7 +432,19 @@ export default class Utilities {
 
 	// START: used in view.js ONLY
 	onPrintEvents(btns, showPrintClass, hidePrintClass) {
+
 		btns.forEach((btn) => {
+			if(!this.isChromeOrEdge() && !this.isMobileOrTablet()) {
+				btn.textContent = `${btn.textContent} (disabled *)`;
+				const div = document.createElement('div');
+				div.classList.add('print-btn-disabled-notice');
+				div.setAttribute('role', 'alert');
+				div.setAttribute('aria-live', 'polite');
+				div.innerHTML = '* The meeting schedule print button does not work in your browser. Please use <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="https://www.microsoft.com/edge/download" target="_blank">Edge</a> browsers instead.';
+				btn.insertAdjacentElement("afterend", div);
+				return;
+			}
+
 			btn.addEventListener("click", (e) => {
 				const allElems = document.querySelectorAll("*");
 				this.hideAllElemsOnPrint(allElems);
@@ -509,7 +521,9 @@ export default class Utilities {
 	}
 
 	exitPrintEvents(showPrintClass, hidePrintClass) {
-		const afterPrint = function () {
+		if(!this.isChromeOrEdge() && !this.isMobileOrTablet()) return;
+
+		function afterPrint() {
 			const printableElemsArr = Array.from(
 				document.getElementsByClassName(showPrintClass)
 			);
@@ -523,7 +537,7 @@ export default class Utilities {
 				elem.classList.remove(showPrintClass);
 				elem.classList.remove(hidePrintClass);
 			});
-		};
+		}
 
 		const mediaQueryList = window.matchMedia("print");
 
@@ -551,6 +565,23 @@ export default class Utilities {
 		getDescendants(elem);
 
 		return arr;
+	}
+
+	// If Chrome or Edge browser return true
+	isChromeOrEdge() {
+		const userAgent = navigator.userAgent.toLowerCase();
+		const isChrome = userAgent.includes('chrome') && !userAgent.includes('edg');
+		const isEdge = userAgent.includes('edg');
+
+		return isChrome || isEdge;
+	}
+
+	isMobileOrTablet() {
+		const userAgent = navigator.userAgent.toLowerCase();
+		const isAndroid = userAgent.includes('android');
+		const isAppleMobileOrTablet = /iphone|ipad|ipod/.test(userAgent);
+		const isMobile = /mobile/.test(userAgent);
+		return isAndroid || isAppleMobileOrTablet || isMobile;
 	}
 	// END: used in view.js ONLY
 }

@@ -45,6 +45,10 @@
 					button {
 						display: none;
 					}
+
+					.print-btn-disabled-notice {
+						display: none;
+					}
 				}
 
 				thead {
@@ -165,6 +169,12 @@
 				@media print {
 					display: none;
 				}
+			}
+
+			.print-btn-disabled-notice {
+				float: right;
+
+				@include link-style($white);
 			}
 		}
 
