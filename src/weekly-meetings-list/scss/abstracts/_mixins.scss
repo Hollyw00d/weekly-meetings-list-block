@@ -22,3 +22,15 @@
 		background-color: $bgColor;
 	}
 }
+
+@mixin link-style($color) {
+	a {
+		&:link,
+		&:visited,
+		&:hover,
+		&:active {
+			text-decoration: underline;
+			color: $color;
+		}
+	}
+}
