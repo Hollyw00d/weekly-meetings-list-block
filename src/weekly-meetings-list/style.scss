@@ -17,15 +17,6 @@
 			display: none;
 		}
 
-		// Style for when some CSS rules are NOT supported
-		.fallback-inline {
-			display: none;
-
-			@supports not ((page-break-inside: avoid) or (page-break-after: auto)) {
-				display: inline;
-			}
-		}
-
 		@media screen and (max-width: 991px) {
 			.wp-block-create-block-meetings-table-block__filters {
 				grid-template-columns: repeat(1, 1fr);

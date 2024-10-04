@@ -24,14 +24,6 @@
 .wp-block-create-block-meetings-table-block.wp-block-create-block-meetings-table-block_save .editing-locked-msg {
   display: none;
 }
-.wp-block-create-block-meetings-table-block.wp-block-create-block-meetings-table-block_save .fallback-inline {
-  display: none;
-}
-@supports not ((page-break-inside: avoid) or (page-break-after: auto)) {
-  .wp-block-create-block-meetings-table-block.wp-block-create-block-meetings-table-block_save .fallback-inline {
-    display: inline;
-  }
-}
 @media screen and (max-width: 991px) {
   .wp-block-create-block-meetings-table-block.wp-block-create-block-meetings-table-block_save .wp-block-create-block-meetings-table-block__filters {
     grid-template-columns: repeat(1, 1fr);

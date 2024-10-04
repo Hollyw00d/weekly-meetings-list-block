@@ -36,7 +36,7 @@ export default function Save({ attributes }) {
 						{tableTitle}
 						<FilterNotifications />
 					</h2>
-					<button className="print">Print Meeting Schedule <span className="fallback-inline"><br />(button disabled)</span></button>
+					<button className="print">Print Meeting Schedule</button>
 				</caption>
 				<thead>
 					<tr role="row">
