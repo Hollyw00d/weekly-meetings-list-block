@@ -333,6 +333,7 @@ class Utilities {
 
   // START: used in view.js ONLY
   onPrintEvents(btns, showPrintClass, hidePrintClass) {
+    if (this.isSafari()) return;
     btns.forEach(btn => {
       btn.addEventListener("click", e => {
         const allElems = document.querySelectorAll("*");
@@ -381,6 +382,7 @@ class Utilities {
     }
   }
   exitPrintEvents(showPrintClass, hidePrintClass) {
+    if (this.isSafari()) return;
     const afterPrint = function () {
       const printableElemsArr = Array.from(document.getElementsByClassName(showPrintClass));
       const notPrintableElemsArr = Array.from(document.getElementsByClassName(hidePrintClass));
@@ -411,6 +413,11 @@ class Utilities {
     }
     getDescendants(elem);
     return arr;
+  }
+  isSafari() {
+    const isAppleDevice = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+    const isSafariBrowser = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    return isAppleDevice && isSafariBrowser;
   }
   // END: used in view.js ONLY
 }
