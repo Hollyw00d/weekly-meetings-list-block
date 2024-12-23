@@ -4,8 +4,17 @@
 
 - Add a block to show a table of ongoing weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or a religious studies group.
 - The block will output an HTML table with drop-down filters like **Show All Days of Week**, **Show All Cities**, etc.
-- A screenshot of the block below on a live page (zoomed out):
+
+### Screeshots
+**Chrome Browser**  
+- A screenshot of the block below on a live page (zoomed out on the Chrome browser):
   ![Weekly Meetings List Block on live page](images/weekly-meetings-list-block-screenshot.png)
+
+**Safari Browser**  
+- A screenshot of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled *)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly and includes text and links to Chrome and Edge browsers (see top of image):  
+  ![Weekly Meetings List Block on live page on the Safari browser](images/safari-browser-weekly-meetings-list-block-screenshot.png)  
+
+### Demo Link  
 - See the block on a live page (see **Seattle Area Support Groups** heading inside the table, which is a part of the block):  
   [https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/](https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/)
 
