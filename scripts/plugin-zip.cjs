@@ -2,6 +2,7 @@ const AdmZip = require('adm-zip');
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const versionUpdate = require('./version-update.cjs');
 
 /*
  * Zip WP plugin with steps below:
@@ -12,6 +13,10 @@ const { execSync } = require('child_process');
  *   a folder named `my-plugin`appears without the version name
  */
 function pluginZip() {
+  // Update `version` entry in package.json to PHP plugin version
+  // if needed
+  versionUpdate();
+
   // Get plugin configuration from package.json
   const packageJsonPath = path.join(process.cwd(), 'package.json');
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
