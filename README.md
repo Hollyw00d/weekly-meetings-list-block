@@ -10,6 +10,14 @@
 - A screenshot of the block below on a live page (zoomed out on the Chrome browser):
   ![Weekly Meetings List Block on live page](images/weekly-meetings-list-block-screenshot.png)
 
+**Chrome Browser on Desktop Animated GIF**
+- An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop, like choosing __Meeeting City > Redmond__ to only show weekly meetings that meeting Redmond, WA, USA:  
+  ![An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop](images/weekly-meetings-list-block-on-desktop-animated.gif)
+
+**Chrome Browser on Pixel 7 Android Phone Animated GIF**  
+- An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone, like choosing __Day of Week > Monday__ to only show weekly meetings that only meet on Monday:  
+  ![An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone](images/weekly-meetings-list-block-on-mobile-animated.gif)
+
 **Safari Browser**  
 - A screenshot of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled *)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly and includes text and links to Chrome and Edge browsers (see top of image):  
   ![Weekly Meetings List Block on live page on the Safari browser](images/safari-browser-weekly-meetings-list-block-screenshot.png)  
