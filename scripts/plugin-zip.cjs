@@ -1,3 +1,4 @@
+const AdmZip = require('adm-zip');
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -26,7 +27,50 @@ if (!fs.existsSync(zipPath)) {
 }
 
 // Rename the ZIP file to include the version number
-const newZipName = `${pluginDir}.${pluginVersion}.zip`;
-fs.renameSync(zipPath, newZipName);
+const newZipFileName = `${pluginDir}.${pluginVersion}.zip`;
+fs.renameSync(zipPath, newZipFileName);
+const zipFilePath = path.join(process.cwd(), newZipFileName);
 
-// console.log(`Renamed ZIP file to ${newZipName}`);
+try {
+  // Load the ZIP file
+  const zip = new AdmZip(zipFilePath);
+
+  // Extract the names of the files and folders inside the ZIP
+  const zipEntries = zip.getEntries();
+
+  // Identify if there is a root folder or top-level files
+  const folderEntries = zipEntries.filter(entry => entry.isDirectory);
+  const fileEntries = zipEntries.filter(entry => !entry.isDirectory);
+
+  // If there's no root folder, create one programmatically
+  let rootFolderName;
+  if (folderEntries.length > 0) {
+    rootFolderName = folderEntries[0].entryName; // Assume the first folder is the root
+  } else {
+    rootFolderName = `${pluginDir}/`; // Create a virtual root folder
+    fileEntries.forEach(entry => {
+      const newEntryName = `${rootFolderName}${entry.entryName}`;
+      entry.entryName = newEntryName;
+    });
+  }
+
+  // Desired folder name inside the ZIP
+  const newFolderName = `${pluginDir}`;
+
+  // Update the folder structure
+  console.log(`Renaming folder inside ZIP from '${rootFolderName}' to '${newFolderName}'...`);
+  zipEntries.forEach(entry => {
+    if (entry.entryName.startsWith(rootFolderName)) {
+      const newEntryName = entry.entryName.replace(rootFolderName, `${newFolderName}/`);
+      entry.entryName = newEntryName;
+    }
+  });
+
+  // Write the updated ZIP back to the same location
+  zip.writeZip(zipFilePath);
+
+  console.log(`ZIP file updated: ${zipFilePath}`);
+  console.log(`When unzipped, the folder will be named '${newFolderName}'.`);
+} catch (error) {
+  console.error('An error occurred:', error.message);
+}
