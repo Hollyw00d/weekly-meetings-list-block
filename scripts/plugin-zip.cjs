@@ -11,20 +11,20 @@ const { execSync } = require('child_process');
  * - Make it so that when `my-plugin.0.1.0.zip` is unzipped
  *   a folder named `my-plugin`appears without the version name
  */
-function zipPlugin() {
+function pluginZip() {
   // Get plugin configuration from package.json
   const packageJsonPath = path.join(process.cwd(), 'package.json');
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-  const pluginRoot = packageJson.config?.['plugin-root'];
   const pluginVersion = packageJson?.['version'];
+  const pluginUrl = packageJson.config?.['plugin-url'];
+  const pluginRoot = packageJson.config?.['plugin-root'];
   
-  if (!pluginRoot || !pluginVersion) {
-    console.error('Plugin metadata (plugin-root or plugin-ver) is missing in package.json config.');
+  if (!pluginVersion || !pluginUrl || !pluginRoot) {
+    console.error(`All plugin metadata ('version', 'config[plugin-url]', 'config[plugin-root]') is missing in package.json!`);
     process.exit(1);
   }
   
   // Run `wp-scripts plugin-zip` to create the initial ZIP file
-  console.log('Running wp-scripts plugin-zip...');
   execSync('wp-scripts plugin-zip', { stdio: 'inherit' });
   
   // Locate the generated ZIP file
@@ -84,4 +84,4 @@ function zipPlugin() {
   }
 }
 
-zipPlugin();
+pluginZip();
