@@ -7,7 +7,7 @@
 	"main": "build/index.js",
 	"config": {
 		"plugin-url": "https://github.com/Hollyw00d/weekly-meetings-list-block",
-  "plugin-root": "weekly-meetings-list-block.php"
+		"plugin-root": "weekly-meetings-list-block.php"
 	},
 	"scripts": {
 		"build": "wp-scripts build",
@@ -22,8 +22,10 @@
 		"@wordpress/components": "25.6.0",
 		"@wordpress/data": "9.19.0",
 		"@wordpress/element": "5.18.0",
+		"adm-zip": "0.5.16",
 		"domify": "2.0.0",
 		"html-react-parser": "5.0.6",
+		"npm-run-all": "4.1.5",
 		"sort-es": "1.7.1",
 		"strip-dom-tags": "0.1.1"
 	},
