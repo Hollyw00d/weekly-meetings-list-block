@@ -39,6 +39,15 @@ The Weekly Meetings Block blocks include:
 
 ### Installation
 
+**Easy: Download and Install the Plugin**
+1. Go to the [Releases](https://github.com/Hollyw00d/weekly-meetings-list-block/releases) page and where you see the `Latest` heading click on the link that says something like `weekly-meetings-list-block.0.1.0.zip` to download the latest plugin. 
+2. :warning: **IMPORTANT:**  
+   Do NOT click on `Source code (zip)` or `Source code (tar.gz)` links as these don't point to release files and GitHub automatically creates these links.
+3. Use the information below to manually install the plugin on your WordPress site:
+   - [How to Install a WordPress Plugin from .ZIP File](https://www.youtube.com/watch?v=CZ1-duHGk4o) (YouTube - under 2 minutes)   
+   - [How to install a WordPress plugin from a ZIP file](https://www.wonderplugin.com/wordpress-tutorials/how-to-manually-install-a-wordpress-plugin-zip-file/) (wonderplugin.com)
+
+**Hard: Build the Plugin with Node.js and Install It**
 1. Fork or download the code from this GitHub repo
 2. In your terminal:
    - Go into the **weekly-meetings-list-block** folder (like `cd weekly-meetings-list-block`) and install npm packages by doing:  
@@ -49,7 +58,7 @@ The Weekly Meetings Block blocks include:
      `npm run plugin-zip`
 3. Now you will see a zipped file named **weekly-meetings-list-block.0.10.zip** or similar as this zipped file will including the WordPress version name from the root PHP file (see the `Version` text in the comment near the top of the file):  
    **weekly-meetings-list-block.php**
-4. Log into the WP Admin for your WordPress website and install the **weekly-meetings-list-block.0.1.0.zip** plugin manually ([see manual plugin install steps here](https://quadlayers.com/install-wordpress-plugin-manually/))
+4. Log into the WP Admin for your WordPress website and install the **weekly-meetings-list-block.0.1.0.zip** plugin manually.
 5. Starter code below to add 3 duplicate **Weekly Meetings List Block** blocks that can be inserted using the Code Editor ([see **Using The Code Editor To Edit The Entire Post Or Page** in this documentation page for details](https://www.boldgrid.com/support/wordpress-tutorials/how-to-use-the-code-editor-in-the-gutenberg-editor/)):
 
     ```
