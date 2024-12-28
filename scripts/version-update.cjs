@@ -1,7 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const scriptGlobals = require('./script-globals.json');
 
-module.exports = function versionUpdate() {
+/*
+ * Update `version` entry in package.json to PHP plugin version
+ */
+function versionUpdate() {
  // Load package.json
  const packageJsonPath = path.resolve(__dirname, '../package.json');
  const packageJson = require(packageJsonPath);
@@ -27,12 +31,14 @@ module.exports = function versionUpdate() {
          // Write the updated package.json back to the file system
          fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n');
  
-         console.log(`Version updated to ${phpVersion} in package.json.`);
+         console.log(`Done. Version updated to ${phpVersion} in 'package.json' to match WordPresss plugin version! ${scriptGlobals.emojis['party-popper']}\n`);
      } else {
-         console.log('Version in package.json is already up-to-date.');
+         console.log(`Done. Version in 'package.json' is already up-to-date to match WordPress plugin version! ${scriptGlobals.emojis['party-popper']}\n`);
      }
  } catch (error) {
      console.error('Error updating version:', error.message);
      process.exit(1);
  }
 }
+
+versionUpdate();

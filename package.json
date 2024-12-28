@@ -15,7 +15,9 @@
     "lint:css": "wp-scripts lint-style",
     "lint:js": "wp-scripts lint-js",
     "packages-update": "wp-scripts packages-update",
-    "plugin-zip": "node scripts/plugin-zip.cjs",
+    "version-update-script": "node scripts/version-update.cjs",
+    "plugin-zip-script": "node scripts/plugin-zip.cjs",
+    "plugin-zip": "run-s version-update-script plugin-zip-script",
     "start": "wp-scripts start"
   },
   "dependencies": {
