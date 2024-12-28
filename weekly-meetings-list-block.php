@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Weekly Meetings List Block
- * Description:       Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or another type of religious studies group.
+ * Description:       Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, support group, meditation group, or another type of religious studies group.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
