@@ -8,7 +8,7 @@
 ### Screeshots
 **Chrome Browser**  
 - A screenshot of the block below on a live page (zoomed out on the Chrome browser):  
-  <img src="./images/weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page" style="max-width: 750px; width: 100%; height: auto;" />
+  <img src="./images/weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page" width="750" />
 
 **Chrome Browser on Desktop Animated GIF**
 - An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop, like choosing __Meeeting City > Redmond__ to only show weekly meetings that meeting Redmond, WA, USA:  
