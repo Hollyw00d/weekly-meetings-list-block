@@ -10,12 +10,13 @@
     "plugin-root": "weekly-meetings-list-block.php"
   },
   "scripts": {
-    "build": "wp-scripts build",
+    "version-update-script": "node scripts/version-update.cjs",
+    "build-script": "wp-scripts build",
+    "build": "run-s version-update-script build-script",
     "format": "wp-scripts format",
     "lint:css": "wp-scripts lint-style",
     "lint:js": "wp-scripts lint-js",
     "packages-update": "wp-scripts packages-update",
-    "version-update-script": "node scripts/version-update.cjs",
     "plugin-zip-script": "node scripts/plugin-zip.cjs",
     "plugin-zip": "run-s version-update-script plugin-zip-script",
     "start": "wp-scripts start"
