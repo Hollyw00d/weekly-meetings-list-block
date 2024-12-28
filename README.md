@@ -2,7 +2,7 @@
 
 ## Summary (TLDR)
 
-- Add a block to show a table of ongoing weekly meetings. Some examples could be for a book club, 12 Step group, meditation group, or a religious studies group.
+- Add a block to show a table of ongoing weekly meetings. Some examples could be for a book club, support group, meditation group, or a religious studies group.
 - The block will output an HTML table with drop-down filters like **Show All Days of Week**, **Show All Cities**, etc.
 
 ### Screeshots
@@ -47,8 +47,9 @@ The Weekly Meetings Block blocks include:
      `npm run build`
    - Output the zipped plugin inside the **weekly-meetings-list-block** folder by running:  
      `npm run plugin-zip`
-3. Now you will see a zipped file named **weekly-meetings-list-block.zip**
-4. Log into the WP Admin for your WordPress website and install the **weekly-meetings-list-block.zip** plugin manually ([see manual plugin install steps here](https://quadlayers.com/install-wordpress-plugin-manually/))
+3. Now you will see a zipped file named **weekly-meetings-list-block.0.10.zip** or similar as this zipped file will including the WordPress version name from the root PHP file (see the `Version` text in the comment near the top of the file):  
+   **weekly-meetings-list-block.php**
+4. Log into the WP Admin for your WordPress website and install the **weekly-meetings-list-block.0.1.0.zip** plugin manually ([see manual plugin install steps here](https://quadlayers.com/install-wordpress-plugin-manually/))
 5. Starter code below to add 3 duplicate **Weekly Meetings List Block** blocks that can be inserted using the Code Editor ([see **Using The Code Editor To Edit The Entire Post Or Page** in this documentation page for details](https://www.boldgrid.com/support/wordpress-tutorials/how-to-use-the-code-editor-in-the-gutenberg-editor/)):
 
     ```
