@@ -6,11 +6,11 @@
 - The block will output an HTML table with drop-down filters like **Show All Days of Week**, **Show All Cities**, etc.
 
 ### Screeshots
-- **Chrome Browser**  
+- **Chrome Browser on Mac Desktop**  
   A screenshot of the block below on a live page (zoomed out on the Chrome browser):  
   <img src="./images/weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page" width="600" />
 
-- **Chrome Browser on Desktop Animated GIF**  
+- **Chrome Browser on Mac Desktop Animated GIF**  
   An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop, like choosing __Meeeting City > Redmond__ to only show weekly meetings that meeting Redmond, WA, USA:  
   <img src="./images/weekly-meetings-list-block-on-desktop-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop" width="600" />
 
@@ -18,7 +18,7 @@
   An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone, like choosing __Day of Week > Monday__ to only show weekly meetings that only meet on Monday:  
   <img src="./images/weekly-meetings-list-block-on-mobile-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone" width="300" />
 
-- **Safari Browser**  
+- **Safari Browser on Mac Desktop**  
   A screenshot below of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled \*)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly.  
   
   Also there's text under this button with links to Chrome and Edge browsers for an alternative (see text: <strong>\* The meeting schedule print button does not work in your browser. Please use <ins>Chrome</ins> or <ins>Edge</ins> browsers instead.</strong>).  
