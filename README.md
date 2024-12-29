@@ -12,7 +12,7 @@
 
 **Chrome Browser on Desktop Animated GIF**
 - An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop, like choosing __Meeeting City > Redmond__ to only show weekly meetings that meeting Redmond, WA, USA:  
-  ![An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop](images/weekly-meetings-list-block-on-desktop-animated.gif)
+  <img src="./images/weekly-meetings-list-block-on-desktop-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop" width="600" />
 
 **Chrome Browser on Pixel 7 Android Phone Animated GIF**  
 - An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone, like choosing __Day of Week > Monday__ to only show weekly meetings that only meet on Monday:  
