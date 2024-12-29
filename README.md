@@ -11,23 +11,24 @@
   <img src="./images/weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page" width="600" />
 
 **Chrome Browser on Desktop Animated GIF**
-- An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop, like choosing __Meeeting City > Redmond__ to only show weekly meetings that meeting Redmond, WA, USA:  
-  <img src="./images/weekly-meetings-list-block-on-desktop-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop" width="600" />
+An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop, like choosing __Meeeting City > Redmond__ to only show weekly meetings that meeting Redmond, WA, USA:  
+<img src="./images/weekly-meetings-list-block-on-desktop-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a MacBook Pro laptop" width="600" />
 
 **Chrome Browser on Pixel 7 Android Phone Animated GIF**  
-- An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone, like choosing __Day of Week > Monday__ to only show weekly meetings that only meet on Monday:  
-  <img src="./images/weekly-meetings-list-block-on-mobile-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone" width="300" />
+An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone, like choosing __Day of Week > Monday__ to only show weekly meetings that only meet on Monday:  
+<img src="./images/weekly-meetings-list-block-on-mobile-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone" width="300" />
 
 **Safari Browser**  
-- A screenshot below of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled \*)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly. Also there's text under this button with links to Chrome and Edge browsers for an alternative (see <strong>\* The meeting schedule print button does not work in your browser. Please use <ins>Chrome</ins> or <ins>Edge</ins> browsers instead.</strong>)  
-  <img src="./images/safari-browser-weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page on the Safari browser" width="720" /> 
+A screenshot below of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled \*)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly. 
+
+Also there's text under this button with links to Chrome and Edge browsers for an alternative (see text: <strong>\* The meeting schedule print button does not work in your browser. Please use <ins>Chrome</ins> or <ins>Edge</ins> browsers instead.</strong>).  
+<img src="./images/safari-browser-weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page on the Safari browser" width="720" /> 
 
 ### Demo Link  
-- See the block on a live page (see **Seattle Area Support Groups** heading inside the table, which is a part of the block):  
-  [https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/](https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/)
+See the block on a live page (see **Seattle Area Support Groups** heading inside the table, which is a part of the block):  
+[https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/](https://mjwpprod.wpenginepowered.com/weekly-meetings-block-wordpress-plugin/)
 
 ## Longer Introduction
-
 The Weekly Meetings Block blocks include:
 
 - Filter drop-downs (like **Show All Days of Week**, which includes a select tag)
