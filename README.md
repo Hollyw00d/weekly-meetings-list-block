@@ -19,8 +19,8 @@
   <img src="./images/weekly-meetings-list-block-on-mobile-animated.gif" alt="An animated GIF showing drop-down filter on a Chrome browser on a Pixel 7 Android phone" width="300" />
 
 **Safari Browser**  
-- A screenshot of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled *)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly and includes text and links to Chrome and Edge browsers (see top of image):  
-  ![Weekly Meetings List Block on live page on the Safari browser](images/safari-browser-weekly-meetings-list-block-screenshot.png)  
+- A screenshot below of the block in the Safari browser, which shows that the a print meeting schedule with __Print Meeting Schedule (disabled \*)__ text as this button is disabled on Safari and Firefox browsers as the print CSS doesn't work correctly. Also there's text under this button with links to Chrome and Edge browsers for an alternative (see <strong>\* The meeting schedule print button does not work in your browser. Please use <u>Chrome</u> or <u>Edge</u> browsers instead.</strong>)  
+  <img src="./images/safari-browser-weekly-meetings-list-block-screenshot.png" alt="Weekly Meetings List Block on live page on the Safari browser" width="720" /> 
 
 ### Demo Link  
 - See the block on a live page (see **Seattle Area Support Groups** heading inside the table, which is a part of the block):  
