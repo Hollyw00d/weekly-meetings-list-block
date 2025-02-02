@@ -4,7 +4,7 @@
  * Description:       Add a block to show a table of on-going weekly meetings. Some examples could be for a book club, support group, meditation group, or another type of religious studies group.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           0.1.0
+ * Version:           1.0.0
  * Author:            MJ
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
